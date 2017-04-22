@@ -6,6 +6,7 @@
   (require 'my-mode-line)
   (require 'my-ivy)
   (require 'my-projectile)
+  (require 'my-magit)
 )
 
 (provide 'settings)
