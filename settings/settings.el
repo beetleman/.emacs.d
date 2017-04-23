@@ -9,6 +9,7 @@
   (require 'my-magit)
   (require 'my-company)
   (require 'my-python)
+  (require 'my-clojure)
 )
 
 (provide 'settings)

@@ -22,6 +22,11 @@
                         anaconda-mode
                         company-anaconda
                         pyenv-mode
+                        rainbow-delimiters
+                        clojure-mode
+                        cider
+                        clj-refactor
+                        cider-eval-sexp-fu
                         scpaste))
 
   (package-initialize t)
