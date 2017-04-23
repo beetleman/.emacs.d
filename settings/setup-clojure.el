@@ -6,8 +6,7 @@
   (add-hook hook #'subword-mode)           
   (add-hook hook #'smartparens-mode)       
   (add-hook hook #'rainbow-delimiters-mode)
-  (add-hook hook #'eldoc-mode)             
-  (add-hook hook #'idle-highlight-mode))
+  (add-hook hook #'eldoc-mode))
 
 (use-package clojure-mode
   :ensure t
@@ -40,8 +39,6 @@
                                   (figwheel-sidecar.repl-api/start-figwheel!)
                                   (figwheel-sidecar.repl-api/cljs-repl))")         
   (cider-repl-toggle-pretty-printing))
-
-
 
 
 (use-package cider-eval-sexp-fu

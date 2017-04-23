@@ -12,6 +12,7 @@
   (require 'setup-clojure)
   (require 'setup-nlinum)
   (require 'setup-ace-window)
+  (require 'setup-which-key)
 )
 
 (provide 'settings)
