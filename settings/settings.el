@@ -11,6 +11,7 @@
   (require 'my-python)
   (require 'my-clojure)
   (require 'my-nlinum)
+  (require 'my-ace-window)
 )
 
 (provide 'settings)
