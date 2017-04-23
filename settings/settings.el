@@ -1,6 +1,7 @@
 (progn
   (require 'setup-packages)
   (require 'better-defaults)
+  (require 'setup-programing)
   (require 'setup-evil)
   (require 'setup-theme)
   (require 'setup-mode-line)

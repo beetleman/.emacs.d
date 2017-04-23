@@ -1,26 +1,10 @@
-(use-package rainbow-delimiters
-  :ensure t
-  :defer t)
-
-(defun clojure-mode-config (hook)
-  (add-hook hook #'subword-mode)           
-  (add-hook hook #'smartparens-mode)       
-  (add-hook hook #'rainbow-delimiters-mode)
-  (add-hook hook #'eldoc-mode))
-
 (use-package clojure-mode
   :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.cljc\\'" . clojure-mode)
          ("\\.cljs\\'" . clojure-mode)
-         ("\\.edn\\'" . clojure-mode))
-  :init
-  (clojure-mode-config 'clojure-mode-hook))
-
-
-(use-package cider-repl-mode
-  :init
-  (clojure-mode-config 'cider-repl-mode-hook))
+         ("\\.edn\\'" . clojure-mode)))
+  
 
 (use-package cider
   :ensure t
@@ -51,21 +35,5 @@
   :diminish clj-refactor-mode
   :config (cljr-add-keybindings-with-prefix "C-c C-m"))
 
-(use-package smartparens
-  :defer t
-  :ensure t
-  :diminish smartparens-mode
-  :init
-  (setq sp-override-key-bindings
-        '(("C-<right>" . nil)
-          ("C-<left>" . nil)
-          ("C-)" . sp-forward-slurp-sexp)
-          ("M-<backspace>" . nil)
-          ("C-(" . sp-forward-barf-sexp)))
-  :config
-  (use-package smartparens-config)
-  (sp-use-smartparens-bindings)
-  (sp--update-override-key-bindings)
-  :commands (smartparens-mode show-smartparens-mode))
 
 (provide 'setup-clojure)
