@@ -35,4 +35,17 @@
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
+(use-package yasnippet
+  :ensure t
+  :diminish yasnippet
+  :commands (yas-minor-mode)
+  :init
+  (add-hook 'prog-mode-hook #'yas-minor-mode)
+  :config
+  (yas-reload-all))
+
+(use-package whitespace
+  :init
+  (add-hook 'before-save-hook 'whitespace-cleanup))
+
 (provide 'setup-programing)
