@@ -17,6 +17,11 @@
                         diminish
                         projectile
                         counsel-projectile
+                        company
+                        company-quickhelp
+                        anaconda-mode
+                        company-anaconda
+                        pyenv-mode
                         scpaste))
 
   (package-initialize t)

@@ -7,6 +7,8 @@
   (require 'my-ivy)
   (require 'my-projectile)
   (require 'my-magit)
+  (require 'my-company)
+  (require 'my-python)
 )
 
 (provide 'settings)
