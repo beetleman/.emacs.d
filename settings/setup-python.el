@@ -16,4 +16,4 @@
   :config
   (pyenv-mode))
 
-(provide 'my-python)
+(provide 'setup-python)

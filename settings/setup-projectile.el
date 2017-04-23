@@ -5,4 +5,4 @@
 (use-package counsel-projectile
   :config
   (counsel-projectile-on))
-(provide 'my-projectile)
+(provide 'setup-projectile)

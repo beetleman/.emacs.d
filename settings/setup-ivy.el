@@ -31,4 +31,4 @@
   (global-set-key (kbd "C-x l") 'counsel-locate)
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
 
-(provide 'my-ivy)
+(provide 'setup-ivy)

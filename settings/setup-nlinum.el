@@ -6,4 +6,4 @@
     (setq nlinum-relative-redisplay-delay 0)
     (setq nlinum-relative-current-symbol "->")
     (setq nlinum-relative-offset 0))
-(provide 'my-nlinum)
+(provide 'setup-nlinum)

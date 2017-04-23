@@ -67,4 +67,4 @@
   (sp--update-override-key-bindings)
   :commands (smartparens-mode show-smartparens-mode))
 
-(provide 'my-clojure)
+(provide 'setup-clojure)

@@ -3,4 +3,4 @@
   :config
   (setq sml/no-confirm-load-theme t)
   (sml/setup))
-(provide 'my-mode-line)
+(provide 'setup-mode-line)

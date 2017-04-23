@@ -40,4 +40,4 @@
         (package-refresh-contents))
       (package-install p))))
 
-(provide 'my-packages)
+(provide 'setup-packages)

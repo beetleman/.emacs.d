@@ -12,4 +12,4 @@
   :defer t
   :init (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
 
-(provide 'my-company)
+(provide 'setup-company)
