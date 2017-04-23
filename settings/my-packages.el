@@ -27,6 +27,7 @@
                         cider
                         clj-refactor
                         cider-eval-sexp-fu
+                        nlinum-relative
                         scpaste))
 
   (package-initialize t)

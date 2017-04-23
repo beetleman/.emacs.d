@@ -21,7 +21,7 @@
     ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (evil use-package scpaste smex magit find-file-in-project ido-ubiquitous idle-highlight-mode paredit better-defaults))))
+    (ranger evil use-package scpaste smex magit find-file-in-project ido-ubiquitous idle-highlight-mode paredit better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
