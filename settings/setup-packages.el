@@ -8,6 +8,7 @@
                         idle-highlight-mode 
                         find-file-in-project 
                         magit 
+                        evil-magit
                         use-package
                         smart-mode-line
                         editorconfig
