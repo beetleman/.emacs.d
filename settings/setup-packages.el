@@ -4,32 +4,8 @@
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
   (defvar my-packages '(better-defaults 
-                        paredit 
-                        idle-highlight-mode 
-                        find-file-in-project 
-                        magit 
-                        evil-magit
                         use-package
-                        smart-mode-line
-                        editorconfig
-                        evil
-                        monokai-theme
-                        ivy
                         diminish
-                        projectile
-                        counsel-projectile
-                        company
-                        company-quickhelp
-                        anaconda-mode
-                        company-anaconda
-                        pyenv-mode
-                        rainbow-delimiters
-                        clojure-mode
-                        cider
-                        clj-refactor
-                        cider-eval-sexp-fu
-                        nlinum-relative
-                        ace-window
                         scpaste))
 
   (package-initialize t)

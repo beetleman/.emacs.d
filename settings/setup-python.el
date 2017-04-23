@@ -13,6 +13,7 @@
   :init (add-to-list 'company-backends 'company-anaconda))
 
 (use-package pyenv-mode
+  :ensure t
   :config
   (pyenv-mode))
 

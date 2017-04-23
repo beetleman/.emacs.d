@@ -1,10 +1,13 @@
+(use-package rainbow-delimiters
+  :ensure t
+  :defer t)
+
 (defun clojure-mode-config (hook)
   (add-hook hook #'subword-mode)           
   (add-hook hook #'smartparens-mode)       
   (add-hook hook #'rainbow-delimiters-mode)
   (add-hook hook #'eldoc-mode)             
   (add-hook hook #'idle-highlight-mode))
-
 
 (use-package clojure-mode
   :ensure t
@@ -42,6 +45,7 @@
 
 
 (use-package cider-eval-sexp-fu
+  :ensure t
   :defer t)
 
 (use-package clj-refactor
