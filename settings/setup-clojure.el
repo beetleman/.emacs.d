@@ -2,9 +2,8 @@
   :ensure t
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.cljc\\'" . clojure-mode)
-         ("\\.cljs\\'" . clojure-mode)
+         ("\\.cljs\\'" . clojurescript-mode)
          ("\\.edn\\'" . clojure-mode)))
-  
 
 (use-package cider
   :ensure t
@@ -12,16 +11,16 @@
   :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
   :diminish subword-mode
   :config
-  (setq nrepl-log-messages t                  
+  (setq nrepl-log-messages t
         cider-repl-display-in-current-window t
-        cider-repl-use-clojure-font-lock t    
+        cider-repl-use-clojure-font-lock t
         cider-prompt-save-file-on-load 'always-save
         cider-font-lock-dynamically '(macro core function var)
-        nrepl-hide-special-buffers t            
+        nrepl-hide-special-buffers t
         cider-overlays-use-font-lock t
         cider-cljs-lein-repl "(do (require 'figwheel-sidecar.repl-api)
                                   (figwheel-sidecar.repl-api/start-figwheel!)
-                                  (figwheel-sidecar.repl-api/cljs-repl))")         
+                                  (figwheel-sidecar.repl-api/cljs-repl))")
   (cider-repl-toggle-pretty-printing))
 
 
