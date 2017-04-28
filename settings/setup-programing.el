@@ -18,7 +18,6 @@
   (sp--update-override-key-bindings)
   :commands (smartparens-mode show-smartparens-mode))
 
-
 (use-package eldoc
   :diminish eldoc
   :init
@@ -28,6 +27,9 @@
   :init
   (add-hook 'prog-mode-hook #'subword-mode))
 
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
 
 (use-package rainbow-delimiters
   :ensure t
