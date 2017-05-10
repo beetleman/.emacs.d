@@ -1,10 +1,11 @@
 (require 'use-package)
-(use-package jbeans-theme
+(use-package gruvbox-theme
   :defer t
   :ensure t
   :init
-  (load-theme 'jbeans t)
+  (load-theme 'gruvbox t)
   (global-hl-line-mode)
-  (add-to-list 'default-frame-alist '(font . "mononoki-12")))
+  (column-number-mode 1)
+  (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono-13")))
 
 (provide 'setup-theme)
