@@ -8,7 +8,9 @@
 (use-package cider
   :ensure t
   :defer t
-  :init (add-hook 'cider-mode-hook #'clj-refactor-mode)
+  :init
+  (add-hook 'cider-mode-hook #'clj-refactor-mode)
+  (add-hook 'cider-mode-hook #'smartparens-mode)
   :diminish subword-mode
   :config
   (setq nrepl-log-messages t
