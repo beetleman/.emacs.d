@@ -1,5 +1,8 @@
 (require 'use-package)
 
+(use-package smex
+  :ensure t)
+
 (use-package swiper
   :ensure t
   :config
