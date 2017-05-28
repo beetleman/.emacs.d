@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
+DIR=${HOME}/.emacs.d/bin
+
 source ~/.zshrc
 
 /usr/bin/emacs --daemon
-./emacs.sh
+$DIR/emacs.sh
