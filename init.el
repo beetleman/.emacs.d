@@ -10,6 +10,7 @@
 (add-to-list 'load-path settings-dir)
 
 (require 'settings)
+(setq server-socket-dir "~/.emacs.d/server")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
