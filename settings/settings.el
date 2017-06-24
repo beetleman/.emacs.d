@@ -16,7 +16,6 @@
   (require 'setup-cl)
   (require 'setup-nlinum)
   (require 'setup-ace-window)
-  (require 'setup-which-key)
-)
+  (require 'setup-which-key))
 
 (provide 'settings)

@@ -7,6 +7,8 @@
                         use-package
                         diminish
                         dockerfile-mode
+                        solidity-mode
+                        toml-mode
                         yaml-mode
                         scpaste))
 

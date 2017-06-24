@@ -5,18 +5,16 @@
   :ensure t
   :diminish smartparens-mode
   :init
-  (add-hook 'prog-mode-hook #'smartparens-mode)
-  (setq sp-override-key-bindings
-        '(("C-<right>" . nil)
-          ("C-<left>" . nil)
-          ("C-)" . sp-forward-slurp-sexp)
-          ("M-<backspace>" . nil)
-          ("C-(" . sp-forward-barf-sexp)))
-  :config
-  (use-package smartparens-config)
-  (sp-use-smartparens-bindings)
-  (sp--update-override-key-bindings)
-  :commands (smartparens-mode show-smartparens-mode))
+  (use-package evil-smartparens
+    :load-path "site-lisp/evil-smartparens"
+    :diminish evil-smartparens-mode
+    :config (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
+  (use-package smartparens-config
+    :init
+    (smartparens-global-mode)
+    (show-smartparens-global-mode)
+    (smartparens-global-strict-mode)))
+
 
 (use-package eldoc
   :diminish eldoc
