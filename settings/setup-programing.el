@@ -12,8 +12,7 @@
   (use-package smartparens-config
     :init
     (smartparens-global-mode)
-    (show-smartparens-global-mode)
-    (smartparens-global-strict-mode)))
+    (show-smartparens-global-mode)))
 
 
 (use-package eldoc

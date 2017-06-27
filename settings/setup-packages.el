@@ -10,6 +10,7 @@
                         solidity-mode
                         toml-mode
                         yaml-mode
+                        markdown-mode
                         scpaste))
 
   (package-initialize t)
