@@ -14,12 +14,14 @@
     (add-to-list 'magic-mode-alist '("^import React" . rjsx-mode)))
 
   (use-package tern
+    :ensure t
     :diminish " T"
     :commands (tern-mode)
     :init
     (add-hook 'js-mode-hook 'tern-mode))
 
   (use-package company-tern
+    :ensure t
     :config
     (add-to-list 'company-backends 'company-tern))
 
