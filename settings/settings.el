@@ -14,7 +14,7 @@
   (require 'setup-clojure)
   (require 'setup-js)
   (require 'setup-cl)
-  (require 'setup-nlinum)
+  ;; (require 'setup-nlinum)
   (require 'setup-ace-window)
   (require 'setup-which-key))
 
