@@ -5,33 +5,39 @@
 
 (use-package swiper
   :ensure t
-  :config
-  (global-set-key "\C-s" 'swiper))
+  :bind
+  ("C-s" . swiper))
 
 (use-package ivy
   :ensure t
   :diminish ivy-mode
+  :bind
+  (("C-c C-r" . ivy-resume)
+   ("<f6>" . ivy-resume))
   :config
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
-  (ivy-mode 1)
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  (global-set-key (kbd "<f6>") 'ivy-resume))
+  (ivy-mode 1))
 
 (use-package counsel
   :ensure t
+  :bind
+  (("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)
+   ("<f1> f" . counsel-describe-function)
+   ("<f1> v" . counsel-describe-variable)
+   ("<f1> l" . counsel-find-library)
+   ("<f2> i" . counsel-info-lookup-symbol)
+   ("<f2> u" . counsel-unicode-char)
+   ("C-c g" . counsel-git)
+   ("C-c k" . counsel-ag)
+   ("C-x l" . counsel-locate)
+   ("M-p" . counsel-yank-pop)
+   :map ivy-minibuffer-map
+   ("M-p" . ivy-next-line)
+   :map read-expression-map
+   ("C-r" . counsel-expression-history))
   :config
-  (ivy-mode 1)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-  (global-set-key (kbd "<f1> l") 'counsel-find-library)
-  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-  (global-set-key (kbd "C-c g") 'counsel-git)
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
-  (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
+  (ivy-mode 1))
 
 (provide 'setup-ivy)
