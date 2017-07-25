@@ -38,6 +38,8 @@
    :map read-expression-map
    ("C-r" . counsel-expression-history))
   :config
+  (when (fboundp 'ido-mode)
+    (ido-mode -1))
   (ivy-mode 1))
 
 (provide 'setup-ivy)
