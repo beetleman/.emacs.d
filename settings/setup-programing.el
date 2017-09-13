@@ -28,12 +28,6 @@
   :ensure t
   :init (global-flycheck-mode))
 
-(use-package rainbow-delimiters
-  :ensure t
-  :defer t
-  :init
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
 (use-package yasnippet
   :ensure t
   :diminish yasnippet

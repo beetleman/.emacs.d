@@ -1,3 +1,5 @@
+(load (expand-file-name "~/.roswell/helper.el"))
+
 (use-package slime-company
   :defer t
   :ensure t)
@@ -14,6 +16,8 @@
   (setq inferior-lisp-program "ros -Q run")
   (add-hook 'slime-repl-mode-hook #'smartparens-mode)
   :config
-  (slime-setup))
+  (slime-setup)
+  (load "/home/beetleman/.roswell/lisp/quicklisp/clhs-use-local.el" t))
+
 
 (provide 'setup-cl)
