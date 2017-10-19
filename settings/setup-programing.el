@@ -26,7 +26,19 @@
 
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode))
+  :config
+  (defun flycheck-load-config ()
+    (set-face-attribute 'flycheck-warning nil
+                        :foreground "black"
+                        :background "yellow"
+                        :underline nil)
+    (set-face-attribute 'flycheck-error nil
+                        :foreground "black"
+                        :background "red"
+                        :underline nil))
+  (add-hook 'flycheck-mode-hook 'flycheck-load-config)
+  :init
+  (global-flycheck-mode))
 
 (use-package yasnippet
   :ensure t
