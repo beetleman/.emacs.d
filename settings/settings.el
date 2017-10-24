@@ -13,6 +13,7 @@
   (require 'setup-python)
   (require 'setup-clojure)
   (require 'setup-js)
+  (require 'setup-web)
   (require 'setup-cl)
   (require 'setup-scheme)
   ;; (require 'setup-nlinum)
