@@ -7,6 +7,7 @@
   (setq emmet-move-cursor-between-quotes t)
   :config
   (add-hook 'sgml-mode-hook 'emmet-mode)
+  (add-hook 'rjsx-mode-hook 'emmet-mode)
   (add-hook 'web-mode-hook 'emmet-mode))
 
 (provide 'setup-web)
