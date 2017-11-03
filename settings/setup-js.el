@@ -11,11 +11,19 @@
     (add-to-list 'auto-mode-alist '("\\index.android.js\\'" . rjsx-mode))
     (add-to-list 'auto-mode-alist '("\\index.ios.js\\'" . rjsx-mode))
     (add-to-list 'magic-mode-alist '("/\\*\\* @jsx React\\.DOM \\*/" . rjsx-mode))
-    (add-to-list 'magic-mode-alist '("^import React" . rjsx-mode)))
+    (add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
+    (set-face-attribute 'js2-warning nil
+                        :foreground "black"
+                        :background "yellow"
+                        :underline nil)
+    (set-face-attribute 'js2-error nil
+                        :foreground "black"
+                        :background "red"
+                        :underline nil))
 
   (use-package tern
     :ensure t
-    :diminish " T"
+    :diminish "T"
     :commands (tern-mode)
     :init
     (add-hook 'js-mode-hook 'tern-mode))
