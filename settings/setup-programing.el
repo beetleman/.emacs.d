@@ -6,7 +6,7 @@
   :diminish smartparens-mode
   :init
   (use-package evil-smartparens
-    :load-path "site-lisp/evil-smartparens"
+    :ensure t
     :diminish evil-smartparens-mode
     :config (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
   (use-package smartparens-config
@@ -29,13 +29,9 @@
   :config
   (defun flycheck-load-config ()
     (set-face-attribute 'flycheck-warning nil
-                        :foreground "black"
-                        :background "yellow"
-                        :underline nil)
+                        :underline "yellow")
     (set-face-attribute 'flycheck-error nil
-                        :foreground "black"
-                        :background "red"
-                        :underline nil))
+                        :underline "red"))
   (add-hook 'flycheck-mode-hook 'flycheck-load-config)
   :init
   (global-flycheck-mode))

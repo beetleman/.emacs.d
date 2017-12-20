@@ -10,4 +10,11 @@
   (add-hook 'rjsx-mode-hook 'emmet-mode)
   (add-hook 'web-mode-hook 'emmet-mode))
 
+(use-package rainbow-mode
+  :diminish rainbow-mode
+  :ensure t
+  :config
+  (add-hook 'css-mode-hook 'rainbow-mode)
+  (add-hook 'scss-mode-hook 'rainbow-mode))
+
 (provide 'setup-web)
