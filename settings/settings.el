@@ -1,6 +1,6 @@
 (progn
   (require 'setup-packages)
-  (require 'better-defaults)
+  (require 'setup-common)
   (require 'setup-programing)
   (require 'setup-evil)
   (require 'setup-theme)
@@ -16,7 +16,6 @@
   (require 'setup-web)
   (require 'setup-cl)
   (require 'setup-scheme)
-  ;; (require 'setup-nlinum)
   (require 'setup-ace-window)
   (require 'setup-which-key))
 
