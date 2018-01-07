@@ -32,7 +32,7 @@
    ("C-c g" . counsel-git)
    ("C-c k" . counsel-ag)
    ("C-x l" . counsel-locate)
-   ("M-p" . counsel-yank-pop)
+   ("M-y" . counsel-yank-pop)
    :map ivy-minibuffer-map
    ("M-p" . ivy-next-line)
    :map read-expression-map

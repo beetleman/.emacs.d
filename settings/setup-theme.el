@@ -5,7 +5,7 @@
   :init
   (setq-default line-spacing 1)
   (load-theme 'tao-yin t)
-  ;; (global-hl-line-mode)
+  (global-hl-line-mode 1)
   (column-number-mode 1)
   (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono-13")))
 

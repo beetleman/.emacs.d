@@ -5,10 +5,6 @@
   :ensure t
   :diminish smartparens-mode
   :init
-  (use-package evil-smartparens
-    :ensure t
-    :diminish evil-smartparens-mode
-    :config (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
   (use-package smartparens-config
     :init
     (smartparens-global-mode)

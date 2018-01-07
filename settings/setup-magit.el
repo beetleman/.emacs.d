@@ -3,8 +3,6 @@
   :ensure t
   :bind
   ("C-x g" . magit-status))
-(use-package evil-magit
-  :ensure t)
 
 (use-package diff-hl
   :ensure t

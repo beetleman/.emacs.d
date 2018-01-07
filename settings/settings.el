@@ -2,7 +2,6 @@
   (require 'setup-packages)
   (require 'setup-common)
   (require 'setup-programing)
-  (require 'setup-evil)
   (require 'setup-theme)
   (require 'setup-editorconfig)
   (require 'setup-mode-line)

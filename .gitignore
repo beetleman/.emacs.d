@@ -11,3 +11,5 @@ network-security.data
 settings/.my-ivy.el.swp
 /projectile.cache
 /#recentf#
+/eshell/history
+/tutorial/English.tut
