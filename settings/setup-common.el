@@ -12,6 +12,12 @@
   (global-set-key [remap query-replace] 'anzu-query-replace)
   (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp))
 
+(use-package undo-tree
+  :defer t
+  :ensure t
+  :init
+  (global-undo-tree-mode 1))
+
 (global-auto-revert-mode 1)
 
 (provide 'setup-common)

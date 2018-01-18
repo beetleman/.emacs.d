@@ -35,11 +35,13 @@
 (use-package yasnippet
   :ensure t
   :diminish yasnippet
-  :commands (yas-minor-mode)
   :init
-  (add-hook 'prog-mode-hook #'yas-minor-mode)
+  (yas-global-mode)
   :config
-  (yas-reload-all))
+  (use-package yasnippet-snippets
+    :ensure t
+    :init
+    (yas-reload-all)))
 
 (use-package whitespace
   :init
