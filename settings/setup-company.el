@@ -6,6 +6,7 @@
   ("M-i" . company-complete)
   :init (global-company-mode)
   :config
+  (setq company-tooltip-align-annotations t)
   (setq company-minimum-prefix-length 1))
 
 (use-package company-quickhelp
