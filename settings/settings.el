@@ -18,5 +18,6 @@
   (require 'setup-web)
   (require 'setup-cl)
   (require 'setup-scheme)
+  (require 'setup-rust))
 
 (provide 'settings)
