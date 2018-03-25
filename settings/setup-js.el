@@ -4,6 +4,7 @@
   :ensure t
   :init
   (defun js2-mode-load-config ()
+    (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
     (set-face-attribute 'js2-warning nil
                         :underline "yellow")
     (set-face-attribute 'js2-error nil
