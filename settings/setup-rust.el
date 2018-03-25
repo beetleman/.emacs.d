@@ -6,6 +6,8 @@
   :config
   (use-package company-racer
     :ensure t)
+  (use-package cargo
+    :ensure t)
   (use-package flycheck-rust
     :ensure t
     :config
