@@ -8,7 +8,7 @@
          ("\\.markdown\\'" . markdown-mode))
   :init
   (setq markdown-command "/usr/bin/markdown_py-3 -x gfm")
-  (let ((gfm-css (file-truename "./setup-markdown.css")))
+  (let ((gfm-css (file-truename "~/.emacs.d/settings/setup-markdown.css")))
     (when (file-exists-p gfm-css)
       (setq markdown-css-paths `(,gfm-css)))))
 
