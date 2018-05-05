@@ -21,23 +21,17 @@
     (add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
     (add-hook 'rjsx-mode-hook 'js2-mode-load-config))
 
+  (use-package add-node-modules-path
+    :ensure t
+    :init
+    (add-hook 'js-mode-hook #'add-node-modules-path))
+
   (use-package tern
     :ensure t
     :diminish "T"
     :commands (tern-mode)
-    :config
-    (define-key tern-mode-keymap (kbd "M-.") nil)
-    (define-key tern-mode-keymap (kbd "M-,") nil)
     :init
     (add-hook 'js-mode-hook 'tern-mode))
-
-  (use-package xref-js2
-    :ensure t
-    :config
-    (define-key js-mode-map (kbd "M-.") nil)
-    (add-hook 'js2-mode-hook (lambda ()
-                               (add-hook 'xref-backend-functions
-                                         #'xref-js2-xref-backend nil t))))
 
   (use-package company-tern
     :ensure t
