@@ -5,6 +5,7 @@
   :init
   (defun js2-mode-load-config ()
     (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
+    (setq js2-strict-missing-semi-warning nil)
     (set-face-attribute 'js2-warning nil
                         :underline "yellow")
     (set-face-attribute 'js2-error nil
@@ -21,24 +22,16 @@
     (add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
     (add-hook 'rjsx-mode-hook 'js2-mode-load-config))
 
-  (use-package add-node-modules-path
-    :ensure t
-    :init
-    (add-hook 'js-mode-hook #'add-node-modules-path))
-
-  (use-package tern
-    :ensure t
-    :diminish "T"
-    :commands (tern-mode)
-    :init
-    (add-hook 'js-mode-hook 'tern-mode))
-
-  (use-package company-tern
+  (use-package tide
     :ensure t
     :config
-    (add-to-list 'company-backends 'company-tern))
+    (add-hook 'js-mode-hook #'tide-setup)
+    (add-hook 'js2-mode-hook #'tide-setup)
+    (add-hook 'rjsx-mode #'tide-setup))
 
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+
+
 
 (provide 'setup-js)
