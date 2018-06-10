@@ -22,6 +22,11 @@
     (add-to-list 'magic-mode-alist '("^import React" . rjsx-mode))
     (add-hook 'rjsx-mode-hook 'js2-mode-load-config))
 
+  (use-package add-node-modules-path
+    :ensure t
+    :init
+    (add-hook 'js-mode-hook #'add-node-modules-path))
+
   (use-package tide
     :ensure t
     :config
