@@ -8,6 +8,7 @@
   :ensure t
   :init
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  (global-diff-hl-mode))
+  (global-diff-hl-mode)
+  (diff-hl-margin-mode))
 
 (provide 'setup-magit)
