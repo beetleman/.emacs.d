@@ -11,12 +11,13 @@
   (require 'setup-magit)
   (require 'setup-company)
   (require 'setup-programing)
+  (require 'setup-multiple-cursors)
   ;; languages:
   (require 'setup-python)
   (require 'setup-clojure)
   (require 'setup-js)
   (require 'setup-web)
-  (require 'setup-cl)
+  ;; (require 'setup-cl) ;; roswell required
   (require 'setup-scheme)
   (require 'setup-markdown)
   (require 'setup-rust))
