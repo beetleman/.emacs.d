@@ -22,4 +22,16 @@
   :config
   (add-hook 'before-save-hook 'py-isort-before-save))
 
+(use-package yapfify
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'yapf-mode))
+
+;; not as good as anaconda-mode jet
+;; (use-package lsp-python
+;;   :ensure t
+;;   :after (lsp-mode)
+;;   :init
+;;   (add-hook 'python-mode-hook #'lsp-python-enable))
+
 (provide 'setup-python)
