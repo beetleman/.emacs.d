@@ -13,6 +13,7 @@
   (require 'setup-programing)
   (require 'setup-multiple-cursors)
   ;; languages:
+  (require 'setup-lsp)
   (require 'setup-python)
   (require 'setup-clojure)
   (require 'setup-js)
