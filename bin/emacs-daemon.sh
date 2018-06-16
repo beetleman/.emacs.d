@@ -3,5 +3,5 @@ DIR=${HOME}/.emacs.d/bin
 
 source ~/.zshrc
 
-/usr/bin/emacs --fg-daemon
+/usr/bin/emacs --daemon
 $DIR/emacs.sh
