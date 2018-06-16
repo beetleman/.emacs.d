@@ -6,11 +6,13 @@
   (defun js2-mode-load-config ()
     (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
     (setq js2-strict-missing-semi-warning nil)
+    (define-key js2-mode-map (kbd "M-.") 'xref-find-definitions)
     (set-face-attribute 'js2-warning nil
                         :underline "yellow")
     (set-face-attribute 'js2-error nil
                         :underline "red"))
   (add-hook 'js2-mode-hook 'js2-mode-load-config)
+
   (use-package rjsx-mode
     :ensure t
     :init
@@ -27,16 +29,33 @@
     :init
     (add-hook 'js-mode-hook #'add-node-modules-path))
 
-  (use-package tide
-    :ensure t
-    :config
-    (add-hook 'js-mode-hook #'tide-setup)
-    (add-hook 'js2-mode-hook #'tide-setup)
-    (add-hook 'rjsx-mode #'tide-setup))
-
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
 
+(use-package lsp-mode
+  :ensure t
+
+  :config
+  (use-package lsp-javascript-typescript
+    :ensure t
+    :init
+    (defun has-js-or-ts-config? (path)
+      (locate-dominating-file path #'(lambda (dir)
+                                       (and  (or (directory-files dir nil "jsconfig.json")
+                                                 (directory-files dir nil "tsconfig.json"))
+                                             (directory-files dir nil "package.json")))))
+
+    (defun enable-lsp-js ()
+      (when (has-js-or-ts-config? ".")
+        (lsp-javascript-typescript-enable)))
+
+    (add-hook 'js2-mode-hook #'enable-lsp-js)
+    (add-hook 'rjsx-mode-hook #'enable-lsp-js))
+
+  (use-package company-lsp
+    :ensure t
+    :config
+    (push 'company-lsp company-backends)))
 
 
 (provide 'setup-js)
