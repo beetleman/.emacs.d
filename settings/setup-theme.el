@@ -8,6 +8,8 @@
   (global-hl-line-mode 1)
   (column-number-mode 1)
   (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono-13"))
-  (add-to-list 'default-frame-alist '(cursor-color . "white")))
+  (add-to-list 'default-frame-alist '(cursor-color . "white"))
+  (when (member "Noto Emoji" (font-family-list))
+    (set-fontset-font t 'unicode "Noto Emoji" nil 'prepend)))
 
 (provide 'setup-theme)
