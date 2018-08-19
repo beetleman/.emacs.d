@@ -1,5 +1,6 @@
 (use-package geiser
   :ensure t
-  :defer t)
+  :config
+  (setq geiser-active-implementations '(racket)))
 
 (provide 'setup-scheme)

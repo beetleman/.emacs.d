@@ -13,10 +13,12 @@
 
 (use-package eldoc
   :diminish eldoc
+  :ensure t
   :init
   (add-hook 'prog-mode-hook #'eldoc-mode))
 
 (use-package subword
+  :ensure t
   :init
   (add-hook 'prog-mode-hook #'subword-mode))
 
@@ -44,6 +46,7 @@
     (yas-reload-all)))
 
 (use-package whitespace
+  :ensure t
   :init
   (add-hook 'before-save-hook 'whitespace-cleanup))
 

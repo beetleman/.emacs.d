@@ -15,7 +15,7 @@
 (use-package pyenv-mode
   :ensure t
   :config
-  (pyenv-mode))
+  (add-hook 'python-mode-hook 'pyenv-mode))
 
 (use-package py-isort
   :ensure t
