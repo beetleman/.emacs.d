@@ -12,6 +12,7 @@
   (require 'setup-company)
   (require 'setup-programing)
   (require 'setup-multiple-cursors)
+  (require 'setup-org)
   ;; languages:
   (require 'setup-lsp)
   (require 'setup-python)
