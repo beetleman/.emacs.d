@@ -3,11 +3,21 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        cljr-slash
         counsel-M-x
+        counsel-yank-pop
+        kill-region
+        org-metaleft
+        org-metaright
+        org-self-insert-command
+        org-shiftright
+        rjsx-delete-creates-full-tag
         sp-backward-delete-char
         sp-delete-char
         sp-kill-hybrid-sexp
         sp-kill-region
+        sp-kill-word
+        yaml-electric-backspace
         ))
 
 (setq mc/cmds-to-run-once
