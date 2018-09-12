@@ -1,7 +1,6 @@
 (load (expand-file-name "~/.roswell/helper.el"))
 
 (use-package slime-company
-  :defer t
   :ensure t)
 
 (use-package slime
