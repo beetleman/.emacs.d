@@ -13,6 +13,7 @@
   (require 'setup-programing)
   (require 'setup-multiple-cursors)
   (require 'setup-org)
+  (require 'setup-neotree)
   ;; languages:
   (require 'setup-lsp)
   (require 'setup-python)
