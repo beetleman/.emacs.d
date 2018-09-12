@@ -7,6 +7,8 @@
         counsel-M-x
         counsel-yank-pop
         kill-region
+        markdown-electric-backquote
+        markdown-outdent-or-delete
         org-metaleft
         org-metaright
         org-self-insert-command
