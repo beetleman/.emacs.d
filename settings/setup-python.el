@@ -22,10 +22,12 @@
   :config
   (add-hook 'before-save-hook 'py-isort-before-save))
 
-(use-package yapfify
+(use-package blacken
   :ensure t
   :config
-  (add-hook 'python-mode-hook 'yapf-mode))
+  (setf blacken-skip-string-normalization t)
+  (add-hook 'python-mode-hook 'blacken-mode))
+
 
 ;; not as good as anaconda-mode jet
 ;; (use-package lsp-python
