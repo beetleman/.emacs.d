@@ -14,6 +14,7 @@
   (require 'setup-multiple-cursors)
   (require 'setup-org)
   (require 'setup-neotree)
+  (require 'setup-restclient)
   ;; languages:
   (require 'setup-lsp)
   (require 'setup-python)
