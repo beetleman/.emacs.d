@@ -4,6 +4,7 @@
   (require 'setup-theme)
   (require 'setup-mode-line)
   (require 'setup-ace-window)
+  (require 'setup-avy)
   (require 'setup-which-key)
   (require 'setup-editorconfig)
   (require 'setup-ivy)
@@ -16,6 +17,7 @@
   (require 'setup-neotree)
   (require 'setup-restclient)
   ;; languages:
+  (require 'setup-nim)
   (require 'setup-lsp)
   (require 'setup-python)
   (require 'setup-clojure)

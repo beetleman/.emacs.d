@@ -2,5 +2,5 @@
 (use-package ace-window
   :ensure t
   :bind
-  ("M-p" . ace-window))
+  ("M-o" . ace-window))
 (provide 'setup-ace-window)
