@@ -8,8 +8,8 @@
   :ensure t
   :init
   (setq-default line-spacing 1)
+  (setq tao-theme-use-sepia nil)
   (load-theme 'tao-yin t)
-  (global-hl-line-mode 1)
   (column-number-mode 1)
   (create-fontset-from-fontset-spec standard-fontset-spec)
   (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono-13"))
