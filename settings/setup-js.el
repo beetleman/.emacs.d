@@ -29,6 +29,11 @@
     :init
     (add-hook 'js-mode-hook #'add-node-modules-path))
 
+  (use-package prettier-js
+    :ensure t
+    :init
+    (add-hook 'js-mode-hook #'prettier-js-mode))
+
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
 
