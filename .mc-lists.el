@@ -6,22 +6,29 @@
         cljr-slash
         counsel-M-x
         counsel-yank-pop
+        indent-for-tab-command
         kill-region
         markdown-electric-backquote
         markdown-outdent-or-delete
+        org-ctrl-c-ctrl-c
         org-metaleft
         org-metaright
         org-self-insert-command
         org-shiftright
+        org-yank
         rjsx-delete-creates-full-tag
         sp-backward-delete-char
+        sp-backward-kill-word
         sp-delete-char
         sp-kill-hybrid-sexp
         sp-kill-region
         sp-kill-word
         yaml-electric-backspace
+        yaml-electric-dash-and-dot
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        end-of-buffer
+        sp-forward-barf-sexp
         ))
