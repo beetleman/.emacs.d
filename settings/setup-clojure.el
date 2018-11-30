@@ -11,6 +11,7 @@
   :init
   (add-hook 'cider-mode-hook #'clj-refactor-mode)
   (add-hook 'cider-mode-hook #'smartparens-mode)
+  (add-hook 'cider-mode-hook #'eldoc-mode)
   :diminish subword-mode
   :config
   (setq nrepl-log-messages t
