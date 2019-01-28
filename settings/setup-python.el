@@ -6,7 +6,7 @@
   :diminish anaconda-mode
   :init
   (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'python-mode-hook 'eldoc-mode))
+  (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 
 (use-package company-anaconda
   :ensure t
@@ -27,13 +27,5 @@
   :config
   (setf blacken-skip-string-normalization t)
   (add-hook 'python-mode-hook 'blacken-mode))
-
-
-;; not as good as anaconda-mode jet
-;; (use-package lsp-python
-;;   :ensure t
-;;   :after (lsp-mode)
-;;   :init
-;;   (add-hook 'python-mode-hook #'lsp-python-enable))
 
 (provide 'setup-python)
