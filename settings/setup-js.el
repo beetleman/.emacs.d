@@ -2,6 +2,7 @@
 
 (use-package js2-mode
   :ensure t
+  :after (lsp-mode)
   :init
   (defun js2-mode-load-config ()
     (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
@@ -34,25 +35,13 @@
     :init
     (add-hook 'js-mode-hook #'prettier-js-mode))
 
+
+  (add-hook 'js2-mode-hook 'lsp)
+  (add-hook 'rjsx-mode-hook 'lsp)
+
+
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
 
-
-(use-package lsp-javascript-typescript
-  :ensure t
-  :after (lsp-mode)
-  :init
-  (defun has-js-or-ts-config? (path)
-    (locate-dominating-file path #'(lambda (dir)
-                                     (and  (or (directory-files dir nil "jsconfig.json")
-                                               (directory-files dir nil "tsconfig.json"))
-                                           (directory-files dir nil "package.json")))))
-
-  (defun enable-lsp-js ()
-    (when (has-js-or-ts-config? ".")
-      (lsp-javascript-typescript-enable)))
-
-  (add-hook 'js2-mode-hook #'enable-lsp-js)
-  (add-hook 'rjsx-mode-hook #'enable-lsp-js))
 
 (provide 'setup-js)

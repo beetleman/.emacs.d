@@ -3,10 +3,10 @@
 (use-package lsp-mode
   :ensure t
   :config
+  (require 'lsp-clients)
   (use-package company-lsp
     :ensure t
-    :config
-    (push 'company-lsp company-backends)))
+    :commands company-lsp))
 
 
 (provide 'setup-lsp)
