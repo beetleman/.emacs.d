@@ -6,11 +6,14 @@
         cljr-slash
         counsel-M-x
         counsel-yank-pop
+        downcase-region
         indent-for-tab-command
+        js2-line-break
         kill-region
         markdown-electric-backquote
         markdown-outdent-or-delete
         org-ctrl-c-ctrl-c
+        org-cycle
         org-metaleft
         org-metaright
         org-self-insert-command
@@ -23,6 +26,7 @@
         sp-kill-hybrid-sexp
         sp-kill-region
         sp-kill-word
+        upcase-region
         yaml-electric-backspace
         yaml-electric-dash-and-dot
         ))
@@ -30,5 +34,6 @@
 (setq mc/cmds-to-run-once
       '(
         end-of-buffer
+        mouse-set-region
         sp-forward-barf-sexp
         ))
