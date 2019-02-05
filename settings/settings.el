@@ -4,7 +4,7 @@
   (require 'setup-theme)
   (require 'setup-mode-line)
   (require 'setup-ace-window)
-  (require 'setup-multi-term)
+  (require 'setup-term)
   (require 'setup-avy)
   (require 'setup-which-key)
   (require 'setup-editorconfig)
