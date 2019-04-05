@@ -1,18 +1,13 @@
 (progn
   (require 'package)
-  (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (package-initialize t)
+
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/"))
 
   (defvar my-packages '(use-package
-                        diminish
-                        dockerfile-mode
-                        solidity-mode
-                        toml-mode
-                        yaml-mode
-                        markdown-mode
-                        scpaste))
+                        diminish))
 
-  (package-initialize t)
   (defvar packages-list-updated nil)
   (dolist (p my-packages)
     (when (not (package-installed-p p))

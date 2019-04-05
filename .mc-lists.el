@@ -8,6 +8,7 @@
         counsel-yank-pop
         downcase-region
         indent-for-tab-command
+        indent-new-comment-line
         js2-line-break
         kill-region
         markdown-electric-backquote
@@ -22,7 +23,9 @@
         rjsx-delete-creates-full-tag
         sp-backward-delete-char
         sp-backward-kill-word
+        sp-backward-unwrap-sexp
         sp-delete-char
+        sp-forward-slurp-sexp
         sp-kill-hybrid-sexp
         sp-kill-region
         sp-kill-word
@@ -32,8 +35,4 @@
         ))
 
 (setq mc/cmds-to-run-once
-      '(
-        end-of-buffer
-        mouse-set-region
-        sp-forward-barf-sexp
-        ))
+      '())
