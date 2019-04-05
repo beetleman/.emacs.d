@@ -1,7 +1,9 @@
+(use-package all-the-icons
+  :ensure t)
+
 (use-package neotree
   :ensure t
   :init
-
   (defun neotree-project-dir ()
     "Open NeoTree using the git root."
     (interactive)
@@ -14,7 +16,7 @@
                 (neotree-dir project-dir)
                 (neotree-find file-name)))
         (message "Could not find git project root."))))
-  (setq neo-theme 'asci)
+  (setq neo-theme 'icons)
   (global-set-key [f8] 'neotree-project-dir))
 
 
