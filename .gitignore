@@ -16,3 +16,4 @@ settings/.my-ivy.el.swp
 /image-dired/.image-dired_db
 /eshell
 /.lsp-session-v1
+/transient/history.el

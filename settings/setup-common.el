@@ -20,5 +20,5 @@
 
 (global-auto-revert-mode 1)
 (winner-mode 1)
-
+(setq x-select-enable-clipboard-manager  nil)
 (provide 'setup-common)
