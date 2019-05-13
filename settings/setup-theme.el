@@ -9,8 +9,8 @@
   :init
   (load-theme 'alect-black t)
 
-  (column-number-mode 1)
   (line-number-mode 1)
+  (column-number-mode 1)
   (global-hl-line-mode 1)
 
   (create-fontset-from-fontset-spec standard-fontset-spec)
