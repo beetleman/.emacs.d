@@ -3,4 +3,4 @@ set DIR $HOME/.emacs.d/bin
 
 /usr/bin/emacs --daemon
 
-$DIR/emacs.fish
+eval $DIR/emacs.fish

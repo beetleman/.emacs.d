@@ -3,6 +3,6 @@
   :ensure t
   :config
   (setq sml/no-confirm-load-theme t)
-  (setq sml/theme 'dark)
+  (setq sml/theme 'respectful)
   (sml/setup))
 (provide 'setup-mode-line)

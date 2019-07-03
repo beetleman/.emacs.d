@@ -9,6 +9,7 @@
   :ensure t
   :defer t
   :init
+  (cider-auto-test-mode 1)
   (add-hook 'cider-mode-hook #'clj-refactor-mode)
   (add-hook 'cider-mode-hook #'smartparens-mode)
   (add-hook 'cider-mode-hook #'eldoc-mode)

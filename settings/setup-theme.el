@@ -3,11 +3,11 @@
 (defun setup-emoji (frame)
   (set-fontset-font t 'symbol "Noto Emoji" frame 'prepend))
 
-(use-package alect-themes
+(use-package solarized-theme
   :defer t
   :ensure t
   :init
-  (load-theme 'alect-black t)
+  (load-theme 'solarized-dark t)
 
   (line-number-mode 1)
   (column-number-mode 1)

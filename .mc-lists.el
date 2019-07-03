@@ -4,9 +4,11 @@
 (setq mc/cmds-to-run-for-all
       '(
         cljr-slash
+        clojure-align
         counsel-M-x
         counsel-yank-pop
         downcase-region
+        electric-newline-and-maybe-indent
         indent-for-tab-command
         indent-new-comment-line
         js2-line-break
@@ -30,10 +32,14 @@
         sp-kill-hybrid-sexp
         sp-kill-region
         sp-kill-word
+        sp-previous-sexp
         upcase-region
+        wdired-finish-edit
         yaml-electric-backspace
         yaml-electric-dash-and-dot
         ))
 
 (setq mc/cmds-to-run-once
-      '())
+      '(
+        ivy-switch-buffer
+        ))
