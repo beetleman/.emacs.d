@@ -4,6 +4,14 @@
   :init
   (require 'better-defaults))
 
+
+(when (executable-find "hunspell")
+  (setq-default ispell-program-name "hunspell")
+  (setq ispell-really-hunspell t))
+
+(dolist (hook '(text-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
+
 (use-package anzu
   :defer t
   :ensure t
