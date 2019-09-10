@@ -8,6 +8,8 @@
   (defvar my-packages '(use-package
                         diminish))
 
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
   (defvar packages-list-updated nil)
   (dolist (p my-packages)
     (when (not (package-installed-p p))

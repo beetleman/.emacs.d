@@ -13,6 +13,7 @@
         indent-new-comment-line
         js2-line-break
         kill-region
+        markdown-cycle
         markdown-electric-backquote
         markdown-outdent-or-delete
         org-ctrl-c-ctrl-c
