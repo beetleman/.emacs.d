@@ -2,7 +2,6 @@
 
 (use-package js2-mode
   :ensure t
-  :after (lsp-mode)
   :init
   (defun js2-mode-load-config ()
     (advice-add 'js--multi-line-declaration-indentation :around (lambda (orig-fun &rest args) nil))
@@ -34,11 +33,6 @@
     :ensure t
     :init
     (add-hook 'js-mode-hook #'prettier-js-mode))
-
-
-  (add-hook 'js2-mode-hook 'lsp)
-  (add-hook 'rjsx-mode-hook 'lsp)
-
 
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))

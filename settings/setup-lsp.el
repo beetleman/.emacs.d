@@ -1,20 +1,12 @@
 (require 'use-package)
 
-(use-package lsp-mode
+(use-package eglot
   :ensure t
-  :config
-  (require 'lsp-clients)
-  (setq lsp-prefer-flymake nil
-        lsp-ui-sideline-enable nil
-        lsp-ui-imenu-enable nil
-        lsp-ui-doc-enable nil
-        lsp-ui-peek-enable nil)
-
-  (use-package lsp-ui
-    :ensure t)
-
-  (use-package company-lsp
-    :ensure t
-    :commands company-lsp))
+  :hook
+  (rust-mode . eglot-ensure)
+  (c-mode . eglot-ensure)
+  (js2-mode . eglot-ensure)
+  (rjsx-mode . eglot-ensure)
+  (python-mode . eglot-ensure))
 
 (provide 'setup-lsp)

@@ -25,11 +25,22 @@
   :ensure t
   :diminish clj-refactor-mode)
 
-(use-package flycheck-joker
-  :ensure t
-  :init
-  (require 'flycheck-joker)
-  (defun clj-joker-hook () (flycheck-mode 1))
-  (add-hook 'clojure-mode-hook #'clj-joker-hook))
+;; (use-package flycheck
+;;   :ensure t
+;;   :config
+;;   (defun flycheck-load-config ()
+;;     (set-face-attribute 'flycheck-warning nil
+;;                         :underline "yellow")
+;;     (set-face-attribute 'flycheck-error nil
+;;                         :underline "red"))
+;;   (add-hook 'flycheck-mode-hook 'flycheck-load-config))
+
+;; ;; TODO port it to flymake
+;; (use-package flycheck-joker
+;;   :ensure t
+;;   :init
+;;   (require 'flycheck-joker)
+;;   (defun clj-joker-hook () (flycheck-mode 1))
+;;   (add-hook 'clojure-mode-hook #'clj-joker-hook))
 
 (provide 'setup-clojure)
