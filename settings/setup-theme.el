@@ -3,19 +3,11 @@
 (defun setup-emoji (frame)
   (set-fontset-font t 'symbol "Noto Emoji" frame 'prepend))
 
-(use-package gruvbox-theme
+(use-package dracula-theme
   :defer t
   :ensure t
   :init
-  (load-theme 'gruvbox-light-hard t t)
-  (load-theme 'gruvbox-dark-hard t t)
-
-  (use-package cycle-themes
-    :ensure t
-    :init (setq cycle-themes-theme-list
-                '(gruvbox-dark-hard
-                  gruvbox-light-hard))
-    :config (cycle-themes-mode))
+  (load-theme 'dracula t)
 
   (line-number-mode 1)
   (column-number-mode 1)
