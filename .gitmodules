@@ -1,0 +1,3 @@
+[submodule "packages/flymake-joker"]
+	path = packages/flymake-joker
+	url = https://github.com/beetleman/flymake-joker
