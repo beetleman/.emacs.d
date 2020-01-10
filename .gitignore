@@ -17,3 +17,4 @@ settings/.my-ivy.el.swp
 /eshell
 /.lsp-session-v1
 /transient/history.el
+/places
