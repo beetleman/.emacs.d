@@ -24,6 +24,9 @@
   :ensure t
   :diminish clj-refactor-mode)
 
+(use-package zprint-mode
+  :hook (clojure-mode clojurescript-mode))
+
 (use-package flymake-quickdef
   :ensure t)
 
