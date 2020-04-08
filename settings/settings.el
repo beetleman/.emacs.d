@@ -18,7 +18,6 @@
   (require 'setup-neotree)
   (require 'setup-restclient)
   ;; languages:
-  (require 'setup-nim)
   (require 'setup-lsp)
   (require 'setup-python)
   (require 'setup-clojure)
