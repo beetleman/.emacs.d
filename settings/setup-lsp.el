@@ -1,12 +1,19 @@
 (require 'use-package)
 
-(use-package eglot
+(use-package lsp-mode
   :ensure t
-  :hook
-  (rust-mode . eglot-ensure)
-  (c-mode . eglot-ensure)
-  (js2-mode . eglot-ensure)
-  (rjsx-mode . eglot-ensure)
-  (python-mode . eglot-ensure))
+  :hook ((python-mode . lsp)
+         (rust-mode . lsp)
+         (c-mode . lsp)
+         (js2-mode . lsp)
+         (rjsx-mode . lsp)
+         (reason-mode . lsp)
+         (python-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+(use-package company-lsp :commands company-lsp)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (provide 'setup-lsp)
