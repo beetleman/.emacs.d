@@ -6,8 +6,7 @@
 
 
 (when (executable-find "hunspell")
-  (setq-default ispell-program-name "hunspell")
-  (setq ispell-really-hunspell t))
+  (setq-default ispell-program-name "hunspell"))
 
 (dolist (hook '(text-mode-hook))
   (add-hook hook (lambda () (flyspell-mode 1))))
@@ -39,10 +38,16 @@
   :init
   (global-undo-tree-mode 1))
 
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
 (global-auto-revert-mode 1)
 (winner-mode 1)
-(setq x-select-enable-clipboard-manager  nil)
-
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024 3)) ;; 3mb
+;; (setq x-select-enable-clipboard-manager t)
+;; (setq x-select-enable-clipboard t)
 
 
 (provide 'setup-common)

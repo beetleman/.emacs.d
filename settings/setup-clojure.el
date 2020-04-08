@@ -1,9 +1,10 @@
+(use-package flycheck-clj-kondo
+  :ensure t)
+
 (use-package clojure-mode
   :ensure t
-  :mode (("\\.clj\\'" . clojure-mode)
-         ("\\.cljc\\'" . clojure-mode)
-         ("\\.cljs\\'" . clojurescript-mode)
-         ("\\.edn\\'" . clojure-mode)))
+  :config
+  (require 'flycheck-clj-kondo))
 
 (use-package cider
   :ensure t
@@ -16,27 +17,13 @@
   :diminish subword-mode)
 
 (use-package cider-eval-sexp-fu
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (use-package clj-refactor
-  :defer t
   :ensure t
   :diminish clj-refactor-mode)
 
 (use-package zprint-mode
   :hook (clojure-mode clojurescript-mode))
-
-(use-package flymake-quickdef
-  :ensure t)
-
-;;TODO: move to seperate module
-(use-package flymake-joker
-  :load-path "packages/flymake-joker"
-  :after flymake-quickdef
-  :init
-  (add-hook 'clojure-mode-hook #'flymake-joker-clj-enable)
-  (add-hook 'clojurescript-mode-hook #'flymake-joker-cljs-enable)
-  (add-hook 'clojure-mode-hook #'flymake-mode))
 
 (provide 'setup-clojure)
