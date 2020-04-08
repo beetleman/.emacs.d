@@ -1,19 +1,13 @@
-(use-package slime-company
-  :ensure t)
-
 (use-package slime
-  :ensure t
+  :if (file-exists-p "~/.roswell/helper.el")
+  :ensure slime-company
+  :hook (slime-repl-mode . smartparens-mode)
   :init
-  (setq slime-contribs '(slime-fancy
+  (load "~/.roswell/helper.el")
+  (setq inferior-lisp-program "ros -Q run")
+  :config (slime-setup '(slime-fancy
                          slime-indentation
                          slime-sbcl-exts
-                         slime-company))
-  (setq slime-complete-symbol*-fancy t)
-  (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol)
-  (setq inferior-lisp-program "ros -Q run")
-  (add-hook 'slime-repl-mode-hook #'smartparens-mode)
-  :config
-  (slime-setup))
-
+                         slime-company)))
 
 (provide 'setup-cl)
