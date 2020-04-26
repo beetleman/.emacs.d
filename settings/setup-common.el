@@ -11,19 +11,6 @@
 (dolist (hook '(text-mode-hook))
   (add-hook hook (lambda () (flyspell-mode 1))))
 
-(use-package dashboard
-  :ensure t
-  :config
-  (setq dashboard-items '((projects . 5)
-                          (recents . 5)
-                          (agenda . 5)
-                          (bookmarks . 5)))
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-startup-banner 'logo)
-  (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))))
-
 (use-package anzu
   :defer t
   :ensure t
@@ -49,5 +36,18 @@
 ;; (setq x-select-enable-clipboard-manager t)
 ;; (setq x-select-enable-clipboard t)
 
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message
+";;        ❤️ Happy Hacking ❤️
+;;             _     _
+;;            (')-=-(')
+;;          __(   \"   )__
+;;         / _/'-----'\\_ \\
+;;      ___\\\\ \\\\     // //___
+;;      >____)/_\\---/_\\(____<
+") ;; Art by Joan Stark
+
+(setq window-resize-pixelwise t
+      frame-resize-pixelwise t)
 
 (provide 'setup-common)
