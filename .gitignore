@@ -18,3 +18,4 @@ settings/.my-ivy.el.swp
 /.lsp-session-v1
 /transient/history.el
 /places
+/.cache/

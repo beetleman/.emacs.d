@@ -31,9 +31,8 @@
     :init
     (yas-reload-all)))
 
-(use-package whitespace
+(use-package ws-butler
   :ensure t
-  :init
-  (add-hook 'before-save-hook 'whitespace-cleanup))
+  :hook (prog-mode . ws-butler-mode))
 
 (provide 'setup-programing)

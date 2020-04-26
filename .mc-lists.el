@@ -3,6 +3,8 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        beginning-of-buffer
+        cider-eval-defun-at-point
         cljr-slash
         clojure-align
         counsel-M-x
@@ -18,12 +20,14 @@
         markdown-outdent-or-delete
         org-ctrl-c-ctrl-c
         org-cycle
+        org-end-of-line
         org-metaleft
         org-metaright
         org-self-insert-command
         org-shiftright
         org-yank
         rjsx-delete-creates-full-tag
+        slime-autodoc-space
         sp-backward-delete-char
         sp-backward-kill-word
         sp-backward-unwrap-sexp
@@ -34,6 +38,7 @@
         sp-kill-region
         sp-kill-word
         sp-previous-sexp
+        sp-unwrap-sexp
         upcase-region
         wdired-finish-edit
         yaml-electric-backspace
@@ -42,5 +47,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        counsel-projectile-ag
+        ignore
         ivy-switch-buffer
         ))
