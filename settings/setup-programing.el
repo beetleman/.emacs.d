@@ -35,4 +35,9 @@
   :ensure t
   :hook (prog-mode . ws-butler-mode))
 
+(use-package direnv
+  :ensure t
+  :config
+ (direnv-mode))
+
 (provide 'setup-programing)
