@@ -5,7 +5,7 @@
   :diminish smartparens-mode
   :config
   (smartparens-global-mode t)
-  (sp-use-smartparens-bindings)
+  (sp-use-paredit-bindings)
   (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
   (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode))
 
@@ -34,6 +34,18 @@
 (use-package ws-butler
   :ensure t
   :hook (prog-mode . ws-butler-mode))
+
+(use-package hl-todo
+  :hook (prog-mode . hl-todo-mode)
+  :ensure t
+  :config
+  (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces
+        '(("TODO"   . "#FF0000")
+          ("FIXME"  . "#FF0000")
+          ("DEBUG"  . "#A020F0")
+          ("GOTCHA" . "#FF4500")
+          ("STUB"   . "#1E90FF"))))
 
 (use-package direnv
   :ensure t
