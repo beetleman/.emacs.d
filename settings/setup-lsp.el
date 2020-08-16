@@ -5,6 +5,7 @@
   :hook ((python-mode . lsp)
          (rust-mode . lsp)
          (c-mode . lsp)
+         (vue-mode . lsp)
          (js2-mode . lsp)
          (rjsx-mode . lsp)
          (reason-mode . lsp)
