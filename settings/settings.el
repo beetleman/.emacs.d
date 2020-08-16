@@ -27,6 +27,7 @@
   (require 'setup-cl)
   (require 'setup-scheme)
   (require 'setup-markdown)
-  (require 'setup-rust))
+  (require 'setup-rust)
+  (require 'setup-plantuml))
 
 (provide 'settings)
