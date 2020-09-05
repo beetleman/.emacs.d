@@ -1,7 +1,5 @@
 (require 'use-package)
 
-(use-package reason-mode
-  :ensure t)
-
+(use-package reason-mode)
 
 (provide 'setup-reasonml)

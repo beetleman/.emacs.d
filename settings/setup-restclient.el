@@ -1,10 +1,8 @@
-(use-package restclient
-  :ensure t
+(use-package restclient)
+(use-package company-restclient
+  :after (restclient)
   :init
-  (use-package company-restclient
-    :ensure t
-    :init
-    (add-to-list 'company-backends 'company-restclient)))
+  (add-to-list 'company-backends 'company-restclient))
 
 
 (provide 'setup-restclient)

@@ -1,43 +1,36 @@
 (require 'use-package)
 
 (use-package smartparens-config
-  :ensure smartparens
+  :straight smartparens
   :diminish smartparens-mode
+  :hook ((prog-mode . turn-on-smartparens-strict-mode)
+         (markdown-mode . turn-on-smartparens-strict-mode))
   :config
   (smartparens-global-mode t)
-  (sp-use-paredit-bindings)
-  (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
-  (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode))
+  (sp-use-paredit-bindings))
 
 (use-package eldoc
   :diminish eldoc
-  :ensure t
-  :init
-  (add-hook 'prog-mode-hook #'eldoc-mode))
+  :hook (prog-mode . eldoc-mode))
 
 (use-package subword
-  :ensure t
-  :init
-  (add-hook 'prog-mode-hook #'subword-mode))
+  :hook (prog-mode . subword-mode))
 
 (use-package yasnippet
-  :ensure t
   :diminish yasnippet
   :init
-  (yas-global-mode)
-  :config
-  (use-package yasnippet-snippets
-    :ensure t
-    :init
-    (yas-reload-all)))
+  (yas-global-mode))
+
+(use-package yasnippet-snippets
+  :after (yasnippet)
+  :init
+  (yas-reload-all))
 
 (use-package ws-butler
-  :ensure t
   :hook (prog-mode . ws-butler-mode))
 
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode)
-  :ensure t
   :config
   (setq hl-todo-highlight-punctuation ":"
         hl-todo-keyword-faces
@@ -48,8 +41,7 @@
           ("STUB"   . "#1E90FF"))))
 
 (use-package direnv
-  :ensure t
   :config
- (direnv-mode))
+  (direnv-mode))
 
 (provide 'setup-programing)

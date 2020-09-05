@@ -1,13 +1,11 @@
 (require 'use-package)
 (use-package magit
-  :ensure t
   :bind
   ("C-x g" . magit-status))
 
 (use-package diff-hl
-  :ensure t
+  :hook (magit-post-refresh . diff-hl-magit-post-refresh)
   :init
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (global-diff-hl-mode)
   (diff-hl-margin-mode))
 

@@ -1,17 +1,13 @@
 (use-package company
-  :ensure t
-  :defer t
   :diminish company-mode
   :bind
   ("M-i" . company-complete)
-  :init (global-company-mode)
   :config
   (setq company-tooltip-align-annotations t)
-  (setq company-minimum-prefix-length 1))
+  (setq company-minimum-prefix-length 1)
+  :init (global-company-mode))
 
 (use-package company-quickhelp
-  :ensure t
-  :defer t
   :init
   (company-quickhelp-mode))
 

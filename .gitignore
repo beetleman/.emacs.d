@@ -19,3 +19,7 @@ settings/.my-ivy.el.swp
 /transient/history.el
 /places
 /.cache/
+
+/straight/*
+!/straight/versions/
+!/straight/.gitkeep

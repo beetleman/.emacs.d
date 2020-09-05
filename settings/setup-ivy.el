@@ -1,15 +1,12 @@
 (require 'use-package)
 
-(use-package smex
-  :ensure t)
+(use-package smex)
 
 (use-package swiper
-  :ensure t
   :bind
   ("C-s" . swiper))
 
 (use-package ivy
-  :ensure t
   :diminish ivy-mode
   :bind
   (("C-c C-r" . ivy-resume)
@@ -20,7 +17,6 @@
   (ivy-mode 1))
 
 (use-package counsel
-  :ensure t
   :bind
   (("M-x" . counsel-M-x)
    ("C-x C-f" . counsel-find-file)
@@ -44,7 +40,6 @@
 
 
 (use-package ivy-xref
-  :ensure t
   :init
   ;; xref initialization is different in Emacs 27 - there are two different
   ;; variables which can be set rather than just one

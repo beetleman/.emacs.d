@@ -1,30 +1,22 @@
 (use-package flycheck-clj-kondo
-  :ensure t)
+  :after (clojure-mode))
 
-(use-package clojure-mode
-  :ensure t
-  :config
-  (require 'flycheck-clj-kondo))
+(use-package clojure-mode)
 
 (use-package cider
-  :ensure t
-  :defer t
+  :diminish subword-mode
+  :hook ((cider-mode . clj-refactor-mode)
+         (cider-mode . smartparens-mode)
+         (cider-mode . eldoc-mode))
   :init
-  (cider-auto-test-mode 1)
-  (add-hook 'cider-mode-hook #'clj-refactor-mode)
-  (add-hook 'cider-mode-hook #'smartparens-mode)
-  (add-hook 'cider-mode-hook #'eldoc-mode)
-  :diminish subword-mode)
+  (cider-auto-test-mode 1))
 
-(use-package cider-eval-sexp-fu
-  :ensure t)
+(use-package cider-eval-sexp-fu)
 
 (use-package clj-refactor
-  :ensure t
   :diminish clj-refactor-mode)
 
 (use-package zprint-mode
-  :ensure t
   :hook (clojure-mode clojurescript-mode))
 
 (provide 'setup-clojure)

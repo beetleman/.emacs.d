@@ -5,7 +5,6 @@
 
 (use-package eziam-theme
   :defer t
-  :ensure t
   :init
   (load-theme 'eziam-dark t)
 

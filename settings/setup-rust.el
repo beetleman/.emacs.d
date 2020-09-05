@@ -1,11 +1,8 @@
 (require 'use-package)
 
-(use-package rust-mode
-  :ensure t
-  :config)
+(use-package rust-mode)
 
 (use-package cargo
-  :ensure t
-  :hook (rust-mode-hook . cargo-minor-mode))
+  :hook (rust-mode . cargo-minor-mode))
 
 (provide 'setup-rust)
