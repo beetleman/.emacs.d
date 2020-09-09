@@ -1,12 +1,11 @@
 (require 'use-package)
 
-(use-package smartparens-config
-  :straight smartparens
+(use-package smartparens
   :diminish smartparens-mode
-  :hook ((prog-mode . turn-on-smartparens-strict-mode)
-         (markdown-mode . turn-on-smartparens-strict-mode))
+  :hook ((prog-mode . smartparens-strict-mode)
+         (markdown-mode . smartparens-strict-mode))
   :config
-  (smartparens-global-mode t)
+  (require 'smartparens-config)
   (sp-use-paredit-bindings))
 
 (use-package eldoc
