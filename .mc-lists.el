@@ -9,6 +9,7 @@
         clojure-align
         counsel-M-x
         counsel-yank-pop
+        default-indent-new-line
         downcase-region
         electric-newline-and-maybe-indent
         indent-for-tab-command

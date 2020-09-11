@@ -3,6 +3,7 @@
 (use-package smartparens
   :diminish smartparens-mode
   :hook ((prog-mode . smartparens-strict-mode)
+         (cider-repl-mode . smartparens-strict-mode)
          (markdown-mode . smartparens-strict-mode))
   :config
   (require 'smartparens-config)
