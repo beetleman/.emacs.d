@@ -1,6 +1,7 @@
 (require 'use-package)
-(use-package editorconfig
-  :init
-  (editorconfig-mode 1))
-(provide 'setup-editorconfig)
 
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+
+(provide 'setup-editorconfig)

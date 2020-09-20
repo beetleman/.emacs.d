@@ -15,6 +15,7 @@
  ("company-quickhelp" . "5a86731de461142db3b7ca26b4681756edb4b773")
  ("company-restclient" . "e5a3ec54edb44776738c13e13e34c85b3085277b")
  ("counsel-projectile" . "77392cbbc42e98fc137b43f1db1b111ba6e2dd75")
+ ("crux" . "139eb6f1504b6885c86c658fd33c6d59bfac0a8c")
  ("dash.el" . "b92ab5a39b987e4fe69317b9d9fda452300baf20")
  ("diff-hl" . "2281a89a3ddc6616073da6f190dda08d23b18ba6")
  ("edit-indirect" . "bdc8f542fe8430ba55f9a24a7910639d4c434422")

@@ -3,7 +3,6 @@
   (require 'setup-common)
   (require 'setup-theme)
   (require 'setup-mode-line)
-  (require 'setup-ace-window)
   (require 'setup-which-key)
   (require 'setup-editorconfig)
   (require 'setup-ivy)
