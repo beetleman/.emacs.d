@@ -1,8 +1,5 @@
 (require 'use-package)
 
-(defun setup-emoji (frame)
-  (set-fontset-font t 'symbol "Noto Emoji" frame 'prepend))
-
 (use-package solarized-theme
   :defer t
   :init
@@ -24,8 +21,9 @@
   (create-fontset-from-fontset-spec standard-fontset-spec)
 
   (add-to-list 'default-frame-alist '(font . "IBM Plex Mono-11"))
-  (add-to-list 'default-frame-alist '(cursor-color . "pink"))
-  (add-hook 'after-make-frame-functions 'setup-emoji))
+  (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
+  (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
+  (set-fontset-font t 'symbol "Symbola" nil 'append))
 
 (use-package moody
   :config
