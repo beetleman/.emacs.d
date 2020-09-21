@@ -12,18 +12,22 @@
     (set-face-attribute 'mode-line-inactive nil :underline  line)
     (set-face-attribute 'mode-line          nil :box        nil)
     (set-face-attribute 'mode-line-inactive nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9"))
-  
-  (line-number-mode 1)
-  (column-number-mode 1)
-  (global-hl-line-mode 1)
+    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
 
-  (create-fontset-from-fontset-spec standard-fontset-spec)
+(line-number-mode 1)
+(column-number-mode 1)
+(global-hl-line-mode 1)
 
-  (add-to-list 'default-frame-alist '(font . "IBM Plex Mono-11"))
-  (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
-  (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
-  (set-fontset-font t 'symbol "Symbola" nil 'append))
+(add-to-list 'default-frame-alist '(font . "IBM Plex Mono-11"))
+(add-to-list 'default-frame-alist '(cursor-color . "magenta"))
+
+(defun --set-emoji-font (frame)
+  "Adjust the font settings of FRAME so Emacs can display: ✨🍆✨."
+  (set-fontset-font t 'symbol "Noto Color Emoji" frame)
+  (set-fontset-font t 'symbol "Symbola" frame 'append))
+
+(--set-emoji-font nil)
+(add-hook 'after-make-frame-functions '--set-emoji-font)
 
 (use-package moody
   :config
