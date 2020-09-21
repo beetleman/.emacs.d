@@ -1,5 +1,4 @@
 (use-package company
-  :diminish company-mode
   :bind
   ("M-i" . company-complete)
   :config

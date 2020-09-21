@@ -1,7 +1,6 @@
 (require 'use-package)
 
 (use-package smartparens
-  :diminish smartparens-mode
   :hook ((prog-mode . smartparens-strict-mode)
          (cider-repl-mode . smartparens-strict-mode)
          (markdown-mode . smartparens-strict-mode))
@@ -10,14 +9,12 @@
   (sp-use-paredit-bindings))
 
 (use-package eldoc
-  :diminish eldoc
   :hook (prog-mode . eldoc-mode))
 
 (use-package subword
   :hook (prog-mode . subword-mode))
 
 (use-package yasnippet
-  :diminish yasnippet
   :init
   (yas-global-mode))
 

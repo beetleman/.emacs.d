@@ -4,7 +4,6 @@
 (use-package clojure-mode)
 
 (use-package cider
-  :diminish subword-mode
   :hook ((cider-mode . clj-refactor-mode)
          (cider-mode . smartparens-mode)
          (cider-mode . eldoc-mode))
@@ -13,8 +12,7 @@
 
 (use-package cider-eval-sexp-fu)
 
-(use-package clj-refactor
-  :diminish clj-refactor-mode)
+(use-package clj-refactor)
 
 (use-package zprint-mode
   :hook (clojure-mode clojurescript-mode))

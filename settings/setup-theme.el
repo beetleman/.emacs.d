@@ -18,4 +18,8 @@
   (add-to-list 'default-frame-alist '(cursor-color . "white"))
   (add-hook 'after-make-frame-functions 'setup-emoji))
 
+
+(use-package minions
+  :config (minions-mode 1))
+
 (provide 'setup-theme)

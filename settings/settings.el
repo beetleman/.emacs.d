@@ -2,7 +2,6 @@
   (require 'setup-packages)
   (require 'setup-common)
   (require 'setup-theme)
-  (require 'setup-mode-line)
   (require 'setup-which-key)
   (require 'setup-editorconfig)
   (require 'setup-ivy)

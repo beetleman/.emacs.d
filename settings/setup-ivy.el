@@ -7,7 +7,6 @@
   ("C-s" . swiper))
 
 (use-package ivy
-  :diminish ivy-mode
   :bind
   (("C-c C-r" . ivy-resume)
    ("<f6>" . ivy-resume))
