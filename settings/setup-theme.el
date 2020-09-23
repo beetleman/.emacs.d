@@ -3,7 +3,7 @@
 (use-package solarized-theme
   :defer t
   :init
-  (setq solarized-distinct-fringe-background t)
+  (setq solarized-use-more-italic t)
   (load-theme 'solarized-light t)
   
   (let ((line (face-attribute 'mode-line :underline)))
