@@ -11,4 +11,9 @@
   :init
   (setq mmm-submode-decoration-level 0))
 
+
+(use-package web-mode
+  :mode "\\.jsx\\'")
+
+
 (provide 'setup-js)
