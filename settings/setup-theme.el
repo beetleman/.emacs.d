@@ -4,7 +4,7 @@
   :defer t
   :init
   (setq solarized-use-more-italic t)
-  (load-theme 'solarized-light t)
+  (load-theme 'solarized-dark t)
   
   (let ((line (face-attribute 'mode-line :underline)))
     (set-face-attribute 'mode-line          nil :overline   line)
@@ -12,7 +12,9 @@
     (set-face-attribute 'mode-line-inactive nil :underline  line)
     (set-face-attribute 'mode-line          nil :box        nil)
     (set-face-attribute 'mode-line-inactive nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
+    ;; for ligth "#f9f2d9"
+    ;; for dark "#002b36"
+    (set-face-attribute 'mode-line-inactive nil :background "#002b36")))
 
 (line-number-mode 1)
 (column-number-mode 1)
