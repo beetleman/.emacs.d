@@ -29,13 +29,8 @@
 (use-package crux
   :bind (("M-o" . crux-other-window-or-switch-buffer)))
 
-
-;; (global-auto-revert-mode 1)
-;; (winner-mode 1)
-;; (setq gc-cons-threshold 100000000)
-;; (setq read-process-output-max (* 1024 1024 3)) ;; 3mb
-;; (setq x-select-enable-clipboard-manager t)
-;; (setq x-select-enable-clipboard t)
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024 3)) ;; 3mb
 
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message

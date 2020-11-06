@@ -22,6 +22,7 @@
   (require 'setup-scheme)
   (require 'setup-markdown)
   (require 'setup-rust)
-  (require 'setup-plantuml))
+  (require 'setup-plantuml)
+  (require 'setup-yaml))
 
 (provide 'settings)
