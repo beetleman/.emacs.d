@@ -1,10 +1,17 @@
 (require 'use-package)
 
-(use-package solarized-theme
-  :defer t
-  :init
-  (setq solarized-use-more-italic t)
-  (load-theme 'solarized-dark t)
+(line-number-mode 1)
+(column-number-mode 1)
+(global-hl-line-mode 1)
+
+(use-package all-the-icons)
+
+
+(use-package doom-themes
+  :config
+  (load-theme 'doom-one t)
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config)
   
   (let ((line (face-attribute 'mode-line :underline)))
     (set-face-attribute 'mode-line          nil :overline   line)
@@ -14,11 +21,8 @@
     (set-face-attribute 'mode-line-inactive nil :box        nil)
     ;; for ligth "#f9f2d9"
     ;; for dark "#002b36"
-    (set-face-attribute 'mode-line-inactive nil :background "#002b36")))
-
-(line-number-mode 1)
-(column-number-mode 1)
-(global-hl-line-mode 1)
+    (set-face-attribute 'mode-line-inactive nil
+                        :background (face-attribute 'hl-line :background))))
 
 (add-to-list 'default-frame-alist '(font . "IBM Plex Mono-11"))
 (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
@@ -27,6 +31,7 @@
   "Adjust the font settings of FRAME so Emacs can display: ✨🍆✨."
   (set-fontset-font t 'symbol "Noto Color Emoji" frame)
   (set-fontset-font t 'symbol "Symbola" frame 'append))
+
 
 (--set-emoji-font nil)
 (add-hook 'after-make-frame-functions '--set-emoji-font)

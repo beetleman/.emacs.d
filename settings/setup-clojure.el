@@ -1,7 +1,7 @@
+(use-package clojure-mode)
+
 (use-package flycheck-clj-kondo
   :after (clojure-mode))
-
-(use-package clojure-mode)
 
 (use-package cider
   :hook ((cider-mode . clj-refactor-mode)

@@ -15,4 +15,7 @@
 (setq straight-use-package-by-default t)
 
 
+(use-package esup
+  :commands (esup))
+
 (provide 'setup-packages)
