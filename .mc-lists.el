@@ -31,6 +31,7 @@
         slime-autodoc-space
         sp-backward-delete-char
         sp-backward-kill-word
+        sp-backward-sexp
         sp-backward-unwrap-sexp
         sp-delete-char
         sp-forward-barf-sexp

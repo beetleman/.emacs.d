@@ -10,9 +10,11 @@
 (use-package doom-themes
   :config
   (load-theme 'doom-one t)
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+
   (doom-themes-treemacs-config)
   (doom-themes-org-config)
-  
+
   (let ((line (face-attribute 'mode-line :underline)))
     (set-face-attribute 'mode-line          nil :overline   line)
     (set-face-attribute 'mode-line-inactive nil :overline   line)
