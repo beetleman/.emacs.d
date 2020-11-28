@@ -41,4 +41,8 @@
   :config
   (direnv-mode))
 
+
+(use-package dockerfile-mode)
+
+
 (provide 'setup-programing)
