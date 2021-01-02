@@ -43,6 +43,6 @@
 
 
 (use-package dockerfile-mode)
-
+(use-package php-mode)
 
 (provide 'setup-programing)

@@ -10,8 +10,7 @@
 (use-package pyenv-mode
   :hook (python-mode . pyenv-mode))
 
-(use-package py-isort
-  :hook (before-save py-isort-before-save))
+(use-package py-isort)
 
 (use-package blacken
   :hook (python-mode . blacken-mode)

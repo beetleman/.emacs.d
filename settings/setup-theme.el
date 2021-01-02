@@ -26,7 +26,7 @@
     (set-face-attribute 'mode-line-inactive nil
                         :background (face-attribute 'hl-line :background))))
 
-(add-to-list 'default-frame-alist '(font . "IBM Plex Mono-11"))
+(add-to-list 'default-frame-alist '(font . "Hack-10"))
 (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
 
 (defun --set-emoji-font (frame)

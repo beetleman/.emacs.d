@@ -50,11 +50,4 @@
   (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
 
-(use-package ivy-rich
-  :after ivy
-  :config
-  (setq ivy-rich-path-style 'abbrev)
-  (ivy-rich-mode 1))
-
-
 (provide 'setup-ivy)
