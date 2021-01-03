@@ -411,6 +411,10 @@
 (use-package zprint-mode
   :hook (clojure-mode clojurescript-mode))
 
+;; Setup markdown
+
+(use-package markdown-mode)
+
 
 ;; setup modeline
 
