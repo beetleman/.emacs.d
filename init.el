@@ -168,18 +168,7 @@
 (use-package doom-themes
   :config
   (load-theme 'doom-nord t)
-  (doom-themes-org-config)
-
-  (let ((line (face-attribute 'mode-line :underline)))
-    (set-face-attribute 'mode-line          nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :underline  line)
-    (set-face-attribute 'mode-line          nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :box        nil)
-    ;; for ligth "#f9f2d9"
-    ;; for dark "#002b36"
-    (set-face-attribute 'mode-line-inactive nil
-			:background (face-attribute 'hl-line :background))))
+  (doom-themes-org-config))
 
 
 (use-package flycheck
@@ -367,7 +356,8 @@
          :map company-active-map
          ("C-n" . company-select-next)
          ("C-p" . company-select-previous))
-  :init
+  :hook (prog-mode . company-mode)
+  :config
   (setq company-idle-delay 0.5)
   (setq company-show-numbers t)
   (setq company-tooltip-limit 10)
@@ -375,9 +365,7 @@
   (setq company-tooltip-align-annotations t)
   ;; invert the navigation direction if the the completion popup-isearch-match
   ;; is displayed on top (happens near the bottom of windows)
-  (setq company-tooltip-flip-when-above t)
-  :config
-  (global-company-mode))
+  (setq company-tooltip-flip-when-above t))
 
 ;; Org
 
@@ -418,17 +406,12 @@
 
 ;; setup modeline
 
-(use-package moody
-  :config
-  (setq x-underline-at-descent-line t)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode))
-
-
-(use-package minions
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode)
   :custom
-  (minions-direct '(overwrite-mode flycheck-mode))
-  :config (minions-mode 1))
+  (doom-modeline-buffer-file-name-style 'buffer-name)
+  (doom-modeline-vcs-max-length 25))
 
 
 ;; config changes made through the customize UI will be stored here
