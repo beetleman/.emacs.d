@@ -146,6 +146,14 @@
   (global-hl-line-mode +1))
 
 
+(use-package flyspell
+  :hook ((text-mode . flyspell-mode)
+	 (prog-mode . flyspell-prog-mode))
+  :config
+  (when (executable-find "hunspell")
+    (setq-default ispell-program-name "hunspell")))
+
+
 ;;; THIRD-PARTY PACKAGES
 
 ;; for emacs profiling
