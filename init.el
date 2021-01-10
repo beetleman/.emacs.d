@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ;;; init.el --- Mateusz's Emacs configuration
 ;;
 ;; Copyright (c) 2017-2021 Mateusz Batsov
@@ -31,15 +32,16 @@
 
 ;;; Code:
 
+;; turn off GC during star up
+(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
+      gc-cons-percentage 0.6)
+
+
 (setq user-full-name "Mateusz Probachta"
       user-mail-address "mateusz.probachta@gmail.com")
 
 ;; Always load newest byte code
 ;; (setq load-prefer-newer t)
-
-;; reduce the frequency of garbage collection by making it happen on
-;; each 50MB of allocated data (the default is on every 0.76MB)
-(setq gc-cons-threshold 50000000)
 
 ;; warn when opening files bigger than 100MB
 (setq large-file-warning-threshold 100000000)
@@ -155,6 +157,11 @@
 
 
 ;;; THIRD-PARTY PACKAGES
+
+(use-package gcmh
+  :init
+  (gcmh-mode 1))
+
 
 ;; for emacs profiling
 (use-package esup
