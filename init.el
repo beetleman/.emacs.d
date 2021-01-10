@@ -306,9 +306,7 @@
 
 
 (use-package smartparens
-  :hook ((prog-mode . smartparens-strict-mode)
-         (cider-repl-mode . smartparens-strict-mode)
-         (markdown-mode . smartparens-strict-mode))
+  :hook (prog-mode . smartparens-strict-mode)
   :config
   (require 'smartparens-config)
   (sp-use-paredit-bindings))
@@ -334,18 +332,26 @@
   :hook (prog-mode . hl-todo-mode)
   :config
   (setq hl-todo-highlight-punctuation ":"
-        hl-todo-keyword-faces
-        '(("TODO"   . "#FF0000")
-          ("FIXME"  . "#FF0000")
-          ("DEBUG"  . "#A020F0")
-          ("GOTCHA" . "#FF4500")
-          ("STUB"   . "#1E90FF"))))
+	hl-todo-keyword-faces
+	'(("TODO"   . "#FF0000")
+	  ("FIXME"  . "#FF0000")
+	  ("DEBUG"  . "#A020F0")
+	  ("GOTCHA" . "#FF4500")
+	  ("STUB"   . "#1E90FF"))))
 
 (use-package multiple-cursors
   :bind (("C-|" . mc/edit-lines)
-         ("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/mark-previous-like-this)
-         ("C-c C->" . mc/mark-all-like-this)))
+	 ("C->" . mc/mark-next-like-this)
+	 ("C-<" . mc/mark-previous-like-this)
+	 ("C-c C->" . mc/mark-all-like-this)))
+
+
+(use-package anzu
+  :bind
+  (([remap query-replace] . anzu-query-replace)
+   ([remap query-replace-regexp] . anzu-query-replace-regexp))
+  :hook
+  (after-init . global-anzu-mode))
 
 
 (use-package direnv
@@ -360,9 +366,9 @@
 
 (use-package company
   :bind (("M-i" . company-complete)
-         :map company-active-map
-         ("C-n" . company-select-next)
-         ("C-p" . company-select-previous))
+	 :map company-active-map
+	 ("C-n" . company-select-next)
+	 ("C-p" . company-select-previous))
   :hook (prog-mode . company-mode)
   :config
   (setq company-idle-delay 0.5)
@@ -391,24 +397,32 @@
 (use-package flycheck-clj-kondo
   :after (clojure-mode))
 
+
+(use-package clojure-mode)
+
+
+(use-package clj-refactor
+  :defer t)
+
+
 (use-package cider
   :hook ((cider-mode . clj-refactor-mode)
-         (cider-mode . smartparens-mode)
-         (cider-mode . eldoc-mode))
+	 (cider-repl-mode . company-mode)
+	 (cider-repl-mode . smartparens-strict-mode)
+	 (cider-mode . eldoc-mode))
   :config
   (cider-auto-test-mode 1))
 
 (use-package cider-eval-sexp-fu)
 
-(use-package clj-refactor
-  :defer t)
 
 (use-package zprint-mode
   :hook (clojure-mode clojurescript-mode))
 
 ;; Setup markdown
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :hook ((cider-repl-mode . smartparens-strict-mode)))
 
 
 ;; setup modeline
