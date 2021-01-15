@@ -424,6 +424,29 @@
 (use-package markdown-mode
   :hook ((cider-repl-mode . smartparens-strict-mode)))
 
+;; setup webmode
+
+(use-package web-mode
+    :mode ("\\.vue\\'" . web-mode))
+
+;; TS
+
+(use-package typescript-mode)
+
+;; LSP
+
+(setq lsp-keymap-prefix "s-l")
+
+(use-package lsp-mode
+  :hook ((js-mode . lsp)
+	 (web-mode . lsp)
+	 (typescript-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+    :commands lsp)
+
+;; if you are ivy user
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+
 
 ;; setup modeline
 

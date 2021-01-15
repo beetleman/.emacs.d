@@ -4,3 +4,5 @@ elpa
 /projectile-bookmarks.eld
 /transient
 /recentf
+/session.*
+/.lsp-session-v1
