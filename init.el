@@ -433,6 +433,14 @@
 
 (use-package typescript-mode)
 
+;; JS
+
+(use-package add-node-modules-path
+  :hook (((js-mode typescript-mode) . add-node-modules-path)))
+
+(use-package prettier-js
+  :hook (((js-mode typescript-mode web-mode) . prettier-js-mode)))
+
 ;; LSP
 
 (setq lsp-keymap-prefix "s-l")
