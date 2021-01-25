@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 ;;; init.el --- Mateusz's Emacs configuration
 ;;
-;; Copyright (c) 2017-2021 Mateusz Batsov
+;; Copyright (c) 2017-2021 Mateusz P.
 ;;
 ;; Author: Mateusz Probachta <mateusz.probachta@gmail.com>
 ;; URL: https://github.com/beetleman/.emacs.d
@@ -11,7 +11,8 @@
 
 ;;; Commentary:
 
-;; This is my personal Emacs configuration.  Simple and primitive as me.
+;; This is my personal Emacs configuration
+;; based on https://github.com/bbatsov/emacs.d/blob/master/init.el
 
 ;;; License:
 
