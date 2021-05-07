@@ -109,7 +109,7 @@
 
 ;; setup font settings
 (add-to-list 'default-frame-alist '(font . "Hack-10"))
-(add-to-list 'default-frame-alist '(cursor-color . "magenta"))
+; (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
 
 (defun --set-emoji-font (frame)
   "Adjust the font settings of FRAME so Emacs can display: ✨🍆✨."
@@ -164,6 +164,11 @@
   (gcmh-mode 1))
 
 
+(use-package ws-butler
+  :hook ((prog-mode . ws-butler-mode)
+	 (markdown-mode . ws-butler-mode)
+	 (org-mode . ws-butler-mode)))
+
 ;; for emacs profiling
 (use-package esup
   :commands (esup)
@@ -173,10 +178,33 @@
 
 (use-package all-the-icons)
 
+
 (use-package doom-themes
+  :init
+  (defvar beetleman/theme-dark 'doom-one)
+  (defvar beetleman/theme-light 'doom-one-light)
+  (load-theme beetleman/theme-dark t)
+  (doom-themes-org-config)
   :config
-  (load-theme 'doom-nord t)
-  (doom-themes-org-config))
+  (defun beetleman/themes-toggle ()
+    (interactive)
+    (let ((current-theme (car custom-enabled-themes)))
+      (cond
+       ((eq current-theme beetleman/theme-dark)
+	(load-theme beetleman/theme-light t))
+       ((eq current-theme beetleman/theme-light)
+	(load-theme beetleman/theme-dark t))
+       (t (load-theme beetleman/theme-dark t)))))
+  :bind ("<f5>" . beetleman/themes-toggle))
+
+
+;; (use-package modus-themes
+;;   :init
+;;   (modus-themes-load-themes)
+;;   :config
+;;   (modus-themes-load-vivendi)
+;;   :bind ("<f5>" . modus-themes-toggle))
+
 
 
 (use-package flycheck
@@ -186,12 +214,6 @@
 (use-package ace-window
   :bind (("M-o" . ace-window)))
 
-
-(use-package super-save
-  :config
-  ;; add integration with ace-window
-  (add-to-list 'super-save-triggers 'ace-window)
-  (super-save-mode +1))
 
 (use-package crux
   :bind (("C-c o" . crux-open-with)
@@ -392,6 +414,44 @@
 (use-package php-mode
   :defer t)
 
+;; OCaml
+
+(defun shell-cmd (cmd)
+  "Returns the stdout output of a shell command or nil if the command returned
+     an error"
+  (car (ignore-errors (apply 'process-lines (split-string cmd)))))
+
+(setq opam-p (shell-cmd "which opam"))
+
+(if opam-p
+    (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
+      (setenv (car var) (cadr var))))
+
+(use-package caml
+  :ensure t)
+
+(use-package tuareg
+  :mode ("\\.ml[ily]?$" . tuareg-mode))
+
+(use-package merlin
+  :custom
+  (merlin-completion-with-doc t)
+  :bind (:map merlin-mode-map
+	      ("M-." . merlin-locate)
+	      ("M-," . merlin-pop-stack)
+	      ("M-?" . merlin-occurrences)
+	      ("C-c C-j" . merlin-jump)
+	      ("C-c i" . merlin-locate-ident)
+	      ("C-c C-e" . merlin-iedit-occurrences))
+  :hook ((tuareg-mode caml-mode) . merlin-mode))
+
+(use-package utop
+  :custom
+  (utop-edit-command nil)
+  :hook
+  (tuareg-mode . (lambda ()
+		   (setq utop-command "utop -emacs")
+		   (utop-minor-mode))))
 
 ;; Setup clojure
 
@@ -430,6 +490,11 @@
 (use-package web-mode
     :mode ("\\.vue\\'" . web-mode))
 
+
+;; SQL
+
+(use-package sqlformat)
+
 ;; TS
 
 (use-package typescript-mode)
@@ -450,7 +515,7 @@
   :hook ((js-mode . lsp)
 	 (web-mode . lsp)
 	 (typescript-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
+	 (lsp-mode . lsp-enable-which-key-integration))
     :commands lsp)
 
 ;; if you are ivy user
@@ -475,3 +540,5 @@
   (load custom-file))
 
 ;;; init.el ends here
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
