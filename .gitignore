@@ -6,3 +6,4 @@ elpa
 /recentf
 /session.*
 /.lsp-session-v1
+/tramp
