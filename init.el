@@ -34,8 +34,7 @@
 ;;; Code:
 
 ;; turn off GC during star up
-(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
-      gc-cons-percentage 0.6)
+(setq gc-cons-threshold most-positive-fixnum)
 
 
 (setq user-full-name "Mateusz Probachta"
@@ -159,10 +158,6 @@
 
 ;;; THIRD-PARTY PACKAGES
 
-(use-package gcmh
-  :init
-  (gcmh-mode 1))
-
 
 (use-package ws-butler
   :hook ((prog-mode . ws-butler-mode)
@@ -181,8 +176,12 @@
 
 (use-package doom-themes
   :init
-  (defvar beetleman/theme-dark 'doom-one)
-  (defvar beetleman/theme-light 'doom-one-light)
+  (defvar beetleman/theme-dark 'doom-solarized-dark)
+  (defvar beetleman/theme-light 'doom-solarized-light)
+    ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
   (load-theme beetleman/theme-dark t)
   (doom-themes-org-config)
   :config
@@ -531,6 +530,10 @@
   (doom-modeline-buffer-file-name-style 'buffer-name)
   (doom-modeline-vcs-max-length 25))
 
+;; reset GC
+(use-package gcmh
+  :init
+  (gcmh-mode 1))
 
 ;; config changes made through the customize UI will be stored here
 
