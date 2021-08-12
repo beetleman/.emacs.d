@@ -200,15 +200,6 @@
   :bind ("<f5>" . beetleman/themes-toggle))
 
 
-;; (use-package modus-themes
-;;   :init
-;;   (modus-themes-load-themes)
-;;   :config
-;;   (modus-themes-load-vivendi)
-;;   :bind ("<f5>" . modus-themes-toggle))
-
-
-
 (use-package flycheck
   :init (global-flycheck-mode))
 
@@ -519,9 +510,6 @@
 	 (typescript-mode . lsp)
 	 (lsp-mode . lsp-enable-which-key-integration))
     :commands lsp)
-
-;; if you are ivy user
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
 
 ;; setup modeline
