@@ -108,7 +108,7 @@
 
 ;; setup font settings
 (add-to-list 'default-frame-alist '(font . "Hack-10"))
-; (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
+;; (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
 
 (defun --set-emoji-font (frame)
   "Adjust the font settings of FRAME so Emacs can display: ✨🍆✨."
@@ -180,9 +180,12 @@
   (defvar beetleman/theme-light 'doom-solarized-light)
     ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+	doom-themes-padded-modeline t
+	doom-solarized-dark-brighter-comments t
+	doom-solarized-light-brighter-comments t
+	doom-themes-enable-italic t) ; if nil, italics is universally disabled
 
-  (load-theme beetleman/theme-dark t)
+  (load-theme beetleman/theme-light t)
   (doom-themes-org-config)
   :config
   (defun beetleman/themes-toggle ()
