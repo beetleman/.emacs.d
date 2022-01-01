@@ -61,14 +61,14 @@
 (setq inhibit-startup-screen t)
 ;; and show this majestic creature!
 (setq initial-scratch-message
-";;        ❤️ Happy Hacking ❤️
-;;             _     _
-;;            (')-=-(')
-;;          __(   \"   )__
-;;         / _/'-----'\\_ \\
-;;      ___\\\\ \\\\     // //___
-;;      >____)/_\\---/_\\(____<
-") ;; Art by Joan Stark
+";;                        _))
+;;  ❤️ Happy Hacking ❤️  > *\\     _~
+;;                       `;'\\\\__-' \\_
+;;                          | )  _ \\ \\
+;;                         / / ``   w w
+;;                        w w
+") ;; ejm97
+
 
 (setq window-resize-pixelwise t
       frame-resize-pixelwise t)
