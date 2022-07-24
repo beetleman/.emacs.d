@@ -107,8 +107,15 @@
 (set-keyboard-coding-system 'utf-8)
 
 ;; setup font settings
-(add-to-list 'default-frame-alist '(font . "Hack-10"))
+(add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07 Extended-10"))
+;; (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07-10"))
 ;; (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
+;; (set-face-attribute 'default t :font (font-spec :name "Iosevka Fixed SS07" :size 10 :style "Extended"))
+;; (set-face-attribute 'default t
+;; 		    :font "Iosevka Fixed SS07-10"
+;;                     :width 'expanded)
+
+
 
 (defun --set-emoji-font (frame)
   "Adjust the font settings of FRAME so Emacs can display: ✨🍆✨."
@@ -176,17 +183,13 @@
 
 (use-package doom-themes
   :init
-  (defvar beetleman/theme-dark 'doom-solarized-dark)
-  (defvar beetleman/theme-light 'doom-solarized-light)
-    ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-	doom-themes-padded-modeline t
-	doom-solarized-dark-brighter-comments t
-	doom-solarized-light-brighter-comments t
-	doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (defvar beetleman/theme-dark 'doom-one)
+  (defvar beetleman/theme-light 'doom-one-light)
+  (setq doom-themes-padded-modeline nil)
 
-  (load-theme beetleman/theme-light t)
+  (load-theme beetleman/theme-dark t)
   (doom-themes-org-config)
+  (doom-themes-treemacs-config)
   :config
   (defun beetleman/themes-toggle ()
     (interactive)
@@ -200,8 +203,31 @@
   :bind ("<f5>" . beetleman/themes-toggle))
 
 
+(use-package solaire-mode
+  :init
+  (solaire-global-mode +1))
+
+
+(use-package popper
+  :bind (("C-`"   . popper-toggle-latest)
+         ("C-~"   . popper-cycle)
+         ("C-M-`" . popper-toggle-type))
+  :init
+  (setq popper-reference-buffers
+        '("^\\*cider-error*"
+	  "^\\*cider-repl"
+	  "^\\*cider-repl-history"
+	  compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))
+
+
 (use-package flycheck
   :init (global-flycheck-mode))
+
+(use-package flycheck-inline
+  :after flycheck
+  :hook (flycheck-mode . flycheck-inline-mode))
 
 
 (use-package ace-window
@@ -311,10 +337,47 @@
   ;; as well
   (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
+
 (use-package projectile
   :bind-keymap
-  ("C-c p" . projectile-command-map))
+  ("C-c p" . projectile-command-map)
+  :config
+  (setq projectile-enable-caching t))
 
+
+(use-package treemacs
+  :config
+  ;;(treemacs-resize-icons 44)
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode 'always)
+
+  (pcase (cons (not (null (executable-find "git")))
+               (not (null treemacs-python-executable)))
+    (`(t . t)
+     (treemacs-git-mode 'deferred))
+    (`(t . _)
+     (treemacs-git-mode 'simple)))
+
+  (treemacs-hide-gitignored-files-mode nil)
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("<f9>"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
 
 (use-package counsel-projectile
   :config
@@ -452,7 +515,12 @@
   :after (clojure-mode))
 
 
-(use-package clojure-mode)
+(use-package clojure-mode
+  :mode (("\\.clj$" . clojure-mode)
+	 ("\\.cljs$" . clojure-mode)
+	 ("\\.cljc$" . clojure-mode)
+	 ("\\.edn$" . clojure-mode)
+	 ("\\.bb$" . clojure-mode)))
 
 
 (use-package clj-refactor
@@ -465,6 +533,29 @@
 	 (cider-repl-mode . smartparens-strict-mode)
 	 (cider-mode . eldoc-mode))
   :config
+  (setq nrepl-hide-special-buffers t
+        nrepl-log-messages nil
+        cider-font-lock-dynamically '(macro core function var deprecated)
+        cider-overlays-use-font-lock t
+        cider-prompt-for-symbol nil
+        cider-repl-history-display-duplicates nil
+        cider-repl-history-display-style 'one-line
+        cider-repl-history-highlight-current-entry t
+        cider-repl-history-quit-action 'delete-and-restore
+        cider-repl-history-highlight-inserted-item t
+        cider-repl-history-size 1000
+        cider-repl-result-prefix ";; => "
+        cider-repl-print-length 100
+        cider-repl-use-clojure-font-lock t
+        cider-repl-use-pretty-printing t
+        cider-repl-wrap-history nil
+        cider-stacktrace-default-filters '(tooling dup)
+
+        ;; Don't focus the CIDER REPL when it starts. Since it can take so long
+        ;; to start up, you either wait for a minute doing nothing or be
+        ;; prepared for your cursor to suddenly change buffers without warning.
+        ;; See https://github.com/clojure-emacs/cider/issues/1872
+        cider-repl-pop-to-buffer-on-connect 'display-only)
   (cider-auto-test-mode 1))
 
 (use-package cider-eval-sexp-fu)
@@ -472,6 +563,26 @@
 
 (use-package zprint-mode
   :hook (clojure-mode clojurescript-mode))
+
+
+;; Setup Caddyfile
+
+(use-package caddyfile-mode
+  :mode (("Caddyfile\\'" . caddyfile-mode)
+         ("caddy\\.conf\\'" . caddyfile-mode)))
+
+
+;; Setup HCL
+
+(use-package hcl-mode
+  :mode ("\\.nomad\\'" . hcl-mode))
+
+
+;; setup teraform
+
+(use-package terraform-mode
+  :mode ("\\.tf\\'" . terraform-mode))
+
 
 ;; Setup markdown
 
