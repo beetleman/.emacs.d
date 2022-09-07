@@ -290,18 +290,16 @@
   (diff-hl-margin-mode))
 
 
-(use-package swiper
-  :bind
-  ("C-s" . swiper))
-
 (use-package ivy
   :bind
-  (("C-c C-r" . ivy-resume)
+  (("C-s" . swiper)
+   ("C-c C-r" . ivy-resume)
    ("<f6>" . ivy-resume))
   :config
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   (ivy-mode 1))
+
 
 (use-package counsel
   :bind
@@ -324,6 +322,17 @@
   (when (fboundp 'ido-mode)
     (ido-mode -1))
   (ivy-mode 1))
+
+
+(use-package prescient
+  :after counsel
+  :config
+  (prescient-persist-mode 1))
+
+(use-package ivy-prescient
+  :after prescient
+  :config
+  (ivy-prescient-mode 1))
 
 
 (use-package ivy-xref

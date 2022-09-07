@@ -11,3 +11,5 @@ elpa
 /lsp-cache/
 /projectile.cache
 /eln-cache/
+/history
+/var/
