@@ -7,6 +7,7 @@
 	cider-eval-defun-at-point
 	cljr-slash
 	clojure-align
+	comment-dwim
 	counsel-M-x
 	counsel-yank-pop
 	crux-move-beginning-of-line
@@ -42,6 +43,7 @@
 	sp-kill-word
 	sp-previous-sexp
 	sp-unwrap-sexp
+	swiper
 	upcase-region
 	wdired-finish-edit
 	yaml-electric-backspace
@@ -50,6 +52,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+	counsel-find-file
 	counsel-projectile-ag
 	ignore
 	ivy-switch-buffer

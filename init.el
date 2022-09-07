@@ -624,13 +624,10 @@
 
 
 ;; setup modeline
-
-(use-package doom-modeline
-  :ensure t
-  :hook (after-init . doom-modeline-mode)
-  :custom
-  (doom-modeline-buffer-file-name-style 'buffer-name)
-  (doom-modeline-vcs-max-length 25))
+(use-package minions
+  :config
+  (setq minions-direct '(flycheck-mode pyvenv-mode))
+  (minions-mode 1))
 
 ;; reset GC
 (use-package gcmh
