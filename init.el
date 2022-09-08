@@ -185,13 +185,14 @@
   (setq esup-depth 0))
 
 
-(use-package solarized-theme
+(use-package doom-themes
   :init
-  (defvar beetleman/theme-dark 'solarized-dark)
-  (defvar beetleman/theme-light 'solarized-light)
+  (defvar beetleman/theme-dark 'doom-one)
+  (defvar beetleman/theme-light 'doom-one-light)
 
   (load-theme beetleman/theme-dark t)
-
+  (doom-themes-org-config)
+  (doom-themes-treemacs-config)
 
   :config
   (defun beetleman/themes-toggle ()
@@ -204,6 +205,10 @@
 	(load-theme beetleman/theme-dark t))
        (t (load-theme beetleman/theme-dark t)))))
   :bind ("<f5>" . beetleman/themes-toggle))
+
+(use-package solaire-mode
+  :init
+  (solaire-global-mode +1))
 
 
 (use-package popper
@@ -352,16 +357,12 @@
   (setq projectile-enable-caching t))
 
 
-(use-package treemacs-all-the-icons)
-
-
 (use-package treemacs
   :config
   ;;(treemacs-resize-icons 44)
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode 'always)
-  (treemacs-load-theme "all-the-icons")
   (pcase (cons (not (null (executable-find "git")))
                (not (null treemacs-python-executable)))
     (`(t . t)
