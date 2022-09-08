@@ -181,15 +181,15 @@
 (use-package all-the-icons)
 
 
-(use-package doom-themes
+(use-package tao-theme
   :init
-  (defvar beetleman/theme-dark 'doom-one)
-  (defvar beetleman/theme-light 'doom-one-light)
-  (setq doom-themes-padded-modeline nil)
+  (defvar beetleman/theme-dark 'tao-yin)
+  (defvar beetleman/theme-light 'tao-yang)
+  (setq tao-theme-use-sepia nil)
 
   (load-theme beetleman/theme-dark t)
-  (doom-themes-org-config)
-  (doom-themes-treemacs-config)
+
+
   :config
   (defun beetleman/themes-toggle ()
     (interactive)
@@ -203,9 +203,9 @@
   :bind ("<f5>" . beetleman/themes-toggle))
 
 
-(use-package solaire-mode
-  :init
-  (solaire-global-mode +1))
+(use-package color-identifiers-mode
+  :config
+  (global-color-identifiers-mode))
 
 
 (use-package popper
