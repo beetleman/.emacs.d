@@ -43,6 +43,13 @@
 ;; Always load newest byte code
 ;; (setq load-prefer-newer t)
 
+
+;; fix MacOS
+;; key bindings
+(when (eq system-type 'darwin) ;; mac specific settings
+  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta))
+
 ;; warn when opening files bigger than 100MB
 (setq large-file-warning-threshold 100000000)
 
@@ -107,7 +114,7 @@
 (set-keyboard-coding-system 'utf-8)
 
 ;; setup font settings
-(add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07 Extended-10"))
+(add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07 Extended"))
 ;; (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07-10"))
 ;; (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
 ;; (set-face-attribute 'default t :font (font-spec :name "Iosevka Fixed SS07" :size 10 :style "Extended"))
@@ -178,14 +185,10 @@
   (setq esup-depth 0))
 
 
-(use-package all-the-icons)
-
-
-(use-package tao-theme
+(use-package solarized-theme
   :init
-  (defvar beetleman/theme-dark 'tao-yin)
-  (defvar beetleman/theme-light 'tao-yang)
-  (setq tao-theme-use-sepia nil)
+  (defvar beetleman/theme-dark 'solarized-dark)
+  (defvar beetleman/theme-light 'solarized-light)
 
   (load-theme beetleman/theme-dark t)
 
@@ -201,11 +204,6 @@
 	(load-theme beetleman/theme-dark t))
        (t (load-theme beetleman/theme-dark t)))))
   :bind ("<f5>" . beetleman/themes-toggle))
-
-
-(use-package color-identifiers-mode
-  :config
-  (global-color-identifiers-mode))
 
 
 (use-package popper
@@ -354,13 +352,16 @@
   (setq projectile-enable-caching t))
 
 
+(use-package treemacs-all-the-icons)
+
+
 (use-package treemacs
   :config
   ;;(treemacs-resize-icons 44)
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode 'always)
-
+  (treemacs-load-theme "all-the-icons")
   (pcase (cons (not (null (executable-find "git")))
                (not (null treemacs-python-executable)))
     (`(t . t)
