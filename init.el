@@ -477,6 +477,9 @@
 
 ;; Languages
 
+
+(use-package yaml-mode)
+
 (use-package dockerfile-mode)
 (use-package php-mode
   :defer t)
@@ -636,8 +639,9 @@
 
 ;; setup modeline
 (use-package minions
+  :custom
+  (minions-prominent-modes '(flycheck-mode pyvenv-mode))
   :config
-  (setq minions-direct '(flycheck-mode pyvenv-mode))
   (minions-mode 1))
 
 ;; reset GC
