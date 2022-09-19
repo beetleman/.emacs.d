@@ -206,11 +206,6 @@
        (t (load-theme beetleman/theme-dark t)))))
   :bind ("<f5>" . beetleman/themes-toggle))
 
-(use-package solaire-mode
-  :init
-  (solaire-global-mode +1))
-
-
 (use-package popper
   :bind (("C-`"   . popper-toggle-latest)
          ("C-~"   . popper-cycle)
