@@ -186,13 +186,16 @@
 
 
 (use-package doom-themes
+  :custom
+  (doom-themes-padded-modeline 1)
   :init
-  (defvar beetleman/theme-dark 'doom-one)
-  (defvar beetleman/theme-light 'doom-one-light)
+  (defvar beetleman/theme-dark 'doom-gruvbox)
+  (defvar beetleman/theme-light 'doom-gruvbox-light)
 
   (load-theme beetleman/theme-dark t)
   (doom-themes-org-config)
   (doom-themes-treemacs-config)
+  (doom-themes-visual-bell-config)
 
   :config
   (defun beetleman/themes-toggle ()
