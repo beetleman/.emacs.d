@@ -547,36 +547,14 @@
 	 (cider-repl-mode . smartparens-strict-mode)
 	 (cider-mode . eldoc-mode))
   :config
-  (setq nrepl-hide-special-buffers t
-        nrepl-log-messages nil
-        cider-font-lock-dynamically '(macro core function var deprecated)
-        cider-overlays-use-font-lock t
-        cider-prompt-for-symbol nil
-        cider-repl-history-display-duplicates nil
-        cider-repl-history-display-style 'one-line
-        cider-repl-history-highlight-current-entry t
-        cider-repl-history-quit-action 'delete-and-restore
-        cider-repl-history-highlight-inserted-item t
+  (setq cider-repl-result-prefix ";; => "
         cider-repl-history-size 1000
-        cider-repl-result-prefix ";; => "
-        cider-repl-print-length 100
-        cider-repl-use-clojure-font-lock t
-        cider-repl-use-pretty-printing t
-        cider-repl-wrap-history nil
-        cider-stacktrace-default-filters '(tooling dup)
-
-        ;; Don't focus the CIDER REPL when it starts. Since it can take so long
-        ;; to start up, you either wait for a minute doing nothing or be
-        ;; prepared for your cursor to suddenly change buffers without warning.
-        ;; See https://github.com/clojure-emacs/cider/issues/1872
-        cider-repl-pop-to-buffer-on-connect 'display-only)
+        cider-repl-history-file ".cider-repl-history")
   (cider-auto-test-mode 1))
 
 (use-package cider-eval-sexp-fu)
 
-
-(use-package zprint-mode
-  :hook (clojure-mode clojurescript-mode))
+(use-package zprint-mode)
 
 
 ;; Setup Caddyfile
