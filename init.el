@@ -115,7 +115,9 @@
 
 ;; setup font settings
 ;; (add-to-list 'default-frame-alist '(font . "Monaco-12"))
-(add-to-list 'default-frame-alist '(font . "IBM Plex Mono-12"))
+(if (eq system-type 'darwin) ;; mac specific settings
+    (add-to-list 'default-frame-alist '(font . "IBM Plex Mono-12"))
+  (add-to-list 'default-frame-alist '(font . "IBM Plex Mono-10")))
 ;; (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07 Extended"))
 ;; (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07-10"))
 ;; (add-to-list 'default-frame-alist '(cursor-color . "magenta"))
