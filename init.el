@@ -420,12 +420,15 @@
 
 
 (use-package yasnippet
-  :hook (prog-mode . yas-minor-mode))
+  :hook ((prog-mode . yas-minor-mode)
+	 (org-mode . yas-minor-mode)
+	 (yaml-mode . yas-minor-mode)
+	 (markdown-mode . yas-minor-mode)))
 
 
 (use-package yasnippet-snippets
   :after (yasnippet)
-  :init
+  :config
   (yas-reload-all))
 
 
