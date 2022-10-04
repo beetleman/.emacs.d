@@ -139,6 +139,14 @@
 (add-hook 'after-make-frame-functions '--set-emoji-font)
 
 
+;; my functions
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  "Display colors in buffer which with color escaped."
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+
+
 ;; SETUP PACKAGES
 (require 'package)
 
