@@ -61,7 +61,8 @@
 ;; hide anoying UI
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
-(when (fboundp 'menu-bar-mode)
+(when (and (fboundp 'menu-bar-mode)
+	   (not (eq system-type 'darwin)))
   (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
