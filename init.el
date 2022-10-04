@@ -484,6 +484,11 @@
   ;; is displayed on top (happens near the bottom of windows)
   (setq company-tooltip-flip-when-above t))
 
+
+(use-package dumb-jump
+  :init
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
 ;; Org
 
 (use-package org-bullets
