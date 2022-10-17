@@ -58,6 +58,10 @@
 (column-number-mode t)
 (size-indication-mode t)
 
+;; replace selected section if start typing
+(delete-selection-mode 1)
+
+
 ;; hide anoying UI
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
@@ -196,6 +200,10 @@
   :commands (esup)
   :config
   (setq esup-depth 0))
+
+
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
 
 
 (use-package doom-themes
