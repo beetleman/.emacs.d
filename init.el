@@ -559,6 +559,8 @@
 (use-package clj-refactor
   :defer t)
 
+(use-package sayid
+  :after clojure-mode)
 
 (use-package cider
   :hook ((cider-mode . clj-refactor-mode)
@@ -570,6 +572,8 @@
         cider-repl-history-size 1000
         cider-repl-history-file ".cider-repl-history")
   (cider-auto-test-mode 1))
+  (cider-auto-test-mode 1)
+  (sayid-setup-package))
 
 (use-package cider-eval-sexp-fu)
 
