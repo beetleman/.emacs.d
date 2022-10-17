@@ -582,20 +582,18 @@
 (use-package clj-refactor
   :defer t)
 
-(use-package sayid
-  :after clojure-mode)
-
 (use-package cider
   :hook ((cider-mode . clj-refactor-mode)
 	 (cider-repl-mode . company-mode)
 	 (cider-repl-mode . smartparens-strict-mode)
 	 (cider-mode . eldoc-mode))
+  :custom
+  (cider-repl-result-prefix ";; => ")
+  (cider-repl-history-size 1000)
+  (cider-repl-history-file ".cider-repl-history")
+  (cider-repl-buffer-size-limit 1000)
   :config
-  (setq cider-repl-result-prefix ";; => "
-        cider-repl-history-size 1000
-        cider-repl-history-file ".cider-repl-history")
-  (cider-auto-test-mode 1)
-  (sayid-setup-package))
+  (cider-auto-test-mode 1))
 
 (use-package cider-eval-sexp-fu)
 
