@@ -370,10 +370,26 @@
 
 
 (use-package projectile
+  :hook (after-init . projectile-mode)
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :config
   (setq projectile-enable-caching t))
+
+
+(use-package perspective
+  :after (projectile)
+  :hook (after-init . persp-mode)
+  :bind (("C-x b" . persp-switch-to-buffer*)
+         ("C-x k" . persp-kill-buffer*))
+  :custom
+  (persp-modestring-short t)
+  (persp-mode-prefix-key (kbd "C-x x"))
+  (persp-initial-frame-name "Main"))
+
+
+(use-package persp-projectile
+  :after (perspective projectile))
 
 
 (use-package treemacs
@@ -398,7 +414,6 @@
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
-
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
@@ -579,7 +594,6 @@
   (setq cider-repl-result-prefix ";; => "
         cider-repl-history-size 1000
         cider-repl-history-file ".cider-repl-history")
-  (cider-auto-test-mode 1))
   (cider-auto-test-mode 1)
   (sayid-setup-package))
 
