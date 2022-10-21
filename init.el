@@ -589,7 +589,9 @@
 	 (cider-repl-mode . smartparens-strict-mode)
 	 (cider-mode . eldoc-mode))
   :custom
+  (cider-repl-display-help-banner nil)
   (cider-repl-result-prefix ";; => ")
+  (clojure-toplevel-inside-comment-form t)
   (cider-repl-history-size 1000)
   (cider-repl-history-file ".cider-repl-history")
   (cider-repl-buffer-size-limit 1000)
