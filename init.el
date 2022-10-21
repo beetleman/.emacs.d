@@ -239,7 +239,8 @@
         '("^\\*cider-error*"
 	  "^\\*cider-repl"
 	  "^\\*cider-repl-history"
-	  compilation-mode))
+	  compilation-mode)
+	popper-group-function #'popper-group-by-perspective)
   (popper-mode +1)
   (popper-echo-mode +1))
 
