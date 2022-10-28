@@ -184,7 +184,8 @@
 	 (prog-mode . flyspell-prog-mode))
   :config
   (when (executable-find "hunspell")
-    (setq-default ispell-program-name "hunspell")))
+    (setq ispell-program-name "hunspell"))
+  (setq ispell-dictionary "en_US"))
 
 
 ;;; THIRD-PARTY PACKAGES
@@ -205,6 +206,7 @@
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 
+(use-package all-the-icons)
 
 (use-package doom-themes
   :custom
