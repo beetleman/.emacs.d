@@ -73,7 +73,7 @@
 (setq inhibit-startup-screen t)
 ;; and show this majestic creature!
 (setq initial-scratch-message
-";;                        _))
+      ";;                        _))
 ;;  ❤️ Happy Hacking ❤️  > *\\     _~
 ;;                       `;'\\\\__-' \\_
 ;;                          | )  _ \\ \\
@@ -631,7 +631,7 @@
 ;; setup webmode
 
 (use-package web-mode
-    :mode ("\\.vue\\'" . web-mode))
+  :mode ("\\.vue\\'" . web-mode))
 
 
 ;; SQL
@@ -659,7 +659,7 @@
 	 (web-mode . lsp)
 	 (typescript-mode . lsp)
 	 (lsp-mode . lsp-enable-which-key-integration))
-    :commands lsp)
+  :commands lsp)
 
 
 ;; setup modeline
