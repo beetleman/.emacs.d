@@ -515,6 +515,9 @@
   :init
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
+
+(use-package format-all)
+
 ;; Org
 
 (use-package org-bullets
@@ -601,9 +604,6 @@
   (cider-auto-test-mode 1))
 
 (use-package cider-eval-sexp-fu)
-
-(use-package zprint-mode)
-
 
 ;; Setup Caddyfile
 
