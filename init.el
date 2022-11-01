@@ -183,9 +183,8 @@
   :hook ((text-mode . flyspell-mode)
 	 (prog-mode . flyspell-prog-mode))
   :config
-  (when (executable-find "hunspell")
-    (setq ispell-program-name "hunspell"))
-  (setq ispell-dictionary "en_US"))
+  (when (executable-find "aspell")
+    (setq ispell-program-name "aspell")))
 
 
 ;;; THIRD-PARTY PACKAGES
