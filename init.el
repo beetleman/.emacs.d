@@ -174,9 +174,9 @@
 
 ;;; BUILT-IN PACKAGES
 
-(use-package hl-line
-  :config
-  (global-hl-line-mode +1))
+;; (use-package hl-line
+;;   :config
+;;   (global-hl-line-mode +1))
 
 
 (use-package flyspell
@@ -230,6 +230,11 @@
 	(load-theme beetleman/theme-dark t))
        (t (load-theme beetleman/theme-dark t)))))
   :bind ("<f5>" . beetleman/themes-toggle))
+
+
+(use-package solaire-mode
+  :hook (after-init . solaire-global-mode))
+
 
 (use-package popper
   :bind (("C-`"   . popper-toggle-latest)
