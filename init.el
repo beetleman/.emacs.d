@@ -289,6 +289,13 @@
 	 ([remap kill-whole-line] . crux-kill-whole-line)
 	 ("C-c s" . crux-ispell-word-then-abbrev)))
 
+(use-package symbol-overlay
+  :hook ((prog-mode text-mode) . symbol-overlay-mode)
+  :bind (:map symbol-overlay-mode-map
+              ("C-M-n" . symbol-overlay-jump-next)
+              ("C-M-p" . symbol-overlay-jump-prev)))
+
+
 (use-package diff-hl
   :config
   (global-diff-hl-mode +1)
@@ -603,7 +610,7 @@
   (clojure-toplevel-inside-comment-form t)
   (cider-repl-history-size 1000)
   (cider-repl-history-file ".cider-repl-history")
-  (cider-repl-buffer-size-limit 1000)
+  (cider-repl-buffer-size-limit 100)
   :config
   (cider-auto-test-mode 1))
 
