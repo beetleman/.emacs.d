@@ -411,6 +411,7 @@
   :after (treemacs magit))
 
 (use-package counsel-projectile
+  :after (projectile)
   :config
   (counsel-projectile-mode 1))
 
