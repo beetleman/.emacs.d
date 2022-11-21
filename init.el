@@ -189,6 +189,9 @@
 
 ;;; THIRD-PARTY PACKAGES
 
+(use-package mode-line-bell
+  :hook (after-init . mode-line-bell-mode))
+
 
 (use-package ws-butler
   :hook ((prog-mode . ws-butler-mode)
@@ -207,33 +210,16 @@
 
 (use-package all-the-icons)
 
-(use-package doom-themes
-  :custom
-  (doom-themes-padded-modeline 1)
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package modus-themes
+  :ensure
   :init
-  (defvar beetleman/theme-dark 'doom-gruvbox)
-  (defvar beetleman/theme-light 'doom-gruvbox-light)
-
-  (load-theme beetleman/theme-dark t)
-  (doom-themes-org-config)
-  (doom-themes-treemacs-config)
-  (doom-themes-visual-bell-config)
-
+  (modus-themes-load-themes)
   :config
-  (defun beetleman/themes-toggle ()
-    (interactive)
-    (let ((current-theme (car custom-enabled-themes)))
-      (cond
-       ((eq current-theme beetleman/theme-dark)
-	(load-theme beetleman/theme-light t))
-       ((eq current-theme beetleman/theme-light)
-	(load-theme beetleman/theme-dark t))
-       (t (load-theme beetleman/theme-dark t)))))
-  :bind ("<f5>" . beetleman/themes-toggle))
-
-
-(use-package solaire-mode
-  :hook (after-init . solaire-global-mode))
+  (modus-themes-load-vivendi)
+  :bind ("<f5>" . modus-themes-toggle))
 
 
 (use-package popper
@@ -245,8 +231,7 @@
         '("^\\*cider-error*"
 	  "^\\*cider-repl"
 	  "^\\*cider-repl-history"
-	  compilation-mode)
-	popper-group-function #'popper-group-by-perspective)
+	  compilation-mode))
   (popper-mode +1)
   (popper-echo-mode +1))
 
@@ -391,20 +376,8 @@
   (setq projectile-enable-caching t))
 
 
-(use-package perspective
-  :after (projectile)
-  :hook (after-init . persp-mode)
-  :bind (("C-x b" . persp-switch-to-buffer*)
-         ("C-x k" . persp-kill-buffer*))
-  :custom
-  (persp-modestring-short t)
-  (persp-mode-prefix-key (kbd "C-x x"))
-  (persp-initial-frame-name "Main"))
-
-
-(use-package persp-projectile
-  :after (perspective projectile))
-
+(use-package treemacs-all-the-icons
+  :after (all-the-icons))
 
 (use-package treemacs
   :config
@@ -420,6 +393,7 @@
      (treemacs-git-mode 'simple)))
 
   (treemacs-hide-gitignored-files-mode nil)
+  (treemacs-load-theme "all-the-icons")
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -432,8 +406,6 @@
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
 (use-package treemacs-magit
   :after (treemacs magit))
