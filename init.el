@@ -238,12 +238,12 @@
   (popper-echo-mode +1))
 
 
-(use-package flycheck
-  :init (global-flycheck-mode))
+;; (use-package flycheck
+;;   :init (global-flycheck-mode))
 
-(use-package flycheck-inline
-  :after flycheck
-  :hook (flycheck-mode . flycheck-inline-mode))
+;; (use-package flycheck-inline
+;;   :after flycheck
+;;   :hook (flycheck-mode . flycheck-inline-mode))
 
 
 (use-package ace-window
@@ -559,8 +559,8 @@
 
 ;; Setup clojure
 
-(use-package flycheck-clj-kondo
-  :after (clojure-mode))
+;; (use-package flycheck-clj-kondo
+;;   :after (clojure-mode))
 
 
 (use-package clojure-mode
