@@ -213,14 +213,16 @@
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode))
 
-(use-package modus-themes
-  :ensure
-  :init
-  (modus-themes-load-themes)
+(use-package solarized-theme
   :config
-  (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle))
-
+  (load-theme 'solarized-selenized-light t)
+  (let ((line (face-attribute 'mode-line :underline)))
+    (set-face-attribute 'mode-line          nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :underline  line)
+    (set-face-attribute 'mode-line          nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle-latest)
@@ -637,17 +639,36 @@
 
 ;; LSP
 
-(setq lsp-keymap-prefix "s-l")
+(use-package eglot
+  :commands (eglot eglot-ensure)
+  :hook ((js-mode . eglot-ensure)
+	 (web-mode . eglot-ensure)
+	 (typescript-mode . eglot-ensure)
+	 (clojure-mode . eglot-ensure)
+	 (clojurescript-mode . eglot-ensure)
+         (clojurec-mode . eglot-ensure)
+	 (sh-mode . eglot-ensure)))
 
-(use-package lsp-mode
-  :hook ((js-mode . lsp)
-	 (web-mode . lsp)
-	 (typescript-mode . lsp)
-	 (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp)
+;; (setq lsp-keymap-prefix "s-l")
+
+;; (use-package lsp-mode
+;;   :hook ((js-mode . lsp)
+;; 	 (web-mode . lsp)
+;; 	 (typescript-mode . lsp)
+;; 	 (lsp-mode . lsp-enable-which-key-integration))
+;;   :commands lsp)
 
 
 ;; setup modeline
+
+(use-package moody
+  :config
+  (setq x-underline-at-descent-line t)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode)
+  (moody-replace-eldoc-minibuffer-message-function))
+
+
 (use-package minions
   :custom
   (minions-prominent-modes '(flycheck-mode pyvenv-mode))
