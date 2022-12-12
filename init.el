@@ -74,7 +74,7 @@
 ;; and show this majestic creature!
 (setq initial-scratch-message
       ";;                        _))
-;;  ❤️ Happy Hacking ❤️  > *\\     _~
+;;  ❤ Happy Hacking ❤  > *\\     _~
 ;;                       `;'\\\\__-' \\_
 ;;                          | )  _ \\ \\
 ;;                         / / ``   w w
