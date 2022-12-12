@@ -672,7 +672,7 @@
 (use-package minions
   :custom
   (minions-prominent-modes '(flycheck-mode pyvenv-mode))
-  (minions-mode-line-lighter "🏳️‍🌈")
+  (minions-mode-line-lighter "🌈")
   :config
   (minions-mode 1))
 
