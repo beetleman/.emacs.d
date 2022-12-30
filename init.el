@@ -213,6 +213,16 @@
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode))
 
+
+(use-package dired-quick-sort
+  :after dired
+  :config
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired t
+          insert-directory-program "/opt/homebrew/bin/gls"))
+  (dired-quick-sort-setup))
+
+
 (use-package solarized-theme
   :config
   (load-theme 'solarized-selenized-light t)
@@ -276,12 +286,6 @@
 	 ([remap kill-whole-line] . crux-kill-whole-line)
 	 ("C-c s" . crux-ispell-word-then-abbrev)))
 
-(use-package symbol-overlay
-  :hook ((prog-mode text-mode) . symbol-overlay-mode)
-  :bind (:map symbol-overlay-mode-map
-              ("C-M-n" . symbol-overlay-jump-next)
-              ("C-M-p" . symbol-overlay-jump-prev)))
-
 
 (use-package diff-hl
   :config
@@ -303,6 +307,8 @@
 
 
 (use-package magit
+  :custom
+  (magit-log-margin '(t "%D" magit-log-margin-width t 18))
   :bind
   ("C-x g" . magit-status))
 
@@ -585,7 +591,7 @@
   (clojure-toplevel-inside-comment-form t)
   (cider-repl-history-size 1000)
   (cider-repl-history-file ".cider-repl-history")
-  (cider-repl-buffer-size-limit 100)
+  (cider-repl-buffer-size-limit nil)
   :config
   (cider-auto-test-mode 1))
 
@@ -615,10 +621,14 @@
 (use-package markdown-mode
   :hook ((cider-repl-mode . smartparens-strict-mode)))
 
+
 ;; setup webmode
 
 (use-package web-mode
-  :mode ("\\.vue\\'" . web-mode))
+  :mode (("\\.vue\\'" . web-mode)
+	 ("\\.html\\'" . web-mode)
+	 ("\\.htm\\'" . web-mode)
+	 ("\\.ejs\\'" . web-mode)))
 
 
 ;; SQL
@@ -647,17 +657,10 @@
 	 (clojure-mode . eglot-ensure)
 	 (clojurescript-mode . eglot-ensure)
          (clojurec-mode . eglot-ensure)
-	 (sh-mode . eglot-ensure)))
-
-;; (setq lsp-keymap-prefix "s-l")
-
-;; (use-package lsp-mode
-;;   :hook ((js-mode . lsp)
-;; 	 (web-mode . lsp)
-;; 	 (typescript-mode . lsp)
-;; 	 (lsp-mode . lsp-enable-which-key-integration))
-;;   :commands lsp)
-
+	 (sh-mode . eglot-ensure))
+  :config
+  (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
+									  ("html-languageserver" "--stdio"))))))
 
 ;; setup modeline
 
