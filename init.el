@@ -632,7 +632,9 @@
   :mode (("\\.vue\\'" . web-mode)
 	 ("\\.html\\'" . web-mode)
 	 ("\\.htm\\'" . web-mode)
-	 ("\\.ejs\\'" . web-mode)))
+	 ("\\.ejs\\'" . web-mode))
+  :config
+  (setq web-mode-enable-engine-detection t))
 
 
 ;; SQL
