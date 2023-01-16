@@ -485,22 +485,26 @@
   :config
   (editorconfig-mode 1))
 
+(use-package corfu
+  :custom
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-preview-current t)
+  (corfu-echo-mode t)
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode))
+  :init
+  (global-corfu-mode 1)
+  (corfu-popupinfo-mode 1)
+  (corfu-history-mode 1))
 
-(use-package company
-  :bind (("M-i" . company-complete)
-	 :map company-active-map
-	 ("C-n" . company-select-next)
-	 ("C-p" . company-select-previous))
-  :hook (prog-mode . company-mode)
-  :config
-  (setq company-idle-delay 0.5)
-  (setq company-show-numbers t)
-  (setq company-tooltip-limit 10)
-  (setq company-minimum-prefix-length 2)
-  (setq company-tooltip-align-annotations t)
-  ;; invert the navigation direction if the the completion popup-isearch-match
-  ;; is displayed on top (happens near the bottom of windows)
-  (setq company-tooltip-flip-when-above t))
+
+;; A few more useful configurations...
+(use-package emacs
+  :init
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete))
 
 
 (use-package dumb-jump
@@ -582,7 +586,7 @@
 
 (use-package cider
   :hook ((cider-mode . clj-refactor-mode)
-	 (cider-repl-mode . company-mode)
+	 ;;(cider-repl-mode . company-mode)
 	 (cider-repl-mode . smartparens-strict-mode)
 	 (cider-mode . eldoc-mode))
   :custom
