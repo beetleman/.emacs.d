@@ -142,6 +142,9 @@
 (--set-emoji-font nil)
 (add-hook 'after-make-frame-functions '--set-emoji-font)
 
+;; setup ediff
+
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; my functions
 (require 'ansi-color)
