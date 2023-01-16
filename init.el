@@ -492,7 +492,7 @@
   :custom
   (corfu-cycle t)
   (corfu-auto t)
-  (corfu-preview-current t)
+  (corfu-preview-current nil)
   (corfu-echo-mode t)
   :hook ((prog-mode . corfu-mode)
          (shell-mode . corfu-mode)
