@@ -321,14 +321,6 @@
   (global-diff-hl-mode)
   (diff-hl-margin-mode))
 
-(use-package projectile
-  :hook (after-init . projectile-mode)
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :config
-  (setq projectile-enable-caching t
-	projectile-completion-system 'default))
-
 ;; Enable vertico
 (use-package vertico
   :init
@@ -506,10 +498,6 @@
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
-
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-
 
 (use-package treemacs-magit
   :after (treemacs magit))
