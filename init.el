@@ -324,21 +324,25 @@
 ;; Enable vertico
 (use-package vertico
   :init
-  (vertico-mode)
+  (vertico-mode))
 
-  ;; Different scroll margin
-  ;; (setq vertico-scroll-margin 0)
+;; Configure directory extension.
+(use-package vertico-directory
+  :after vertico
+  :ensure nil ;; part of vertico
+  ;; More convenient directory navigation commands
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-
-  ;; Grow and shrink the Vertico minibuffer
-  (setq vertico-resize t)
-
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (setq vertico-cycle t)
-  )
-
+(use-package vertico-repeat
+  :after vertico
+  :ensure nil ;; part of vertico
+  :bind ("<f6>" . vertico-repeat)
+  :hook (minibuffer-setup . vertico-repeat-save))
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
