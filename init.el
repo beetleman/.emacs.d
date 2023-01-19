@@ -696,11 +696,33 @@
 (use-package clj-refactor
   :defer t)
 
+
+(defun portal.api/open ()
+  (interactive)
+  (cider-nrepl-sync-request:eval
+   "(do
+(ns dev)
+(def portal ((requiring-resolve 'portal.api/open)
+{:theme :portal.colors/solarized-light
+                            :name (-> (System/getProperty \"user.dir\")
+                                      (clojure.string/split #\"/\")
+                                      last)}))
+(add-tap (requiring-resolve 'portal.api/submit))
+)"))
+
+(defun portal.api/clear ()
+  (interactive)
+  (cider-nrepl-sync-request:eval "(portal.api/clear)"))
+
+
 (use-package cider
   :hook ((cider-mode . clj-refactor-mode)
 	 ;;(cider-repl-mode . company-mode)
 	 (cider-repl-mode . smartparens-strict-mode)
 	 (cider-mode . eldoc-mode))
+  :bind (:map clojure-mode-map
+              ("<f8>" . #'portal.api/open)
+              ("<f7>" . #'portal.api/clear))
   :custom
   (cider-repl-display-help-banner nil)
   (cider-repl-result-prefix ";; => ")
