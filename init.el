@@ -571,9 +571,11 @@
 (use-package corfu
   :custom
   (corfu-cycle t)
-  (corfu-auto t)
   (corfu-preview-current nil)
   (corfu-echo-mode t)
+  (corfu-auto t)
+  (corfu-auto-delay 0.2)
+  (corfu-auto-prefix 2)
   :hook ((prog-mode . corfu-mode)
          (shell-mode . corfu-mode)
          (eshell-mode . corfu-mode))
@@ -582,6 +584,13 @@
   (corfu-popupinfo-mode 1)
   (corfu-history-mode 1))
 
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 ;; A few more useful configurations...
 (use-package emacs
