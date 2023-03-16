@@ -740,6 +740,15 @@
 
 (use-package cider-eval-sexp-fu)
 
+
+;; Common Lisp
+
+(use-package sly
+  :hook ((sly-mode . smartparens-strict-mode))
+  :config
+  (setq inferior-lisp-program "sbcl"))
+
+
 ;; Setup Caddyfile
 
 (use-package caddyfile-mode
