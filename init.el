@@ -350,7 +350,7 @@
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
   ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(substring orderless basic)
+  (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
@@ -475,6 +475,11 @@
   ;;;; 4. locate-dominating-file
   ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
 )
+
+(use-package all-the-icons-completion
+  :after (all-the-icons)
+  :init
+  (all-the-icons-completion-mode))
 
 (use-package treemacs-all-the-icons
   :after (all-the-icons))
