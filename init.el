@@ -762,7 +762,7 @@
 ;; Setup markdown
 
 (use-package markdown-mode
-  :hook ((cider-repl-mode . smartparens-strict-mode)))
+  :hook ((markdown-mode . smartparens-strict-mode)))
 
 
 ;; setup webmode
