@@ -177,9 +177,9 @@
 
 ;;; BUILT-IN PACKAGES
 
-;; (use-package hl-line
-;;   :config
-;;   (global-hl-line-mode +1))
+(use-package hl-line
+  :config
+  (global-hl-line-mode +1))
 
 
 (use-package flyspell
@@ -226,16 +226,26 @@
   (dired-quick-sort-setup))
 
 
-(use-package solarized-theme
+(use-package modus-themes
+  :ensure t
   :config
-  (load-theme 'solarized-selenized-light t)
-  (let ((line (face-attribute 'mode-line :underline)))
-    (set-face-attribute 'mode-line          nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :overline   line)
-    (set-face-attribute 'mode-line-inactive nil :underline  line)
-    (set-face-attribute 'mode-line          nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :box        nil)
-    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil)
+
+  (setq modus-themes-common-palette-overrides
+	;; Make modeline subtle blue background, neutral foreground,
+	;; intense blue border
+	'((bg-mode-line-active bg-blue-subtle)
+          (fg-mode-line-active fg-main)
+          (border-mode-line-active blue-intense)
+	  ;; Make the fringe invisible
+	  (fringe unspecified)))
+
+  ;; Load the theme of your choice.
+  (load-theme 'modus-operandi t)
+
+  (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle-latest)
@@ -818,12 +828,12 @@
 
 ;; setup modeline
 
-(use-package moody
-  :config
-  (setq x-underline-at-descent-line t)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode)
-  (moody-replace-eldoc-minibuffer-message-function))
+;; (use-package moody
+;;   :config
+;;   (setq x-underline-at-descent-line t)
+;;   (moody-replace-mode-line-buffer-identification)
+;;   (moody-replace-vc-mode)
+;;   (moody-replace-eldoc-minibuffer-message-function))
 
 
 (use-package minions
