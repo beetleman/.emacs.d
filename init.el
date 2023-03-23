@@ -235,16 +235,32 @@
 
   (setq modus-themes-common-palette-overrides
 	;; Make modeline subtle blue background, neutral foreground,
-	;; intense blue border
-	'((bg-mode-line-active bg-blue-subtle)
+        '((bg-mode-line-active bg-blue-subtle)
           (fg-mode-line-active fg-main)
-          (border-mode-line-active blue-intense)
+	  (border-mode-line-active unspecified)
+          (border-mode-line-inactive unspecified)
 	  ;; Make the fringe invisible
 	  (fringe unspecified)))
 
+  (defun my-modus-themes-custom-faces ()
+    (modus-themes-with-colors
+      (custom-set-faces
+       ;; Add "padding" to the mode lines
+       `(mode-line ((,c :underline ,fg-dim
+			:overline ,fg-dim
+			:box nil)))
+       `(mode-line-inactive ((,c :underline ,fg-dim
+				 :overline ,fg-dim
+				 :box nil))))))
+
+  ;; ESSENTIAL to make the underline move to the bottom of the box:
+  (setq x-underline-at-descent-line t)
+
+  (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+
   ;; Load the theme of your choice.
   (load-theme 'modus-operandi t)
-
+  (my-modus-themes-custom-faces)
   (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
 (use-package popper
@@ -828,12 +844,12 @@
 
 ;; setup modeline
 
-;; (use-package moody
-;;   :config
-;;   (setq x-underline-at-descent-line t)
-;;   (moody-replace-mode-line-buffer-identification)
-;;   (moody-replace-vc-mode)
-;;   (moody-replace-eldoc-minibuffer-message-function))
+(use-package moody
+  :config
+  (moody-replace-mode-line-front-space)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode)
+  (moody-replace-eldoc-minibuffer-message-function))
 
 
 (use-package minions
