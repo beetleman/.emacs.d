@@ -242,7 +242,8 @@
 	  ;; Make the fringe invisible
 	  (fringe unspecified)))
 
-  (defun my-modus-themes-custom-faces ()
+  (defun custom-modus-colors-for-moody ()
+    (setq x-underline-at-descent-line t)
     (modus-themes-with-colors
       (custom-set-faces
        ;; Add "padding" to the mode lines
@@ -254,13 +255,11 @@
 				 :box nil))))))
 
   ;; ESSENTIAL to make the underline move to the bottom of the box:
-  (setq x-underline-at-descent-line t)
-
-  (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+  (add-hook 'modus-themes-after-load-theme-hook #'custom-modus-colors-for-moody)
 
   ;; Load the theme of your choice.
   (load-theme 'modus-operandi t)
-  (my-modus-themes-custom-faces)
+  (custom-modus-colors-for-moody)
   (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
 (use-package popper
