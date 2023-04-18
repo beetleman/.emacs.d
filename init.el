@@ -723,6 +723,10 @@
 	 ("\\.bb$" . clojure-mode)))
 
 
+(use-package clj-refactor
+  :defer t)
+
+
 (defun portal.api/open ()
   (interactive)
   (cider-nrepl-sync-request:eval
