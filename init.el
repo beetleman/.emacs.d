@@ -729,7 +729,7 @@
    "(do
 (ns dev)
 (def portal ((requiring-resolve 'portal.api/open)
-{:theme :portal.colors/solarized-light
+{:theme :portal.colors/nord-light
                             :name (-> (System/getProperty \"user.dir\")
                                       (clojure.string/split #\"/\")
                                       last)}))
