@@ -571,7 +571,9 @@
 
 
 (use-package hl-todo
-  :hook (prog-mode . hl-todo-mode)
+  :hook ((prog-mode . hl-todo-mode)
+	 (yaml-mode . hl-todo-mode)
+	 (markdown-mode . yas-minor-mode))
   :config
   (setq hl-todo-highlight-punctuation ":"
 	hl-todo-keyword-faces
@@ -843,7 +845,8 @@
 	 (clojure-mode . eglot-ensure)
 	 (clojurescript-mode . eglot-ensure)
          (clojurec-mode . eglot-ensure)
-	 (sh-mode . eglot-ensure))
+	 (sh-mode . eglot-ensure)
+	 (yaml-mode . eglot-ensure))
   :config
   (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
 									  ("html-languageserver" "--stdio"))))))
