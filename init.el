@@ -341,7 +341,14 @@
   ("C-x g" . magit-status))
 
 (use-package diff-hl
-  :hook (magit-post-refresh . diff-hl-magit-post-refresh)
+  :custom
+  (diff-hl-margin-symbols-alist '((insert . "+")
+				  (delete . "-")
+				  (change . "~")
+				  (unknown . "?")
+				  (ignored . "i")))
+  :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)
+	 (magit-post-refresh . diff-hl-magit-post-refresh))
   :init
   (global-diff-hl-mode)
   (diff-hl-margin-mode))
@@ -644,8 +651,8 @@
          ("M-p l" . cape-line))
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file))
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev))
 
 
 
