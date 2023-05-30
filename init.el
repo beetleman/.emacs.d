@@ -940,6 +940,18 @@
   (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
 									  ("html-languageserver" "--stdio"))))))
 
+
+;; (use-package apheleia
+;;   ;; for formating after save file
+;;   :hook ((clojure-mode . apheleia-mode)
+;; 	 (clojurescript-mode . apheleia-mode)
+;;          (clojurec-mode . apheleia-mode))
+;;   :config
+;;   (setf (alist-get 'cljfmt apheleia-formatters)
+;;         '("cljfmt" "fix" "-"))
+;;   (setf (alist-get 'clojure-mode apheleia-mode-alist)
+;; 	'(cljfmt)))
+
 ;; setup modeline
 
 (use-package moody
