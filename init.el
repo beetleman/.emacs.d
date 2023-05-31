@@ -951,23 +951,20 @@
 
 ;; setup modeline
 
-;; (use-package moody
-;;   :config
-;;   (moody-replace-mode-line-front-space)
-;;   (moody-replace-mode-line-buffer-identification)
-;;   (moody-replace-vc-mode)
-;;   (moody-replace-eldoc-minibuffer-message-function))
+(use-package moody
+  :config
+  (moody-replace-mode-line-front-space)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode)
+  (moody-replace-eldoc-minibuffer-message-function))
 
-(use-package doom-modeline
-  :ensure t
-  :hook (after-init . doom-modeline-mode))
 
-;; (use-package minions
-;;   :custom
-;;   (minions-prominent-modes '(flycheck-mode pyvenv-mode))
-;;   (minions-mode-line-lighter "🌈")
-;;   :config
-;;   (minions-mode 1))
+(use-package minions
+  :custom
+  (minions-prominent-modes '(flycheck-mode pyvenv-mode))
+  (minions-mode-line-lighter "🌈")
+  :config
+  (minions-mode 1))
 
 ;; reset GC
 (use-package gcmh
