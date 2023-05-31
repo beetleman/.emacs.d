@@ -316,7 +316,6 @@
 
 
 (use-package modus-themes
-  :ensure t
   :config
   ;; Add all your customizations prior to loading the themes
   (setq modus-themes-italic-constructs t
@@ -713,7 +712,6 @@
   (corfu-history-mode 1))
 
 (use-package kind-icon
-  :ensure t
   :after corfu
   :custom
   (kind-icon-default-face 'corfu-default)
@@ -781,8 +779,7 @@
     (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
       (setenv (car var) (cadr var))))
 
-(use-package caml
-  :ensure t)
+(use-package caml)
 
 (use-package tuareg
   :mode ("\\.ml[ily]?$" . tuareg-mode))
