@@ -34,8 +34,8 @@
 ;;; Code:
 
 ;; turn off GC during star up
-(setq gc-cons-threshold most-positive-fixnum)
-
+;; (setq gc-cons-threshold most-positive-fixnum)
+(setq inhibit-compacting-font-caches t)
 
 (setq user-full-name "Mateusz Probachta"
       user-mail-address "mateusz.probachta@gmail.com")
@@ -176,11 +176,6 @@
 
 
 ;;; BUILT-IN PACKAGES
-
-(use-package hl-line
-  :config
-  (global-hl-line-mode +1))
-
 
 (use-package flyspell
   :hook ((text-mode . flyspell-mode)
@@ -967,9 +962,9 @@
   (minions-mode 1))
 
 ;; reset GC
-(use-package gcmh
-  :init
-  (gcmh-mode 1))
+;; (use-package gcmh
+;;   :init
+;;   (gcmh-mode 1))
 
 ;; config changes made through the customize UI will be stored here
 
