@@ -142,6 +142,9 @@
 (--set-emoji-font nil)
 (add-hook 'after-make-frame-functions '--set-emoji-font)
 
+;; vc-mode
+(setq auto-revert-check-vc-info t)
+
 ;; setup ediff
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -189,6 +192,11 @@
 
 (use-package meow
   :config
+  (setq meow-replace-state-name-list '((normal . "<N>")
+				       (motion . "<M>")
+				       (keypad . "<K>")
+				       (insert . "<I>")
+				       (beacon . "<B>")))
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
@@ -310,40 +318,21 @@
   (dired-quick-sort-setup))
 
 
-(use-package modus-themes
+(use-package doom-themes
+  :ensure t
   :config
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil)
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-nord t)
 
-  (setq modus-themes-common-palette-overrides
-	;; Make modeline subtle blue background, neutral foreground,
-        '((bg-mode-line-active bg-blue-subtle)
-          (fg-mode-line-active fg-main)
-	  (border-mode-line-active unspecified)
-          (border-mode-line-inactive unspecified)
-	  ;; Make the fringe invisible
-	  (fringe unspecified)))
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" or "doom-atom"
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
-  (defun custom-modus-colors-for-moody ()
-    (setq x-underline-at-descent-line t)
-    (modus-themes-with-colors
-      (custom-set-faces
-       ;; Add "padding" to the mode lines
-       `(mode-line ((,c :underline ,fg-dim
-			:overline ,fg-dim
-			:box nil)))
-       `(mode-line-inactive ((,c :underline ,fg-dim
-				 :overline ,fg-dim
-				 :box nil))))))
-
-  ;; ESSENTIAL to make the underline move to the bottom of the box:
-  (add-hook 'modus-themes-after-load-theme-hook #'custom-modus-colors-for-moody)
-
-  ;; Load the theme of your choice.
-  (load-theme 'modus-operandi t)
-  (custom-modus-colors-for-moody)
-  (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle-latest)
@@ -588,8 +577,8 @@
   :init
   (all-the-icons-completion-mode))
 
-(use-package treemacs-all-the-icons
-  :after (all-the-icons))
+;; (use-package treemacs-all-the-icons
+;;   :after (all-the-icons))
 
 (use-package treemacs
   :config
@@ -604,8 +593,8 @@
     (`(t . _)
      (treemacs-git-mode 'simple)))
 
-  (treemacs-hide-gitignored-files-mode nil)
-  (treemacs-load-theme "all-the-icons")
+  ;; (treemacs-hide-gitignored-files-mode nil)
+  ;; (treemacs-load-theme "all-the-icons")
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -923,6 +912,12 @@
 	 (sh-mode . eglot-ensure)
 	 (yaml-mode . eglot-ensure))
   :config
+  (defface eglot-diagnostic-tag-deprecated-face
+    '((t . (:inherit flymake-warning)))
+    "Face used to render deprecated or obsolete code.")
+  (defface eglot-diagnostic-tag-unnecessary-face
+    '((t . (:inherit flymake-warning)))
+    "Face used to render unused or unnecessary code.")
   (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
 									  ("html-languageserver" "--stdio"))))))
 
@@ -940,20 +935,28 @@
 
 ;; setup modeline
 
-(use-package moody
-  :config
-  (moody-replace-mode-line-front-space)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode)
-  (moody-replace-eldoc-minibuffer-message-function))
-
-
-(use-package minions
+(use-package doom-modeline
   :custom
-  (minions-prominent-modes '(flycheck-mode pyvenv-mode))
-  (minions-mode-line-lighter "🌈")
+  (doom-modeline-vcs-max-length 15)
+  (doom-modeline-project-detection 'project)
+  :hook (after-init . doom-modeline-mode)
   :config
-  (minions-mode 1))
+  (setq x-underline-at-descent-line t))
+
+;; (use-package moody
+;;   :config
+;;   (moody-replace-mode-line-front-space)
+;;   (moody-replace-mode-line-buffer-identification)
+;;   (moody-replace-vc-mode)
+;;   (moody-replace-eldoc-minibuffer-message-function))
+
+
+;; (use-package minions
+;;   :custom
+;;   (minions-prominent-modes '(flycheck-mode pyvenv-mode))
+;;   (minions-mode-line-lighter "🌈")
+;;   :config
+;;   (minions-mode 1))
 
 ;; reset GC
 ;; (use-package gcmh
