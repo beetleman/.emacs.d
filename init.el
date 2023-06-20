@@ -914,13 +914,14 @@
          (clojurec-mode . eglot-ensure)
 	 (sh-mode . eglot-ensure)
 	 (yaml-mode . eglot-ensure))
+  ;; :init
+  ;; (defface eglot-diagnostic-tag-deprecated-face
+  ;;   '((t . (:inherit flymake-warning)))
+  ;;   "Face used to render deprecated or obsolete code.")
+  ;; (defface eglot-diagnostic-tag-unnecessary-face
+  ;;   '((t . (:inherit flymake-warning)))
+  ;;   "Face used to render unused or unnecessary code.")
   :config
-  (defface eglot-diagnostic-tag-deprecated-face
-    '((t . (:inherit flymake-warning)))
-    "Face used to render deprecated or obsolete code.")
-  (defface eglot-diagnostic-tag-unnecessary-face
-    '((t . (:inherit flymake-warning)))
-    "Face used to render unused or unnecessary code.")
   (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
 									  ("html-languageserver" "--stdio"))))))
 
