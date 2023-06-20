@@ -318,21 +318,24 @@
   (dired-quick-sort-setup))
 
 
-(use-package doom-themes
-  :ensure t
+(use-package modus-themes
   :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-nord t)
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil)
 
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" or "doom-atom"
-  (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (setq modus-themes-common-palette-overrides
+	;; Make modeline subtle blue background, neutral foreground,
+        '((bg-mode-line-active bg-blue-subtle)
+          (fg-mode-line-active fg-main)
+	  (border-mode-line-active unspecified)
+          (border-mode-line-inactive unspecified)
+	  ;; Make the fringe invisible
+	  (fringe unspecified)))
 
+  ;; Load the theme of your choice.
+  (load-theme 'modus-vivendi t)
+  (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle-latest)
@@ -577,8 +580,8 @@
   :init
   (all-the-icons-completion-mode))
 
-;; (use-package treemacs-all-the-icons
-;;   :after (all-the-icons))
+(use-package treemacs-all-the-icons
+  :after (all-the-icons))
 
 (use-package treemacs
   :config
@@ -593,8 +596,8 @@
     (`(t . _)
      (treemacs-git-mode 'simple)))
 
-  ;; (treemacs-hide-gitignored-files-mode nil)
-  ;; (treemacs-load-theme "all-the-icons")
+  (treemacs-hide-gitignored-files-mode nil)
+  (treemacs-load-theme "all-the-icons")
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
