@@ -650,12 +650,6 @@
 	  ("GOTCHA" . "#FF4500")
 	  ("STUB"   . "#1E90FF"))))
 
-(use-package multiple-cursors
-  :bind (("C-|" . mc/edit-lines)
-	 ("C->" . mc/mark-next-like-this)
-	 ("C-<" . mc/mark-previous-like-this)
-	 ("C-c C->" . mc/mark-all-like-this)))
-
 
 (use-package anzu
   :bind
