@@ -263,6 +263,7 @@
    '("o" . meow-block)
    '("O" . meow-to-block)
    '("p" . meow-yank)
+   '("P" . meow-yank-pop)
    '("q" . meow-quit)
    '("Q" . meow-goto-line)
    '("r" . meow-replace)
@@ -392,14 +393,9 @@
   :config
   (which-key-mode +1))
 
-(use-package undo-tree
-  :config
-  ;; autosave the undo-tree history
-  (setq undo-tree-history-directory-alist
-	`((".*" . ,temporary-file-directory)))
-  (setq undo-tree-auto-save-history t)
-  (global-undo-tree-mode +1))
-
+(use-package vundo
+  :ensure t
+  :bind (("C-c v" . vundo)))
 
 (use-package magit
   :custom
@@ -722,7 +718,8 @@
 
 (use-package dumb-jump
   :init
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
 
 
 (use-package format-all)
