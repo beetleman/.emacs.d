@@ -34,7 +34,8 @@
 ;;; Code:
 
 ;; turn off GC during star up
-;; (setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshold most-positive-fixnum)
+
 (setq inhibit-compacting-font-caches t)
 
 (setq user-full-name "Mateusz Probachta"
@@ -323,7 +324,7 @@
   :config
   ;; Add all your customizations prior to loading the themes
   (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil)
+        modus-themes-bold-constructs t)
 
   (setq modus-themes-common-palette-overrides
 	;; Make modeline subtle blue background, neutral foreground,
@@ -938,25 +939,10 @@
   :config
   (setq x-underline-at-descent-line t))
 
-;; (use-package moody
-;;   :config
-;;   (moody-replace-mode-line-front-space)
-;;   (moody-replace-mode-line-buffer-identification)
-;;   (moody-replace-vc-mode)
-;;   (moody-replace-eldoc-minibuffer-message-function))
-
-
-;; (use-package minions
-;;   :custom
-;;   (minions-prominent-modes '(flycheck-mode pyvenv-mode))
-;;   (minions-mode-line-lighter "🌈")
-;;   :config
-;;   (minions-mode 1))
-
 ;; reset GC
-;; (use-package gcmh
-;;   :init
-;;   (gcmh-mode 1))
+(use-package gcmh
+  :init
+  (gcmh-mode 1))
 
 ;; config changes made through the customize UI will be stored here
 
