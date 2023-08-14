@@ -789,11 +789,10 @@
 
 
 ;; Common Lisp
-
 (use-package sly
   :hook ((sly-mode . smartparens-strict-mode))
   :config
-  (setq inferior-lisp-program "sbcl"))
+  (setq inferior-lisp-program "ros -Q run"))
 
 
 ;; Setup Caddyfile
