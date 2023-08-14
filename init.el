@@ -310,25 +310,19 @@
           insert-directory-program "/opt/homebrew/bin/gls"))
   (dired-quick-sort-setup))
 
-
-(use-package modus-themes
+(use-package doom-themes
+  :ensure t
   :config
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t)
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-nord t)
 
-  (setq modus-themes-common-palette-overrides
-	;; Make modeline subtle blue background, neutral foreground,
-        '((bg-mode-line-active bg-blue-subtle)
-          (fg-mode-line-active fg-main)
-	  (border-mode-line-active unspecified)
-          (border-mode-line-inactive unspecified)
-	  ;; Make the fringe invisible
-	  (fringe unspecified)))
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
 
-  ;; Load the theme of your choice.
-  (load-theme 'modus-vivendi t)
-  (define-key global-map (kbd "<f5>") #'modus-themes-toggle))
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle-latest)
@@ -567,37 +561,6 @@
   :after (all-the-icons)
   :init
   (all-the-icons-completion-mode))
-
-(use-package treemacs-all-the-icons
-  :after (all-the-icons))
-
-(use-package treemacs
-  :config
-  ;;(treemacs-resize-icons 44)
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode 'always)
-  (pcase (cons (not (null (executable-find "git")))
-               (not (null treemacs-python-executable)))
-    (`(t . t)
-     (treemacs-git-mode 'deferred))
-    (`(t . _)
-     (treemacs-git-mode 'simple)))
-
-  (treemacs-hide-gitignored-files-mode nil)
-  (treemacs-load-theme "all-the-icons")
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("<f9>"   . treemacs)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
-
-(use-package treemacs-magit
-  :after (treemacs magit))
-
 
 (use-package smartparens
   :hook (prog-mode . smartparens-strict-mode)
