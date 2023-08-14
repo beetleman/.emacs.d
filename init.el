@@ -310,19 +310,37 @@
           insert-directory-program "/opt/homebrew/bin/gls"))
   (dired-quick-sort-setup))
 
+(setq beetleman:theme-dark nil
+      beetleman:theme-light nil)
+
+(defun beetleman:use-theme (theme)
+  (mapc #'disable-theme custom-enabled-themes)
+  (load-theme theme t))
+
+(defun beetleman:themes-toggle ()
+  (interactive)
+  (let ((current-theme (car custom-enabled-themes)))
+    (cond
+     ((eq current-theme beetleman:theme-dark)
+      (beetleman:use-theme beetleman:theme-light))
+     ((eq current-theme beetleman:theme-light)
+      (beetleman:use-theme beetleman:theme-dark))
+     (t (beetleman:use-theme beetleman:theme-dark)))))
+
 (use-package doom-themes
-  :ensure t
+  :demand t
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-nord t)
-
+  (setq beetleman:theme-dark 'doom-nord
+	beetleman:theme-light 'doom-nord-light)
+  (beetleman:use-theme beetleman:theme-dark)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
-
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+  :bind ("<f5>" . beetleman:themes-toggle))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle-latest)
