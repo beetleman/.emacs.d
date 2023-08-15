@@ -125,14 +125,14 @@
   (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07-10:width=expanded")))
 
 
-(defun --set-emoji-font (frame)
+(defun beetleman:set-emoji-font (frame)
   "Adjust the font settings of FRAME so Emacs can display: ✨🍆✨."
   (set-fontset-font t 'symbol "Noto Color Emoji" frame)
   (set-fontset-font t 'symbol "Symbola" frame 'append))
 
 
-(--set-emoji-font nil)
-(add-hook 'after-make-frame-functions '--set-emoji-font)
+(beetleman:set-emoji-font nil)
+(add-hook 'after-make-frame-functions 'beetleman:set-emoji-font)
 
 ;; vc-mode
 (setq auto-revert-check-vc-info t)
@@ -310,37 +310,24 @@
           insert-directory-program "/opt/homebrew/bin/gls"))
   (dired-quick-sort-setup))
 
-(setq beetleman:theme-dark nil
-      beetleman:theme-light nil)
-
-(defun beetleman:use-theme (theme)
-  (mapc #'disable-theme custom-enabled-themes)
-  (load-theme theme t))
-
-(defun beetleman:themes-toggle ()
-  (interactive)
-  (let ((current-theme (car custom-enabled-themes)))
-    (cond
-     ((eq current-theme beetleman:theme-dark)
-      (beetleman:use-theme beetleman:theme-light))
-     ((eq current-theme beetleman:theme-light)
-      (beetleman:use-theme beetleman:theme-dark))
-     (t (beetleman:use-theme beetleman:theme-dark)))))
-
-(use-package doom-themes
+(use-package modus-themes
   :demand t
   :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (setq beetleman:theme-dark 'doom-nord
-	beetleman:theme-light 'doom-nord-light)
-  (beetleman:use-theme beetleman:theme-dark)
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-  :bind ("<f5>" . beetleman:themes-toggle))
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+	modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+
+  ;; Maybe define some palette overrides, such as by using our presets
+  (setq modus-themes-common-palette-overrides
+        `((bg-paren-match bg-magenta-intense)
+	  (bg-mode-line-active bg-blue-nuanced)
+          ,@modus-themes-preset-overrides-faint))
+
+  ;; Load the theme of your choice.
+  (modus-themes-load-theme 'modus-vivendi-tinted)
+
+  :bind ("<f5>" . #'modus-themes-toggle))
 
 (use-package popper
   :bind (("C-`"   . popper-toggle-latest)
@@ -355,43 +342,8 @@
   (popper-mode +1)
   (popper-echo-mode +1))
 
-
-;; (use-package flycheck
-;;   :init (global-flycheck-mode))
-
-;; (use-package flycheck-inline
-;;   :after flycheck
-;;   :hook (flycheck-mode . flycheck-inline-mode))
-
-
 (use-package ace-window
   :bind (("M-o" . ace-window)))
-
-;; (use-package crux ;; prefer meow over crux
-;;   :bind (("C-c o" . crux-open-with)
-;; 	 ("C-c n" . crux-cleanup-buffer-or-region)
-;; 	 ("C-c f" . crux-recentf-find-file)
-;; 	 ("C-M-z" . crux-indent-defun)
-;; 	 ("C-c u" . crux-view-url)
-;; 	 ("C-c e" . crux-eval-and-replace)
-;; 	 ("C-c w" . crux-swap-windows)
-;; 	 ("C-c D" . crux-delete-file-and-buffer)
-;; 	 ("C-c r" . crux-rename-buffer-and-file)
-;; 	 ("C-c t" . crux-visit-term-buffer)
-;; 	 ("C-c k" . crux-kill-other-buffers)
-;; 	 ("C-c TAB" . crux-indent-rigidly-and-copy-to-clipboard)
-;; 	 ("C-c I" . crux-find-user-init-file)
-;; 	 ("C-c S" . crux-find-shell-init-file)
-;; 	 ("s-r" . crux-recentf-find-file)
-;; 	 ("s-j" . crux-top-join-line)
-;; 	 ("C-^" . crux-top-join-line)
-;; 	 ("s-k" . crux-kill-whole-line)
-;; 	 ("C-<backspace>" . crux-kill-line-backwards)
-;; 	 ([remap move-beginning-of-line] . crux-move-beginning-of-line)
-;; 	 ([(shift return)] . crux-smart-open-line)
-;; 	 ([(control shift return)] . crux-smart-open-line-above)
-;; 	 ([remap kill-whole-line] . crux-kill-whole-line)
-;; 	 ("C-c s" . crux-ispell-word-then-abbrev)))
 
 (use-package which-key
   :config
