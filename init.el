@@ -321,7 +321,7 @@
   ;; Maybe define some palette overrides, such as by using our presets
   (setq modus-themes-common-palette-overrides
         `((bg-paren-match bg-magenta-intense)
-	  (bg-mode-line-active bg-blue-nuanced)
+	  (bg-mode-line-active bg-cyan-subtle)
           ,@modus-themes-preset-overrides-faint))
 
   ;; Load the theme of your choice.
