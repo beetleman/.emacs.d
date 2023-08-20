@@ -74,12 +74,14 @@
 (setq inhibit-startup-screen t)
 ;; and show this majestic creature!
 (setq initial-scratch-message
-      ";;                        _))
-;;  ❤ Happy Hacking ❤  > *\\     _~
-;;                       `;'\\\\__-' \\_
-;;                          | )  _ \\ \\
-;;                         / / ``   w w
-;;                        w w
+      ";;
+;;             ❤ Happy Hacking ❤
+;;       _))
+;;      > *\\     _~
+;;      `;'\\\\__-' \\_
+;;         | )  _ \\ \\
+;;        / / ``   w w
+;;       w w
 ") ;; ejm97
 
 
