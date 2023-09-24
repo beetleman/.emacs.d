@@ -123,8 +123,8 @@
 
 ;; setup font settings
 (if (eq system-type 'darwin) ;; mac specific settings
-    (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07-12:width=expanded"))
-  (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07-10:width=expanded")))
+    (add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
+  (add-to-list 'default-frame-alist '(font . "Source Code Pro-10")))
 
 
 (defun beetleman:set-emoji-font (frame)
