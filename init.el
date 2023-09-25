@@ -123,9 +123,8 @@
 
 ;; setup font settings
 (if (eq system-type 'darwin) ;; mac specific settings
-    (add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
-  (add-to-list 'default-frame-alist '(font . "Source Code Pro-10")))
-
+    (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07-13:width=expanded"))
+  (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS07-11:width=expanded")))
 
 (defun beetleman:set-emoji-font (frame)
   "Adjust the font settings of FRAME so Emacs can display: ✨🍆✨."
