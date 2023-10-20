@@ -299,8 +299,31 @@
 
 (use-package all-the-icons)
 
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode))
+(use-package treemacs-all-the-icons
+  :after (all-the-icons))
+
+(use-package treemacs
+  :custom
+  (treemacs-read-string-input 'from-minibuffer)
+  :config
+  (treemacs-load-theme "all-the-icons")
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("<f9>"      . treemacs)
+        ("C-x t d"   . treemacs-select-directory)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :ensure t)
+
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
 
 
 (use-package dired-quick-sort
@@ -838,6 +861,7 @@
   ;;   '((t . (:inherit flymake-warning)))
   ;;   "Face used to render unused or unnecessary code.")
   :config
+  (setq eglot-connect-timeout 60)
   (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
 									  ("html-languageserver" "--stdio"))))))
 
