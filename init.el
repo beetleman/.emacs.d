@@ -820,9 +820,13 @@
   :mode (("\\.vue\\'" . web-mode)
 	 ("\\.html\\'" . web-mode)
 	 ("\\.htm\\'" . web-mode)
+	 ("\\.tmpl\\'" . web-mode)
 	 ("\\.ejs\\'" . web-mode))
   :config
-  (setq web-mode-enable-engine-detection t))
+  (setq web-mode-markup-indent-offset 2
+	web-mode-css-indent-offset 2
+	web-mode-code-indent-offset 2
+	web-mode-enable-engine-detection t))
 
 
 ;; SQL
