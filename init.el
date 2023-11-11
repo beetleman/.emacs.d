@@ -173,6 +173,10 @@
 
 ;;; BUILT-IN PACKAGES
 
+(use-package project
+  :config
+  (setq project-vc-extra-root-markers '(".project.el" "workspace.edn")))
+
 (use-package flyspell
   :hook ((text-mode . flyspell-mode)
 	 (prog-mode . flyspell-prog-mode))
@@ -441,6 +445,7 @@
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
          ("C-c m" . consult-mode-command)
+	 ("C-c i" . consult-imenu)
          ;; ("C-c k" . consult-kmacro) ; conflict with meow
          ;; C-x bindings (ctl-x-map)
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
@@ -857,6 +862,8 @@
          (clojurec-mode . eglot-ensure)
 	 (sh-mode . eglot-ensure)
 	 (yaml-mode . eglot-ensure))
+  :bind (("C-c r" . eglot-rename)
+	 ("C-c f" . eglot-format))
   ;; :init
   ;; (defface eglot-diagnostic-tag-deprecated-face
   ;;   '((t . (:inherit flymake-warning)))
@@ -869,6 +876,9 @@
   (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
 									  ("html-languageserver" "--stdio"))))))
 
+(use-package breadcrumb
+  :config
+  (breadcrumb-mode 1))
 
 ;; (use-package apheleia
 ;;   ;; for formating after save file
