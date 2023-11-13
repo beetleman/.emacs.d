@@ -568,7 +568,8 @@
   (sp-use-smartparens-bindings))
 
 (use-package eldoc
-  :hook (prog-mode . eldoc-mode))
+  :hook (prog-mode . eldoc-mode)
+  :bind (("C-c d" . eldoc)))
 
 (use-package subword
   :hook (prog-mode . subword-mode))
@@ -875,10 +876,6 @@
   (setq eglot-connect-timeout 60)
   (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
 									  ("html-languageserver" "--stdio"))))))
-
-(use-package breadcrumb
-  :config
-  (breadcrumb-mode 1))
 
 ;; (use-package apheleia
 ;;   ;; for formating after save file
