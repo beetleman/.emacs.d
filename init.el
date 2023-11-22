@@ -614,6 +614,9 @@
   :config
   (direnv-mode))
 
+(use-package eat
+  :bind (("C-c t" . eat-project-other-window)
+	 ("C-c T" . eat-project)))
 
 (use-package editorconfig
   :config
