@@ -357,18 +357,18 @@
 
   :bind ("<f5>" . #'modus-themes-toggle))
 
-(use-package popper
-  :bind (("C-`"   . popper-toggle-latest)
-         ("C-~"   . popper-cycle)
-         ("C-M-`" . popper-toggle-type))
-  :init
-  (setq popper-reference-buffers
-        '("^\\*cider-error*"
-	  "^\\*cider-repl"
-	  "^\\*cider-repl-history"
-	  compilation-mode))
-  (popper-mode +1)
-  (popper-echo-mode +1))
+;; (use-package popper
+;;   :bind (("C-`"   . popper-toggle-latest)
+;;          ("C-~"   . popper-cycle)
+;;          ("C-M-`" . popper-toggle-type))
+;;   :init
+;;   (setq popper-reference-buffers
+;;         '("^\\*cider-error*"
+;; 	  "^\\*cider-repl"
+;; 	  "^\\*cider-repl-history"
+;; 	  compilation-mode))
+;;   (popper-mode +1)
+;;   (popper-echo-mode +1))
 
 (use-package ace-window
   :bind (("M-o" . ace-window)))
