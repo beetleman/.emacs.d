@@ -795,8 +795,10 @@
 (use-package sly
   :hook ((sly-mode . smartparens-strict-mode))
   :config
-  (setq inferior-lisp-program "ros -Q run"))
-
+  (sly-symbol-completion-mode -1)
+  (setq sly-net-coding-system 'utf-8-unix
+        sly-complete-symbol-function 'sly-flex-completions ;;'sly-simple-completions
+	inferior-lisp-program "ros -Q run"))
 
 ;; Setup Caddyfile
 
