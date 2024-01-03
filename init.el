@@ -297,20 +297,11 @@
   :config
   (setq esup-depth 0))
 
-
-(use-package expand-region
-  :bind ("C-=" . er/expand-region))
-
 (use-package all-the-icons)
-
-(use-package treemacs-all-the-icons
-  :after (all-the-icons))
 
 (use-package treemacs
   :custom
   (treemacs-read-string-input 'from-minibuffer)
-  :config
-  (treemacs-load-theme "all-the-icons")
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -320,6 +311,10 @@
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-all-the-icons
+    :config
+    (treemacs-load-theme "all-the-icons"))
 
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once)
@@ -342,7 +337,7 @@
   :demand t
   :config
   ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-italic-constructs t
+  (setq modus-themes-italic-constructs nil
         modus-themes-bold-constructs nil
 	modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
 
