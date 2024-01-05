@@ -551,6 +551,21 @@
   ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
 )
 
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
 (use-package all-the-icons-completion
   :after (all-the-icons)
   :init
@@ -611,7 +626,7 @@
 
 (use-package eat
   :bind (("C-c t" . eat-project-other-window)
-	 ("C-c T" . eat-project)))
+	 ("C-c T" . eat)))
 
 (use-package editorconfig
   :config
