@@ -619,10 +619,12 @@
   :hook
   (after-init . global-anzu-mode))
 
-
-(use-package direnv
-  :config
-  (direnv-mode))
+(use-package envrc
+  :defer 2
+  :if (executable-find "direnv")
+  :bind (:map envrc-mode-map
+              ("C-c d" . envrc-command-map))
+  :config (envrc-global-mode))
 
 (use-package eat
   :bind (("C-c t" . eat-project-other-window)
