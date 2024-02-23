@@ -397,10 +397,25 @@
   (global-diff-hl-mode)
   (diff-hl-margin-mode))
 
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  ;; :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  ;; (setq completion-styles '(orderless basic)
+  ;;       completion-category-defaults nil
+  ;;       completion-category-overrides '((file (styles . (partial-completion)))))
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion))))
+  (orderless-component-separator #'orderless-escapable-split-on-space))
+
 ;; Enable vertico
+
 (use-package vertico
-  :init
-  (vertico-mode))
+  :hook (after-init . vertico-mode))
 
 ;; Configure directory extension.
 (use-package vertico-directory
@@ -419,16 +434,6 @@
   :ensure nil ;; part of vertico
   :bind ("<f6>" . vertico-repeat)
   :hook (minibuffer-setup . vertico-repeat-save))
-
-;; Optionally use the `orderless' completion style.
-(use-package orderless
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))))
 
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
@@ -554,19 +559,7 @@
 )
 
 (use-package marginalia
-  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-  ;; available in the *Completions* buffer, add it to the
-  ;; `completion-list-mode-map'.
-  :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
-
-  ;; The :init section is always executed.
-  :init
-
-  ;; Marginalia must be activated in the :init section of use-package such that
-  ;; the mode gets enabled right away. Note that this forces loading the
-  ;; package.
-  (marginalia-mode))
+  :hook (after-init . marginalia-mode))
 
 (use-package all-the-icons-completion
   :after (all-the-icons)
@@ -667,26 +660,16 @@
   (setq completion-cycle-threshold 3)
   (setq tab-always-indent 'complete))
 
-
 ;; Add extensions
 (use-package cape
-  ;; Bind dedicated completion commands
-  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
-  :bind (("M-p p" . completion-at-point) ;; capf
-         ("M-p t" . complete-tag)        ;; etags
-         ("M-p d" . cape-dabbrev)        ;; or dabbrev-completion
-         ("M-p h" . cape-history)
-         ("M-p w" . cape-dict)
-	 ("M-p f" . cape-file)
-         ("M-p a" . cape-abbrev)
-         ("M-p i" . cape-ispell)
-         ("M-p l" . cape-line))
   :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev))
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-abbrev)
 
-
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
 (use-package dumb-jump
   :init
