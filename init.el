@@ -281,6 +281,8 @@
    '("<escape>" . ignore))
   (meow-global-mode 1))
 
+(use-package exec-path-from-shell
+  :init (exec-path-from-shell-initialize))
 
 (use-package mode-line-bell
   :hook (after-init . mode-line-bell-mode))
