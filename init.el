@@ -788,6 +788,10 @@
 (use-package cider-eval-sexp-fu)
 
 
+;; Cucumber and Gherkin Syntax
+(use-package feature-mode
+  :mode ("\\.feature\\'" . feature-mode))
+
 ;; Common Lisp
 (use-package sly
   :hook ((sly-mode . smartparens-strict-mode))
