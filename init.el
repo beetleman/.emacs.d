@@ -561,6 +561,23 @@
 (use-package marginalia
   :hook (after-init . marginalia-mode))
 
+(use-package embark
+  :bind (("C-." . embark-act)
+         :map minibuffer-local-map
+         ("C-c C-c" . embark-collect)
+         ("C-c C-e" . embark-export)))
+
+;; The `embark-consult' package is glue code to tie together `embark'
+;; and `consult'.
+(use-package embark-consult)
+
+(use-package wgrep
+  :ensure t
+  :bind (:map grep-mode-map
+              ("e" . wgrep-change-to-wgrep-mode)
+              ("C-x C-q" . wgrep-change-to-wgrep-mode)
+              ("C-c C-c" . wgrep-finish-edit)))
+
 (use-package all-the-icons-completion
   :after (all-the-icons)
   :init
