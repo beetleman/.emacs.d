@@ -174,15 +174,21 @@
 ;;; BUILT-IN PACKAGES
 
 (use-package project
+  :ensure nil
   :config
   (setq project-vc-extra-root-markers '(".project.el" "workspace.edn")))
 
 (use-package flyspell
+  :ensure nil
   :hook ((text-mode . flyspell-mode)
 	 (prog-mode . flyspell-prog-mode))
   :config
   (when (executable-find "aspell")
     (setq ispell-program-name "aspell")))
+
+(use-package electric-pair
+  :ensure nil
+  :hook (after-init . electric-pair-mode))
 
 
 ;;; THIRD-PARTY PACKAGES
@@ -583,11 +589,18 @@
   :init
   (all-the-icons-completion-mode))
 
-(use-package smartparens
-  :hook (prog-mode . smartparens-strict-mode)
-  :config
-  (require 'smartparens-config)
-  (sp-use-smartparens-bindings))
+;; (use-package smartparens
+;;   :hook (prog-mode . smartparens-strict-mode)
+;;   :config
+;;   (require 'smartparens-config)
+;;   (sp-use-smartparens-bindings))
+
+(use-package puni
+  :hook (prog-mode . puni-mode)
+  :bind (("C-<right>" . puni-slurp-forward)
+         ("C-<left>" . puni-barf-forward)
+	 ("C-M-<left>" . puni-slurp-backward)
+	 ("C-M-<right>" . puni-barf-backward)))
 
 (use-package eldoc
   :hook (prog-mode . eldoc-mode)
