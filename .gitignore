@@ -16,3 +16,6 @@ elpa
 /eshell/
 /projects
 /abbrev_defs
+/bookmarks
+/url/
+/elpa-*.tar.gz
