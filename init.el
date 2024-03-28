@@ -619,12 +619,14 @@
 	 (yaml-mode . yas-minor-mode)
 	 (markdown-mode . yas-minor-mode)))
 
-
 (use-package yasnippet-snippets
   :after (yasnippet)
   :config
   (yas-reload-all))
 
+(use-package yasnippet-capf
+  :after (yasnippet)
+  :init (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package hl-todo
   :hook ((prog-mode . hl-todo-mode)
