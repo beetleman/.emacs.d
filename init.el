@@ -305,8 +305,6 @@
   :config
   (setq esup-depth 0))
 
-(use-package all-the-icons)
-
 (use-package treemacs
   :custom
   (treemacs-read-string-input 'from-minibuffer)
@@ -320,18 +318,21 @@
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag)))
 
-(use-package treemacs-all-the-icons
-    :config
-    (treemacs-load-theme "all-the-icons"))
-
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
+(use-package treemacs-nerd-icons
+  :custom-face
+  ;; (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-green :height 1.3))))
+  (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-dsilver))))
+  (treemacs-nerd-icons-file-face ((t (:inherit nerd-icons-dsilver))))
+  :config (treemacs-load-theme "nerd-icons"))
 
 (use-package treemacs-magit
   :after (treemacs magit)
   :ensure t)
 
+(use-package nerd-icons-dired
+  :custom-face
+  (nerd-icons-dired-dir-face ((t (:inherit nerd-icons-dsilver :foreground unspecified))))
+  :hook (dired-mode . nerd-icons-dired-mode))
 
 (use-package dired-quick-sort
   :after dired
@@ -584,10 +585,12 @@
               ("C-x C-q" . wgrep-change-to-wgrep-mode)
               ("C-c C-c" . wgrep-finish-edit)))
 
-(use-package all-the-icons-completion
-  :after (all-the-icons)
-  :init
-  (all-the-icons-completion-mode))
+
+(use-package nerd-icons-completion
+  :after marginalia
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
+  :config
+  (nerd-icons-completion-mode))
 
 ;; (use-package smartparens
 ;;   :hook (prog-mode . smartparens-strict-mode)
@@ -677,12 +680,10 @@
   (corfu-popupinfo-mode 1)
   (corfu-history-mode 1))
 
-(use-package kind-icon
+(use-package nerd-icons-corfu
   :after corfu
-  :custom
-  (kind-icon-default-face 'corfu-default)
   :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 ;; A few more useful configurations...
 (use-package emacs
