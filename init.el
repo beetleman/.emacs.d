@@ -585,18 +585,11 @@
               ("C-x C-q" . wgrep-change-to-wgrep-mode)
               ("C-c C-c" . wgrep-finish-edit)))
 
-
 (use-package nerd-icons-completion
   :after marginalia
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
   :config
   (nerd-icons-completion-mode))
-
-;; (use-package smartparens
-;;   :hook (prog-mode . smartparens-strict-mode)
-;;   :config
-;;   (require 'smartparens-config)
-;;   (sp-use-smartparens-bindings))
 
 (use-package puni
   :hook (prog-mode . puni-mode)
@@ -802,8 +795,6 @@
 
 (use-package cider
   :hook ((cider-mode . clj-refactor-mode)
-	 ;;(cider-repl-mode . company-mode)
-	 (cider-repl-mode . smartparens-strict-mode)
 	 (cider-mode . eldoc-mode))
   :bind (:map clojure-mode-map
               ("<f8>" . #'portal.api/open)
@@ -827,7 +818,6 @@
 
 ;; Common Lisp
 (use-package sly
-  :hook ((sly-mode . smartparens-strict-mode))
   :config
   (sly-symbol-completion-mode -1)
   (setq sly-net-coding-system 'utf-8-unix
@@ -855,8 +845,7 @@
 
 ;; Setup markdown
 
-(use-package markdown-mode
-  :hook ((markdown-mode . smartparens-strict-mode)))
+(use-package markdown-mode)
 
 
 ;; setup webmode
