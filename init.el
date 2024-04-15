@@ -650,6 +650,9 @@
   :config (envrc-global-mode))
 
 (use-package eat
+  :custom
+  (eat-term-scrollback-size 10000)
+  (eat-enable-yank-to-terminal t)
   :bind (("C-c t" . eat-project-other-window)
 	 ("C-c T" . eat)))
 
@@ -901,7 +904,7 @@
   ;;   '((t . (:inherit flymake-warning)))
   ;;   "Face used to render unused or unnecessary code.")
   :config
-  (setq eglot-connect-timeout 60)
+  (setq eglot-connect-timeout 300) ;; 5m
   (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
 									  ("html-languageserver" "--stdio"))))))
 
