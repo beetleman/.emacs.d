@@ -442,6 +442,9 @@
   :bind ("<f6>" . vertico-repeat)
   :hook (minibuffer-setup . vertico-repeat-save))
 
+(use-package super-save
+  :config
+  (super-save-mode +1))
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
