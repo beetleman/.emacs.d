@@ -121,6 +121,11 @@
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 
+;; Permanently indent with spaces, never with TABs
+(setq-default c-basic-offset   4
+              tab-width        4
+              indent-tabs-mode nil)
+
 ;; setup font settings
 (if (eq system-type 'darwin) ;; mac specific settings
     (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS08-13:width=expanded"))
@@ -293,11 +298,12 @@
 (use-package mode-line-bell
   :hook (after-init . mode-line-bell-mode))
 
-
 (use-package ws-butler
+  :custom
+  (ws-butler-convert-leading-tabs-or-spaces t)
   :hook ((prog-mode . ws-butler-mode)
-	 (markdown-mode . ws-butler-mode)
-	 (org-mode . ws-butler-mode)))
+	     (markdown-mode . ws-butler-mode)
+	     (org-mode . ws-butler-mode)))
 
 ;; for emacs profiling
 (use-package esup
