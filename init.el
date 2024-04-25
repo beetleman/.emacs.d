@@ -941,6 +941,9 @@
 ;; reset GC
 (use-package gcmh
   :init
+  (setq gcmh-idle-delay             'auto  ; default is 15s
+        gcmh-auto-idle-delay-factor 10
+        gcmh-high-cons-threshold    (* 16 1024 1024))  ; 16mb
   (gcmh-mode 1))
 
 ;; config changes made through the customize UI will be stored here
