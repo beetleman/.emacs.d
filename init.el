@@ -579,13 +579,16 @@
 
 (use-package embark
   :bind (("C-." . embark-act)
+         ("C-;" . embark-dwim)
          :map minibuffer-local-map
          ("C-c C-c" . embark-collect)
          ("C-c C-e" . embark-export)))
 
 ;; The `embark-consult' package is glue code to tie together `embark'
 ;; and `consult'.
-(use-package embark-consult)
+(use-package embark-consult
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package wgrep
   :ensure t
