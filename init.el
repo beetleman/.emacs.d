@@ -899,15 +899,15 @@
 (use-package eglot
   :commands (eglot eglot-ensure)
   :hook ((js-mode . eglot-ensure)
-	 (web-mode . eglot-ensure)
-	 (typescript-mode . eglot-ensure)
-	 (clojure-mode . eglot-ensure)
-	 (clojurescript-mode . eglot-ensure)
+         (web-mode . eglot-ensure)
+         (typescript-mode . eglot-ensure)
+         (clojure-mode . eglot-ensure)
+         (clojurescript-mode . eglot-ensure)
          (clojurec-mode . eglot-ensure)
-	 (sh-mode . eglot-ensure)
-	 (yaml-mode . eglot-ensure))
+         (sh-mode . eglot-ensure)
+         (yaml-mode . eglot-ensure))
   :bind (("C-c r" . eglot-rename)
-	 ("C-c f" . eglot-format))
+         ("C-c f" . eglot-format))
   ;; :init
   ;; (defface eglot-diagnostic-tag-deprecated-face
   ;;   '((t . (:inherit flymake-warning)))
@@ -916,9 +916,12 @@
   ;;   '((t . (:inherit flymake-warning)))
   ;;   "Face used to render unused or unnecessary code.")
   :config
+
   (setq eglot-connect-timeout 300) ;; 5m
-  (add-to-list 'eglot-server-programs `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
-									  ("html-languageserver" "--stdio"))))))
+  (setf (plist-get eglot-events-buffer-config :size) 0)
+  (add-to-list 'eglot-server-programs
+               `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
+                                                   ("html-languageserver" "--stdio"))))))
 
 ;; (use-package apheleia
 ;;   ;; for formating after save file
