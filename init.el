@@ -165,6 +165,9 @@
 (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
 (package-initialize)
 
+;; upgrade buildin packages
+(setopt package-install-upgrade-built-in t)
+
 ;; update the package metadata is the local cache is missing
 (unless package-archive-contents
   (package-refresh-contents))
