@@ -38,7 +38,7 @@
 
 (setq inhibit-compacting-font-caches t)
 
-(setq user-full-name "Mateusz Probachta"
+(setq user-full-name "Mateusz Probachta-Jeżowski"
       user-mail-address "mateusz.probachta@gmail.com")
 
 ;; Always load newest byte code
