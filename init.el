@@ -140,6 +140,10 @@
 (beetleman:set-emoji-font nil)
 (add-hook 'after-make-frame-functions 'beetleman:set-emoji-font)
 
+;; server
+(require 'server)
+(unless (server-running-p) (server-start))
+
 ;; vc-mode
 (setq auto-revert-check-vc-info t)
 
