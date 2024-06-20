@@ -355,37 +355,44 @@
           insert-directory-program "/opt/homebrew/bin/gls"))
   (dired-quick-sort-setup))
 
-(use-package modus-themes
+(when nil
+  (use-package modus-themes
+        :demand t
+        :config
+        ;; Add all your customizations prior to loading the themes
+        (setq modus-themes-italic-constructs nil
+              modus-themes-bold-constructs nil
+          modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+
+        ;; Maybe define some palette overrides, such as by using our presets
+        (setq modus-themes-common-palette-overrides
+              `((bg-paren-match bg-magenta-intense)
+            (bg-mode-line-active bg-cyan-subtle)
+                ,@modus-themes-preset-overrides-faint))
+
+        ;; Load the theme of your choice.
+        (modus-themes-load-theme 'modus-vivendi-tinted)
+
+        :bind ("<f5>" . #'modus-themes-toggle))
+  )
+
+(use-package ef-themes
   :demand t
+  :custom
+  (ef-themes-to-toggle '(ef-summer ef-winter))
   :config
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-italic-constructs nil
-        modus-themes-bold-constructs nil
-	modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+  (setq ef-themes-common-palette-overrides
+        '((bg-mode-line-active bg-cyan-subtle)))
+  (defun my-ef-themes-mode-line ()
+    "Tweak the style of the mode lines."
+    (ef-themes-with-colors
+      (custom-set-faces
+       `(mode-line ((,c :background ,bg-mode-line :foreground ,fg-mode-line :box (:line-width 1 :color ,fg-dim))))
+       `(mode-line-inactive ((,c :box (:line-width 1 :color ,bg-active)))))))
 
-  ;; Maybe define some palette overrides, such as by using our presets
-  (setq modus-themes-common-palette-overrides
-        `((bg-paren-match bg-magenta-intense)
-	  (bg-mode-line-active bg-cyan-subtle)
-          ,@modus-themes-preset-overrides-faint))
-
-  ;; Load the theme of your choice.
-  (modus-themes-load-theme 'modus-vivendi-tinted)
-
-  :bind ("<f5>" . #'modus-themes-toggle))
-
-;; (use-package popper
-;;   :bind (("C-`"   . popper-toggle-latest)
-;;          ("C-~"   . popper-cycle)
-;;          ("C-M-`" . popper-toggle-type))
-;;   :init
-;;   (setq popper-reference-buffers
-;;         '("^\\*cider-error*"
-;; 	  "^\\*cider-repl"
-;; 	  "^\\*cider-repl-history"
-;; 	  compilation-mode))
-;;   (popper-mode +1)
-;;   (popper-echo-mode +1))
+  (add-hook 'ef-themes-post-load-hook #'my-ef-themes-mode-line)
+  (ef-themes-select 'ef-summer)
+  :bind ("<f5>" . #'ef-themes-toggle))
 
 (use-package ace-window
   :bind (("M-o" . ace-window)))
