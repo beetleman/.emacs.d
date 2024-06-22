@@ -193,7 +193,7 @@
 (use-package flyspell
   :ensure nil
   :hook ((text-mode . flyspell-mode)
-	 (prog-mode . flyspell-prog-mode))
+         (prog-mode . flyspell-prog-mode))
   :config
   (when (executable-find "aspell")
     (setq ispell-program-name "aspell")))
@@ -202,8 +202,24 @@
   :ensure nil
   :hook (after-init . electric-pair-mode))
 
+(use-package outline
+  :ensure nil
+  :custom
+  (outline-minor-mode-cycle t)
+  (outline-minor-mode-highlight 'override)
+  :hook (prog-mode . outline-minor-mode))
+
+(use-package hideshow
+  :ensure nil
+  :hook (prog-mode . hs-minor-mode))
 
 ;;; THIRD-PARTY PACKAGES
+
+(use-package bicycle
+  :after outline
+  :bind (:map outline-minor-mode-map
+              ([C-tab] . bicycle-cycle)
+              ([S-tab] . bicycle-cycle-global)))
 
 (use-package meow
   :config
