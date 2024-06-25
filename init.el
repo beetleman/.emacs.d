@@ -185,6 +185,17 @@
 
 ;;; BUILT-IN PACKAGES
 
+(use-package dired
+  :ensure nil
+  :custom
+  (dired-listing-switches "-alh"))
+
+(use-package dired
+  :ensure nil
+  :if (string= system-type "darwin")
+  :custom
+  (insert-directory-progam "/opt/homebrew/bin/gls"))
+
 (use-package project
   :ensure nil
   :config
@@ -366,9 +377,6 @@
 (use-package dired-quick-sort
   :after dired
   :config
-  (when (string= system-type "darwin")
-    (setq dired-use-ls-dired t
-          insert-directory-program "/opt/homebrew/bin/gls"))
   (dired-quick-sort-setup))
 
 (when nil
