@@ -1,9 +1,9 @@
 ;;; -*- lexical-binding: t; -*-
 ;;; init.el --- Mateusz's Emacs configuration
 ;;
-;; Copyright (c) 2017-2021 Mateusz P.
+;; Copyright (c) 2017-2021 Mateusz P.J.
 ;;
-;; Author: Mateusz Probachta <mateusz.probachta@gmail.com>
+;; Author: Mateusz Probachta-Jeżowski <mateusz.probachta@gmail.com>
 ;; URL: https://github.com/beetleman/.emacs.d
 ;; Keywords: convenience
 
