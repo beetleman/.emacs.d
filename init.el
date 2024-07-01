@@ -932,6 +932,10 @@
 (use-package prettier-js
   :hook (((js-mode typescript-mode web-mode) . prettier-js-mode)))
 
+;; OpenIA
+
+(use-package gptel)
+
 ;; LSP
 
 (use-package eglot
