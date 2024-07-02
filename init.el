@@ -194,7 +194,7 @@
   :ensure nil
   :if (string= system-type "darwin")
   :custom
-  (insert-directory-progam "/opt/homebrew/bin/gls"))
+  (insert-directory-program "/opt/homebrew/bin/gls"))
 
 (use-package project
   :ensure nil
