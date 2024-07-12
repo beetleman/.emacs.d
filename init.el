@@ -790,6 +790,15 @@
 		   (setq utop-command "utop -emacs")
 		   (utop-minor-mode))))
 
+
+;; Setup rust
+
+(use-package rust-mode
+  :custom
+  (rust-format-on-save t)
+  :mode (("\\.rs$" . rust-mode)))
+
+
 ;; Setup clojure
 
 ;; (use-package flycheck-clj-kondo
@@ -927,7 +936,8 @@
          (clojurescript-mode . eglot-ensure)
          (clojurec-mode . eglot-ensure)
          (sh-mode . eglot-ensure)
-         (yaml-mode . eglot-ensure))
+         (yaml-mode . eglot-ensure)
+         (rust-mode . eglot-ensure))
   :bind (("C-c r" . eglot-rename)
          ("C-c f" . eglot-format))
   ;; :init
