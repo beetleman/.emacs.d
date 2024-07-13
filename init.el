@@ -260,7 +260,8 @@
    '("9" . meow-digit-argument)
    '("0" . meow-digit-argument)
    '("/" . meow-keypad-describe-key)
-   '("?" . meow-cheatsheet))
+   '("?" . meow-cheatsheet)
+   '("u" . meow-universal-argument))
   (meow-normal-define-key
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
