@@ -91,10 +91,10 @@
 ;; fix C-z
 (global-unset-key (kbd "C-z"))
 
-(global-set-key (kbd "C-z C-z") 'beetleman-suspend-frame)
-(global-set-key (kbd "C-x C-z") 'beetleman-suspend-frame)
+(global-set-key (kbd "C-z C-z") 'beetleman--suspend-frame)
+(global-set-key (kbd "C-x C-z") 'beetleman--suspend-frame)
 
-(defun beetleman-suspend-frame ()
+(defun beetleman--suspend-frame ()
   "In a GUI environment, do nothing; otherwise `suspend-frame'."
   (interactive)
   (if (display-graphic-p)
@@ -131,14 +131,14 @@
     (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS08-13:width=expanded"))
   (add-to-list 'default-frame-alist '(font . "Iosevka Fixed SS08-11:width=expanded")))
 
-(defun beetleman:set-emoji-font (frame)
+(defun beetleman--set-emoji-font (frame)
   "Adjust the font settings of FRAME so Emacs can display: ✨🍆✨."
   (set-fontset-font t 'symbol "Noto Color Emoji" frame)
   (set-fontset-font t 'symbol "Symbola" frame 'append))
 
 
-(beetleman:set-emoji-font nil)
-(add-hook 'after-make-frame-functions 'beetleman:set-emoji-font)
+(beetleman--set-emoji-font nil)
+(add-hook 'after-make-frame-functions 'beetleman--set-emoji-font)
 
 ;; server
 (require 'server)
