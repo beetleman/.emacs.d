@@ -441,7 +441,9 @@
   ;;       completion-category-overrides '((file (styles . (partial-completion)))))
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion))))
+  (completion-category-overrides '((file (styles basic partial-completion))
+                                   (eglot (styles orderless))
+                                   (eglot-capf (styles orderless))))
   (orderless-component-separator #'orderless-escapable-split-on-space))
 
 ;; Enable vertico
@@ -648,10 +650,6 @@
   :config
   (yas-reload-all))
 
-(use-package yasnippet-capf
-  :after (yasnippet)
-  :init (add-to-list 'completion-at-point-functions #'yasnippet-capf))
-
 (use-package hl-todo
   :hook ((prog-mode . hl-todo-mode)
 	 (yaml-mode . hl-todo-mode)
@@ -795,8 +793,6 @@
 ;; Setup rust
 
 (use-package rust-mode
-  :custom
-  (rust-format-on-save t)
   :mode (("\\.rs$" . rust-mode)))
 
 
