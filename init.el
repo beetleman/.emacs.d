@@ -818,12 +818,34 @@
 (use-package rust-mode
   :mode (("\\.rs$" . rust-mode)))
 
+;; Setup Golang
+
+(use-package go-mode
+  :config
+  (use-package go-dlv)
+  (use-package go-fill-struct)
+  (use-package go-impl)
+
+  (use-package go-tag
+    :bind (:map go-mode-map
+           ("C-c c a" . go-tag-add)
+           ("C-c c r" . go-tag-remove))
+    :init (setq go-tag-args (list "-transform" "camelcase")))
+
+  (use-package go-gen-test
+    :bind (:map go-mode-map
+           ("C-c c g" . go-gen-test-dwim)))
+
+  (use-package gotest
+    :bind (:map go-mode-map
+           ("C-c c f" . go-test-current-file)
+           ("C-c c t" . go-test-current-test)
+           ("C-c c j" . go-test-current-project)
+           ("C-c c b" . go-test-current-benchmark)
+           ("C-c c c" . go-test-current-coverage)
+           ("C-c c x" . go-run))))
 
 ;; Setup clojure
-
-;; (use-package flycheck-clj-kondo
-;;   :after (clojure-mode))
-
 
 (use-package clojure-mode
   :mode (("\\.clj$" . clojure-mode)
