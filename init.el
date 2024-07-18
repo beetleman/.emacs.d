@@ -971,6 +971,11 @@
 
 (use-package eglot
   :commands (eglot eglot-ensure)
+  :preface
+  (defun beetleman-eglot-before-save ()
+    (interactive)
+    (when (bound-and-true-p eglot--managed-mode)
+      (eglot-format-buffer)))
   :hook ((js-mode . eglot-ensure)
          (web-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
@@ -979,9 +984,15 @@
          (clojurec-mode . eglot-ensure)
          (sh-mode . eglot-ensure)
          (yaml-mode . eglot-ensure)
-         (rust-mode . eglot-ensure))
-  :bind (("C-c r" . eglot-rename)
-         ("C-c f" . eglot-format))
+         (rust-mode . eglot-ensure)
+         (go-mode . eglot-ensure)
+         (before-save . beetleman-eglot-before-save))
+  :bind (("C-c e r" . eglot-rename)
+         ("C-c e i" . eglot-code-action-organize-imports)
+         ("C-c e e" . eglot-code-action-extract)
+         ("C-c e q" . eglot-code-action-quickfix)
+         ("C-c e a" . eglot-code-actions)
+         ("C-c e f" . eglot-format))
   ;; :init
   ;; (defface eglot-diagnostic-tag-deprecated-face
   ;;   '((t . (:inherit flymake-warning)))
