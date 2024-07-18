@@ -678,12 +678,35 @@
               ("C-c d" . envrc-command-map))
   :config (envrc-global-mode))
 
-(use-package eat
-  :custom
-  (eat-term-scrollback-size 10000)
-  (eat-enable-yank-to-terminal t)
-  :bind (("C-c t" . eat-project-other-window)
-	 ("C-c T" . eat)))
+;; fish configuration:
+;; if [ "$INSIDE_EMACS" = 'vterm' ] ; and [ -n $EMACS_VTERM_PATH ] ; and [ -f $EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh ]
+;;     source "$EMACS_VTERM_PATH/etc/emacs-vterm.fish"
+;; end
+
+(use-package vterm
+  :ensure t
+  :bind (("C-c t" . beetleman-project-vterm)
+         ("C-c T" . vterm-other-window)
+         :map project-prefix-map
+         ("t" . beetleman-project-vterm))
+  :preface
+  (defun beetleman-project-vterm ()
+    (interactive)
+    (defvar vterm-buffer-name)
+    (let* ((default-directory (project-root (project-current t)))
+           (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
+           (vterm-buffer (get-buffer vterm-buffer-name)))
+      (if (and vterm-buffer (not current-prefix-arg))
+          (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
+        (vterm))))
+  :init
+  (add-to-list 'project-switch-commands         '(beetleman-project-vterm "vterm") t)
+  (add-to-list 'project-kill-buffer-conditions  '(major-mode . vterm-mode))
+  :config
+  (setq vterm-copy-exclude-prompt t)
+  (setq vterm-always-compile-modul t)
+  (setq vterm-max-scrollback 100000))
+
 
 (use-package editorconfig
   :config
