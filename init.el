@@ -67,7 +67,7 @@
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
 (when (and (fboundp 'menu-bar-mode)
-	   (not (eq system-type 'darwin)))
+           (not (eq system-type 'darwin)))
   (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
@@ -163,7 +163,7 @@
 (require 'package)
 
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/") t)
+             '("melpa" . "https://melpa.org/packages/") t)
 
 ;; keep the installed packages in .emacs.d
 (setq package-user-dir (expand-file-name "elpa" user-emacs-directory))
@@ -235,10 +235,10 @@
 (use-package meow
   :config
   (setq meow-replace-state-name-list '((normal . "<N>")
-				       (motion . "<M>")
-				       (keypad . "<K>")
-				       (insert . "<I>")
-				       (beacon . "<B>")))
+                                       (motion . "<M>")
+                                       (keypad . "<K>")
+                                       (insert . "<I>")
+                                       (beacon . "<B>")))
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
@@ -419,12 +419,12 @@
 (use-package diff-hl
   :custom
   (diff-hl-margin-symbols-alist '((insert . "+")
-				  (delete . "-")
-				  (change . "~")
-				  (unknown . "?")
-				  (ignored . "i")))
+                                  (delete . "-")
+                                  (change . "~")
+                                  (unknown . "?")
+                                  (ignored . "i")))
   :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)
-	 (magit-post-refresh . diff-hl-magit-post-refresh))
+         (magit-post-refresh . diff-hl-magit-post-refresh))
   :init
   (global-diff-hl-mode)
   (diff-hl-margin-mode))
@@ -493,7 +493,7 @@
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
          ("C-c m" . consult-mode-command)
-	 ("C-c i" . consult-imenu)
+         ("C-c i" . consult-imenu)
          ;; ("C-c k" . consult-kmacro) ; conflict with meow
          ;; C-x bindings (ctl-x-map)
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
@@ -519,8 +519,8 @@
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
          ;; M-s bindings (search-map)
-	 ("C-s" . consult-line)
-	 ("M-s d" . consult-find)
+         ("C-s" . consult-line)
+         ("M-s d" . consult-find)
          ("M-s D" . consult-locate)
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
@@ -529,7 +529,7 @@
          ("M-s L" . consult-line-multi)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
-	 ;; Isearch integration
+         ;; Isearch integration
          ("M-s e" . consult-isearch-history)
          :map isearch-mode-map
          ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
@@ -629,8 +629,8 @@
   :hook (prog-mode . puni-mode)
   :bind (("C-<right>" . puni-slurp-forward)
          ("C-<left>" . puni-barf-forward)
-	 ("C-M-<left>" . puni-slurp-backward)
-	 ("C-M-<right>" . puni-barf-backward)))
+         ("C-M-<left>" . puni-slurp-backward)
+         ("C-M-<right>" . puni-barf-backward)))
 
 (use-package eldoc
   :hook (prog-mode . eldoc-mode)
@@ -642,9 +642,9 @@
 
 (use-package yasnippet
   :hook ((prog-mode . yas-minor-mode)
-	 (org-mode . yas-minor-mode)
-	 (yaml-mode . yas-minor-mode)
-	 (markdown-mode . yas-minor-mode)))
+         (org-mode . yas-minor-mode)
+         (yaml-mode . yas-minor-mode)
+         (markdown-mode . yas-minor-mode)))
 
 (use-package yasnippet-snippets
   :after (yasnippet)
@@ -653,16 +653,16 @@
 
 (use-package hl-todo
   :hook ((prog-mode . hl-todo-mode)
-	 (yaml-mode . hl-todo-mode)
-	 (markdown-mode . yas-minor-mode))
+         (yaml-mode . hl-todo-mode)
+         (markdown-mode . yas-minor-mode))
   :config
   (setq hl-todo-highlight-punctuation ":"
-	hl-todo-keyword-faces
-	'(("TODO"   . "#FF0000")
-	  ("FIXME"  . "#FF0000")
-	  ("DEBUG"  . "#A020F0")
-	  ("GOTCHA" . "#FF4500")
-	  ("STUB"   . "#1E90FF"))))
+        hl-todo-keyword-faces
+        '(("TODO"   . "#FF0000")
+          ("FIXME"  . "#FF0000")
+          ("DEBUG"  . "#A020F0")
+          ("GOTCHA" . "#FF4500")
+          ("STUB"   . "#1E90FF"))))
 
 
 (use-package anzu
@@ -797,12 +797,12 @@
   :custom
   (merlin-completion-with-doc t)
   :bind (:map merlin-mode-map
-	      ("M-." . merlin-locate)
-	      ("M-," . merlin-pop-stack)
-	      ("M-?" . merlin-occurrences)
-	      ("C-c C-j" . merlin-jump)
-	      ("C-c i" . merlin-locate-ident)
-	      ("C-c C-e" . merlin-iedit-occurrences))
+              ("M-." . merlin-locate)
+              ("M-," . merlin-pop-stack)
+              ("M-?" . merlin-occurrences)
+              ("C-c C-j" . merlin-jump)
+              ("C-c i" . merlin-locate-ident)
+              ("C-c C-e" . merlin-iedit-occurrences))
   :hook ((tuareg-mode caml-mode) . merlin-mode))
 
 (use-package utop
@@ -810,8 +810,8 @@
   (utop-edit-command nil)
   :hook
   (tuareg-mode . (lambda ()
-		   (setq utop-command "utop -emacs")
-		   (utop-minor-mode))))
+                   (setq utop-command "utop -emacs")
+                   (utop-minor-mode))))
 
 
 ;; Setup rust
@@ -829,31 +829,31 @@
 
   (use-package go-tag
     :bind (:map go-mode-map
-           ("C-c c a" . go-tag-add)
-           ("C-c c r" . go-tag-remove))
+                ("C-c c a" . go-tag-add)
+                ("C-c c r" . go-tag-remove))
     :init (setq go-tag-args (list "-transform" "camelcase")))
 
   (use-package go-gen-test
     :bind (:map go-mode-map
-           ("C-c c g" . go-gen-test-dwim)))
+                ("C-c c g" . go-gen-test-dwim)))
 
   (use-package gotest
     :bind (:map go-mode-map
-           ("C-c c f" . go-test-current-file)
-           ("C-c c t" . go-test-current-test)
-           ("C-c c j" . go-test-current-project)
-           ("C-c c b" . go-test-current-benchmark)
-           ("C-c c c" . go-test-current-coverage)
-           ("C-c c x" . go-run))))
+                ("C-c c f" . go-test-current-file)
+                ("C-c c t" . go-test-current-test)
+                ("C-c c j" . go-test-current-project)
+                ("C-c c b" . go-test-current-benchmark)
+                ("C-c c c" . go-test-current-coverage)
+                ("C-c c x" . go-run))))
 
 ;; Setup clojure
 
 (use-package clojure-mode
   :mode (("\\.clj$" . clojure-mode)
-	 ("\\.cljs$" . clojurescript-mode)
-	 ("\\.cljc$" . clojurec-mode)
-	 ("\\.edn$" . clojure-mode)
-	 ("\\.bb$" . clojure-mode)))
+         ("\\.cljs$" . clojurescript-mode)
+         ("\\.cljc$" . clojurec-mode)
+         ("\\.edn$" . clojure-mode)
+         ("\\.bb$" . clojure-mode)))
 
 
 (use-package clj-refactor
@@ -880,7 +880,7 @@
 
 (use-package cider
   :hook ((cider-mode . clj-refactor-mode)
-	 (cider-mode . eldoc-mode))
+         (cider-mode . eldoc-mode))
   :bind (:map clojure-mode-map
               ("<f8>" . #'portal.api/open)
               ("<f7>" . #'portal.api/clear))
@@ -907,7 +907,7 @@
   (sly-symbol-completion-mode -1)
   (setq sly-net-coding-system 'utf-8-unix
         sly-complete-symbol-function 'sly-flex-completions ;;'sly-simple-completions
-	inferior-lisp-program "sbcl"))
+        inferior-lisp-program "sbcl"))
 
 ;; Setup Caddyfile
 
@@ -937,15 +937,15 @@
 
 (use-package web-mode
   :mode (("\\.vue\\'" . web-mode)
-	 ("\\.html\\'" . web-mode)
-	 ("\\.htm\\'" . web-mode)
-	 ("\\.tmpl\\'" . web-mode)
-	 ("\\.ejs\\'" . web-mode))
+         ("\\.html\\'" . web-mode)
+         ("\\.htm\\'" . web-mode)
+         ("\\.tmpl\\'" . web-mode)
+         ("\\.ejs\\'" . web-mode))
   :config
   (setq web-mode-markup-indent-offset 2
-	web-mode-css-indent-offset 2
-	web-mode-code-indent-offset 2
-	web-mode-enable-engine-detection t))
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-enable-engine-detection t))
 
 
 ;; SQL
