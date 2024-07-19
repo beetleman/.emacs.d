@@ -451,6 +451,15 @@
 (use-package vertico
   :hook (after-init . vertico-mode))
 
+(use-package nerd-icons-completion
+  :hook (vertico-mode . nerd-icons-completion-mode)
+  :config
+  ;; remove after merge: https://github.com/rainstormstudio/nerd-icons-completion/pull/12
+  (advice-add (compat-function completion-metadata-get) :around #'nerd-icons-completion-completion-metadata-get))
+
+(use-package marginalia
+  :hook (after-init . marginalia-mode))
+
 ;; Configure directory extension.
 (use-package vertico-directory
   :after vertico
@@ -593,10 +602,8 @@
   ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
   ;;;; 4. locate-dominating-file
   ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
-)
+  )
 
-(use-package marginalia
-  :hook (after-init . marginalia-mode))
 
 (use-package embark
   :bind (("C-." . embark-act)
@@ -617,12 +624,6 @@
               ("e" . wgrep-change-to-wgrep-mode)
               ("C-x C-q" . wgrep-change-to-wgrep-mode)
               ("C-c C-c" . wgrep-finish-edit)))
-
-(use-package nerd-icons-completion
-  :after marginalia
-  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
-  :config
-  (nerd-icons-completion-mode))
 
 (use-package puni
   :hook (prog-mode . puni-mode)
