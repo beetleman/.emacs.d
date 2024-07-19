@@ -685,29 +685,17 @@
 ;; end
 
 (use-package vterm
-  :ensure t
-  :bind (("C-c t" . beetleman-project-vterm)
-         ("C-c T" . vterm-other-window)
-         :map project-prefix-map
-         ("t" . beetleman-project-vterm))
-  :preface
-  (defun beetleman-project-vterm ()
-    (interactive)
-    (defvar vterm-buffer-name)
-    (let* ((default-directory (project-root (project-current t)))
-           (vterm-buffer-name (project-prefixed-buffer-name "vterm"))
-           (vterm-buffer (get-buffer vterm-buffer-name)))
-      (if (and vterm-buffer (not current-prefix-arg))
-          (pop-to-buffer vterm-buffer (bound-and-true-p display-comint-buffer-action))
-        (vterm))))
-  :init
-  (add-to-list 'project-switch-commands         '(beetleman-project-vterm "vterm") t)
-  (add-to-list 'project-kill-buffer-conditions  '(major-mode . vterm-mode))
-  :config
-  (setq vterm-copy-exclude-prompt t)
-  (setq vterm-always-compile-modul t)
-  (setq vterm-max-scrollback 100000))
+  :custom
+  (vterm-copy-exclude-prompt t)
+  (vterm-always-compile-modul t)
+  (vterm-max-scrollback 100000))
 
+(use-package multi-vterm
+  :bind (([remap project-shell] . multi-vterm-project)
+         ("C-c t t" . multi-vterm-project)
+         ("C-c t T" . multi-vterm)
+         ("C-c t n" . multi-vterm-next)
+         ("C-c t p" . multi-vterm-prev)))
 
 (use-package editorconfig
   :config
