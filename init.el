@@ -199,7 +199,7 @@
 (use-package project
   :ensure nil
   :config
-  (setq project-vc-extra-root-markers '(".project.el" "workspace.edn")))
+  (setq project-vc-extra-root-markers '(".project.el" "workspace.edn" "go.mod")))
 
 (use-package flyspell
   :ensure nil
@@ -993,6 +993,9 @@
 
   (setq eglot-connect-timeout 300) ;; 5m
   (setf (plist-get eglot-events-buffer-config :size) 0)
+  (setq-default eglot-workspace-configuration
+                '((:gopls .
+                          ((staticcheck . t)))))
   (add-to-list 'eglot-server-programs
                `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
                                                    ("html-languageserver" "--stdio"))))))
