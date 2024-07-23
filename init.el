@@ -62,16 +62,16 @@
 ;; replace selected section if start typing
 (delete-selection-mode 1)
 
+;; Suppress GUI features
+(setq use-file-dialog nil
+      use-dialog-box nil
+      inhibit-startup-screen t
+      inhibit-startup-echo-area-message user-full-name
+      inhibit-default-init t
+      initial-scratch-message nil)
+(unless (daemonp)
+  (advice-add #'display-startup-echo-area-message :override #'ignore))
 
-;; hide anoying UI
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-(when (and (fboundp 'menu-bar-mode)
-           (not (eq system-type 'darwin)))
-  (menu-bar-mode -1))
-(when (fboundp 'scroll-bar-mode)
-  (scroll-bar-mode -1))
-(setq inhibit-startup-screen t)
 ;; and show this majestic creature!
 (setq initial-scratch-message
       ";;
@@ -115,11 +115,6 @@
 
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)
-
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
 
 ;; Permanently indent with spaces, never with TABs
 (setq-default c-basic-offset   4
@@ -360,6 +355,7 @@
         ("C-x t M-t" . treemacs-find-tag)))
 
 (use-package treemacs-nerd-icons
+  :after (treemacs)
   :custom-face
   ;; (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-green :height 1.3))))
   (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-dsilver))))
@@ -685,12 +681,15 @@
 ;; end
 
 (use-package vterm
+  :defer t
   :custom
   (vterm-copy-exclude-prompt t)
   (vterm-always-compile-modul t)
   (vterm-max-scrollback 100000))
 
 (use-package multi-vterm
+  :custom
+  (multi-vterm-buffer-name "vterm")
   :bind (([remap project-shell] . multi-vterm-project)
          ("C-c t t" . multi-vterm-project)
          ("C-c t T" . multi-vterm)
@@ -810,6 +809,7 @@
 ;; Setup Golang
 
 (use-package go-mode
+  :defer t
   :config
   (use-package go-dlv)
   (use-package go-fill-struct)
