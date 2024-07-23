@@ -344,6 +344,7 @@
 (use-package treemacs
   :custom
   (treemacs-read-string-input 'from-minibuffer)
+  (treemacs-git-mode 'deferred)
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -357,14 +358,17 @@
 (use-package treemacs-nerd-icons
   :after (treemacs)
   :custom-face
-  ;; (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-green :height 1.3))))
-  (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-dsilver))))
+  (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-dsilver :height 1.3))))
   (treemacs-nerd-icons-file-face ((t (:inherit nerd-icons-dsilver))))
   :config (treemacs-load-theme "nerd-icons"))
 
 (use-package treemacs-magit
-  :after (treemacs magit)
-  :ensure t)
+  :after (treemancs)
+  :hook ((magit-post-commit
+          git-commit-post-finish
+          magit-post-stage
+          magit-post-unstage)
+         . treemacs-magit--schedule-update))
 
 (use-package nerd-icons-dired
   :custom-face
@@ -1020,6 +1024,10 @@
   :hook (after-init . doom-modeline-mode)
   :config
   (setq x-underline-at-descent-line t))
+
+(use-package hide-mode-line
+  :hook ((treemacs-mode . turn-on-hide-mode-line-mode)
+         (embark-collect-mode . turn-on-hide-mode-line-mode)))
 
 ;; reset GC
 (use-package gcmh
