@@ -135,10 +135,6 @@
 (beetleman--set-emoji-font nil)
 (add-hook 'after-make-frame-functions 'beetleman--set-emoji-font)
 
-;; server
-(require 'server)
-(unless (server-running-p) (server-start))
-
 ;; vc-mode
 (setq auto-revert-check-vc-info t)
 
@@ -174,11 +170,23 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
+
+(setq use-package-always-ensure t
+      use-package-always-defer t
+      use-package-expand-minimally t
+      use-package-enable-imenu-support t)
+
 (require 'use-package)
-(setq use-package-always-ensure t)
 
 
 ;;; BUILT-IN PACKAGES
+
+(use-package server
+  :ensure nil
+  :defer 1
+  :config
+  (require 'server)
+  (unless (server-running-p) (server-start)))
 
 (use-package dired
   :ensure nil
@@ -221,6 +229,25 @@
 
 ;;; THIRD-PARTY PACKAGES
 
+(use-package modus-themes
+  :demand t
+  :config
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs nil
+        modus-themes-bold-constructs nil
+        modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+
+  ;; Maybe define some palette overrides, such as by using our presets
+  (setq modus-themes-common-palette-overrides
+        `((bg-paren-match bg-magenta-intense)
+          (bg-mode-line-active bg-cyan-subtle)
+          ,@modus-themes-preset-overrides-faint))
+
+  ;; Load the theme of your choice.
+  (modus-themes-load-theme 'modus-vivendi-tinted)
+
+  :bind ("<f5>" . #'modus-themes-toggle))
+
 (use-package bicycle
   :after outline
   :bind (:map outline-minor-mode-map
@@ -228,6 +255,7 @@
               ([S-tab] . bicycle-cycle-global)))
 
 (use-package meow
+  :demand t
   :config
   (setq meow-replace-state-name-list '((normal . "<N>")
                                        (motion . "<M>")
@@ -322,6 +350,7 @@
    '("<escape>" . ignore))
   (meow-global-mode 1))
 
+;; Environment
 (use-package exec-path-from-shell
   :init (exec-path-from-shell-initialize))
 
@@ -353,22 +382,21 @@
         ("C-x t d"   . treemacs-select-directory)
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
+        ("C-x t M-t" . treemacs-find-tag))
+  :config
+  (use-package treemacs-nerd-icons
+    :demand t
+    :custom-face
+    (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-dsilver :height 1.3))))
+    (treemacs-nerd-icons-file-face ((t (:inherit nerd-icons-dsilver))))
+    :config (treemacs-load-theme "nerd-icons"))
 
-(use-package treemacs-nerd-icons
-  :after (treemacs)
-  :custom-face
-  (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-dsilver :height 1.3))))
-  (treemacs-nerd-icons-file-face ((t (:inherit nerd-icons-dsilver))))
-  :config (treemacs-load-theme "nerd-icons"))
-
-(use-package treemacs-magit
-  :after (treemancs)
-  :hook ((magit-post-commit
-          git-commit-post-finish
-          magit-post-stage
-          magit-post-unstage)
-         . treemacs-magit--schedule-update))
+  (use-package treemacs-magit
+    :hook ((magit-post-commit
+            git-commit-post-finish
+            magit-post-stage
+            magit-post-unstage)
+           . treemacs-magit--schedule-update)))
 
 (use-package nerd-icons-dired
   :custom-face
@@ -377,27 +405,8 @@
 
 (use-package dired-quick-sort
   :after dired
-  :config
+  :init
   (dired-quick-sort-setup))
-
-(use-package modus-themes
-  :demand t
-  :config
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-italic-constructs nil
-        modus-themes-bold-constructs nil
-        modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
-
-  ;; Maybe define some palette overrides, such as by using our presets
-  (setq modus-themes-common-palette-overrides
-        `((bg-paren-match bg-magenta-intense)
-          (bg-mode-line-active bg-cyan-subtle)
-          ,@modus-themes-preset-overrides-faint))
-
-  ;; Load the theme of your choice.
-  (modus-themes-load-theme 'modus-vivendi-tinted)
-
-  :bind ("<f5>" . #'modus-themes-toggle))
 
 (use-package ace-window
   :bind (("M-o" . ace-window)))
@@ -407,7 +416,6 @@
   (which-key-mode +1))
 
 (use-package vundo
-  :ensure t
   :bind (("C-c v" . vundo)))
 
 (use-package magit
@@ -619,7 +627,6 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package wgrep
-  :ensure t
   :bind (:map grep-mode-map
               ("e" . wgrep-change-to-wgrep-mode)
               ("C-x C-q" . wgrep-change-to-wgrep-mode)
@@ -648,7 +655,7 @@
 
 (use-package yasnippet-snippets
   :after (yasnippet)
-  :config
+  :init
   (yas-reload-all))
 
 (use-package hl-todo
@@ -685,7 +692,6 @@
 ;; end
 
 (use-package vterm
-  :defer t
   :custom
   (vterm-copy-exclude-prompt t)
   (vterm-always-compile-modul t)
@@ -724,8 +730,7 @@
 
 (use-package nerd-icons-corfu
   :after corfu
-  :config
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+  :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -763,8 +768,7 @@
 (use-package yaml-mode)
 
 (use-package dockerfile-mode)
-(use-package php-mode
-  :defer t)
+(use-package php-mode)
 
 ;; OCaml
 
@@ -813,7 +817,6 @@
 ;; Setup Golang
 
 (use-package go-mode
-  :defer t
   :config
   (use-package go-dlv)
   (use-package go-fill-struct)
@@ -848,9 +851,7 @@
          ("\\.bb$" . clojure-mode)))
 
 
-(use-package clj-refactor
-  :defer t)
-
+(use-package clj-refactor)
 
 (defun portal.api/open ()
   (interactive)
