@@ -970,16 +970,11 @@
     (interactive)
     (when (bound-and-true-p eglot--managed-mode)
       (eglot-format-buffer)))
-  :hook ((js-mode . eglot-ensure)
-         (web-mode . eglot-ensure)
-         (typescript-mode . eglot-ensure)
-         (clojure-mode . eglot-ensure)
-         (clojurescript-mode . eglot-ensure)
-         (clojurec-mode . eglot-ensure)
-         (sh-mode . eglot-ensure)
-         (yaml-mode . eglot-ensure)
-         (rust-mode . eglot-ensure)
-         (go-mode . eglot-ensure)
+
+  :hook ((prog-mode . (lambda ()
+                        (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode 'snippet-mode)
+                          (eglot-ensure))))
+         ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure)
          (before-save . beetleman-eglot-before-save))
   :bind (("C-c e r" . eglot-rename)
          ("C-c e i" . eglot-code-action-organize-imports)
@@ -987,23 +982,32 @@
          ("C-c e q" . eglot-code-action-quickfix)
          ("C-c e a" . eglot-code-actions)
          ("C-c e f" . eglot-format))
-  ;; :init
-  ;; (defface eglot-diagnostic-tag-deprecated-face
-  ;;   '((t . (:inherit flymake-warning)))
-  ;;   "Face used to render deprecated or obsolete code.")
-  ;; (defface eglot-diagnostic-tag-unnecessary-face
-  ;;   '((t . (:inherit flymake-warning)))
-  ;;   "Face used to render unused or unnecessary code.")
+  :init
+  (setq read-process-output-max (* 1024 1024)) ; 1MB
+  (setq eglot-autoshutdown t
+        eglot-send-changes-idle-time 0.5)
   :config
+  (use-package consult-eglot
+    :bind (:map eglot-mode-map
+           ("C-M-." . consult-eglot-symbols)))
 
   (setq eglot-connect-timeout 300) ;; 5m
   (setf (plist-get eglot-events-buffer-config :size) 0)
   (setq-default eglot-workspace-configuration
-                '((:gopls .
-                          ((staticcheck . t)))))
+                '(:gopls
+                  (:staticcheck t)))
   (add-to-list 'eglot-server-programs
                `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
-                                                   ("html-languageserver" "--stdio"))))))
+                                                   ("html-languageserver" "--stdio")))))
+  ;; Emacs LSP booster
+  (when (executable-find "emacs-lsp-booster")
+    (unless (package-installed-p 'eglot-booster)
+      (and (fboundp #'package-vc-install)
+           (package-vc-install "https://github.com/jdtsmith/eglot-booster")))
+    (use-package eglot-booster
+      :ensure nil
+      :autoload eglot-booster-mode
+      :init (eglot-booster-mode 1))))
 
 ;; (use-package apheleia
 ;;   ;; for formating after save file
