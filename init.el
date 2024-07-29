@@ -644,13 +644,13 @@
   :hook (prog-mode . eldoc-mode)
   :bind (("C-c d" . eldoc))
   :config
+  (meow-normal-define-key '("?" . "C-c D"))
   (use-package eldoc-box
-    :diminish (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
     :custom
     (eldoc-box-lighter nil)
     (eldoc-box-only-multi-line t)
     (eldoc-box-clear-with-C-g t)
-    :hook ((eglot-managed-mode . eldoc-box-hover-at-point-mode))))
+    :bind (("C-c D" . eldoc-box-help-at-point))))
 
 
 (use-package subword
