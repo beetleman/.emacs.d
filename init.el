@@ -641,7 +641,16 @@
 
 (use-package eldoc
   :hook (prog-mode . eldoc-mode)
-  :bind (("C-c d" . eldoc)))
+  :bind (("C-c d" . eldoc))
+  :config
+  (use-package eldoc-box
+    :diminish (eldoc-box-hover-mode eldoc-box-hover-at-point-mode)
+    :custom
+    (eldoc-box-lighter nil)
+    (eldoc-box-only-multi-line t)
+    (eldoc-box-clear-with-C-g t)
+    :hook ((eglot-managed-mode . eldoc-box-hover-at-point-mode))))
+
 
 (use-package subword
   :hook (prog-mode . subword-mode))
@@ -995,7 +1004,8 @@
   (setf (plist-get eglot-events-buffer-config :size) 0)
   (setq-default eglot-workspace-configuration
                 '(:gopls
-                  (:staticcheck t)))
+                  (:staticcheck t
+                   :usePlaceholders t)))
   (add-to-list 'eglot-server-programs
                `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
                                                    ("html-languageserver" "--stdio")))))
