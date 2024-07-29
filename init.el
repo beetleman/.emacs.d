@@ -669,18 +669,11 @@
   (yas-reload-all))
 
 (use-package hl-todo
-  :hook ((prog-mode . hl-todo-mode)
-         (yaml-mode . hl-todo-mode)
-         (markdown-mode . yas-minor-mode))
-  :config
-  (setq hl-todo-highlight-punctuation ":"
-        hl-todo-keyword-faces
-        '(("TODO"   . "#FF0000")
-          ("FIXME"  . "#FF0000")
-          ("DEBUG"  . "#A020F0")
-          ("GOTCHA" . "#FF4500")
-          ("STUB"   . "#1E90FF"))))
-
+  :hook ((after-init . global-hl-todo-mode))
+  :custom-face
+  (hl-todo ((t (:inherit default :height 0.9 :width condensed :weight bold :underline nil :inverse-video t))))
+  :init (setq hl-todo-require-punctuation t
+              hl-todo-highlight-punctuation ":"))
 
 (use-package anzu
   :bind
