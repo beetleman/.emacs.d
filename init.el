@@ -261,7 +261,8 @@
                                        (motion . "<M>")
                                        (keypad . "<K>")
                                        (insert . "<I>")
-                                       (beacon . "<B>")))
+                                       (beacon . "<B>"))
+        meow-use-clipboard t)
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
