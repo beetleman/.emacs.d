@@ -216,17 +216,6 @@
   :ensure nil
   :hook (after-init . electric-pair-mode))
 
-(use-package outline
-  :ensure nil
-  :custom
-  (outline-minor-mode-cycle t)
-  (outline-minor-mode-highlight 'override)
-  :hook (prog-mode . outline-minor-mode))
-
-(use-package hideshow
-  :ensure nil
-  :hook (prog-mode . hs-minor-mode))
-
 ;;; THIRD-PARTY PACKAGES
 
 (use-package modus-themes
@@ -247,12 +236,6 @@
   (modus-themes-load-theme 'modus-vivendi-tinted)
 
   :bind ("<f5>" . #'modus-themes-toggle))
-
-(use-package bicycle
-  :after outline
-  :bind (:map outline-minor-mode-map
-              ([C-tab] . bicycle-cycle)
-              ([S-tab] . bicycle-cycle-global)))
 
 (use-package meow
   :demand t
@@ -372,6 +355,9 @@
   (setq esup-depth 0))
 
 (use-package treemacs
+  :commands (treemacs-follow-mode
+             treemacs-filewatch-mode
+             treemacs-git-mode)
   :custom
   (treemacs-read-string-input 'from-minibuffer)
   (treemacs-git-mode 'deferred)
@@ -385,6 +371,16 @@
         ("C-x t C-t" . treemacs-find-file)
         ("C-x t M-t" . treemacs-find-tag))
   :config
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+
+  (pcase (cons (not (null (executable-find "git")))
+               (not (null (executable-find "python3"))))
+    (`(t . t)
+     (treemacs-git-mode 'deferred))
+    (`(t . _)
+     (treemacs-git-mode 'simple)))
+
   (use-package treemacs-nerd-icons
     :demand t
     :custom-face
