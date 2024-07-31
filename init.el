@@ -427,17 +427,16 @@
 
 (use-package diff-hl
   :custom
-  (diff-hl-margin-symbols-alist '((insert . "+")
-                                  (delete . "-")
-                                  (change . "~")
-                                  (unknown . "?")
-                                  (ignored . "i")))
-  :hook ((magit-pre-refresh . diff-hl-magit-pre-refresh)
-         (magit-post-refresh . diff-hl-magit-post-refresh))
-  :init
-  (global-diff-hl-mode)
-  (diff-hl-margin-mode))
-
+  (diff-hl-draw-borders nil)
+  :hook ((after-init . global-diff-hl-mode)
+         (after-init . global-diff-hl-show-hunk-mouse-mode)
+         (dired-mode . diff-hl-dired-mode))
+  :config
+  (diff-hl-flydiff-mode 1)
+  (setq-default fringes-outside-margins t)
+  (with-eval-after-load 'magit
+      (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
+      (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
