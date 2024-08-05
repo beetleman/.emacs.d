@@ -1044,9 +1044,14 @@
   :custom
   (doom-modeline-vcs-max-length 15)
   (doom-modeline-project-detection 'project)
+  (doom-modeline-minor-modes t)
+  (doom-modeline-buffer-encoding 'nondefault)
   :hook (after-init . doom-modeline-mode)
   :config
   (setq x-underline-at-descent-line t))
+
+(use-package minions
+  :hook (doom-modeline-mode . minions-mode))
 
 (use-package hide-mode-line
   :hook ((treemacs-mode . turn-on-hide-mode-line-mode)
