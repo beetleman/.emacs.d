@@ -44,6 +44,29 @@
 ;; Always load newest byte code
 ;; (setq load-prefer-newer t)
 
+;; Optimization
+(setq idle-update-delay 1.0)
+
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+
+(setq fast-but-imprecise-scrolling t)
+(setq redisplay-skip-fontification-on-input t)
+
+;; Inhibit resizing frame
+(setq frame-inhibit-implied-resize t
+      frame-resize-pixelwise t)
+
+;; Initial frame
+(setq initial-frame-alist '((top . 0.5)
+                            (left . 0.5)
+                            (width . 0.4)
+                            (height . 0.6)
+                            (fullscreen)))
+
+;; Title
+(setq frame-title-format '("🐐 - %b")
+      icon-title-format frame-title-format)
 
 ;; fix MacOS
 ;; key bindings
@@ -347,6 +370,9 @@
   :hook ((prog-mode . ws-butler-mode)
 	     (markdown-mode . ws-butler-mode)
 	     (org-mode . ws-butler-mode)))
+
+(use-package so-long
+  :hook (after-init . global-so-long-mode))
 
 ;; for emacs profiling
 (use-package esup
