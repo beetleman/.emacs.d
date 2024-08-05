@@ -239,6 +239,12 @@
   :ensure nil
   :hook (after-init . electric-pair-mode))
 
+(use-package hl-line
+  :ensure nil
+  :hook ((after-init . global-hl-line-mode)
+         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
+          (lambda () (setq-local global-hl-line-mode nil)))))
+
 ;;; THIRD-PARTY PACKAGES
 
 (use-package modus-themes
