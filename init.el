@@ -434,20 +434,10 @@
       (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
       (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
 
-;; Optionally use the `orderless' completion style.
 (use-package orderless
-  ;; :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  ;; (setq completion-styles '(orderless basic)
-  ;;       completion-category-defaults nil
-  ;;       completion-category-overrides '((file (styles . (partial-completion)))))
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion))
-                                   (eglot (styles orderless))
-                                   (eglot-capf (styles orderless))))
+  (completion-category-overrides '((file (styles basic partial-completion))))
   (orderless-component-separator #'orderless-escapable-split-on-space))
 
 ;; Enable vertico
@@ -710,21 +700,32 @@
 
 (use-package corfu
   :custom
-  (corfu-cycle t)
-  (corfu-preview-current nil)
-  (corfu-echo-mode t)
   (corfu-auto t)
-  (corfu-auto-delay 0.2)
   (corfu-auto-prefix 2)
-  :bind
-  (:map corfu-map ("M-?" . corfu-insert-separator))
-  :hook ((prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (eshell-mode . corfu-mode))
+  (corfu-preview-current nil)
+  (corfu-auto-delay 0.2)
+  (corfu-popupinfo-delay '(0.4 . 0.2))
+  :custom-face
+  (corfu-border ((t (:inherit region :background unspecified))))
+  :bind ("M-/" . completion-at-point)
+  :hook ((after-init . global-corfu-mode)
+         (global-corfu-mode . corfu-popupinfo-mode)))
+
+(use-package nerd-icons-corfu
+  :after corfu
+  :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+;; Add extensions
+(use-package cape
   :init
-  (global-corfu-mode 1)
-  (corfu-popupinfo-mode 1)
-  (corfu-history-mode 1))
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-abbrev)
+
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+
 
 (use-package nerd-icons-corfu
   :after corfu
