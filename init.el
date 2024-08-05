@@ -673,17 +673,15 @@
 (use-package subword
   :hook (prog-mode . subword-mode))
 
-
 (use-package yasnippet
-  :hook ((prog-mode . yas-minor-mode)
-         (org-mode . yas-minor-mode)
-         (yaml-mode . yas-minor-mode)
-         (markdown-mode . yas-minor-mode)))
+  :diminish yas-minor-mode
+  :hook (after-init . yas-global-mode))
 
-(use-package yasnippet-snippets
-  :after (yasnippet)
-  :init
-  (yas-reload-all))
+(use-package yasnippet-snippets)
+
+(use-package yasnippet-capf
+  :after cape
+  :init (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package hl-todo
   :hook ((after-init . global-hl-todo-mode))
@@ -747,8 +745,8 @@
   :after corfu
   :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
-;; Add extensions
 (use-package cape
+  :demand t
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
@@ -757,7 +755,6 @@
   (add-to-list 'completion-at-point-functions #'cape-abbrev)
 
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
-
 
 (use-package nerd-icons-corfu
   :after corfu
@@ -769,22 +766,10 @@
   (setq completion-cycle-threshold 3)
   (setq tab-always-indent 'complete))
 
-;; Add extensions
-(use-package cape
-  :init
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-abbrev)
-
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
-
 (use-package dumb-jump
   :init
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
-
 
 (use-package format-all)
 
@@ -995,6 +980,7 @@
 ;; LSP
 
 (use-package eglot
+  :after yasnippet
   :commands (eglot eglot-ensure)
   :preface
   (defun beetleman-eglot-before-save ()
