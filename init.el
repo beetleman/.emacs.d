@@ -717,6 +717,9 @@
   (vterm-max-scrollback 100000))
 
 (use-package multi-vterm
+  :init
+  (with-eval-after-load 'project
+    (add-to-list 'project-kill-buffer-conditions  '(major-mode . vterm-mode)))
   :custom
   (multi-vterm-buffer-name "vterm")
   :bind (([remap project-shell] . multi-vterm-project)
