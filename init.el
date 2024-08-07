@@ -739,9 +739,17 @@
   (corfu-preview-current nil)
   (corfu-auto-delay 0.2)
   (corfu-popupinfo-delay '(0.4 . 0.2))
+  (corfu-cycle t)
+  (corfu-on-exact-match nil)
+  (corfu-preselect 'valid)
   :custom-face
   (corfu-border ((t (:inherit region :background unspecified))))
-  :bind ("M-/" . completion-at-point)
+  :bind
+  (:map corfu-map
+        ("TAB" . corfu-next)
+        ([tab] . corfu-next)
+        ("S-TAB" . corfu-previous)
+        ([backtab] . corfu-previous))
   :hook ((after-init . global-corfu-mode)
          (global-corfu-mode . corfu-popupinfo-mode)))
 
