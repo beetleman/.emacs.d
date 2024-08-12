@@ -57,13 +57,6 @@
 (setq frame-inhibit-implied-resize t
       frame-resize-pixelwise t)
 
-;; Initial frame
-(setq initial-frame-alist '((top . 0.5)
-                            (left . 0.5)
-                            (width . 0.4)
-                            (height . 0.6)
-                            (fullscreen)))
-
 ;; Title
 (setq frame-title-format '("🐐 - %b")
       icon-title-format frame-title-format)
