@@ -1039,6 +1039,11 @@
       :autoload eglot-booster-mode
       :init (eglot-booster-mode 1))))
 
+(use-package jarchive
+  :after eglot
+  :config
+  (jarchive-setup))
+
 ;; (use-package apheleia
 ;;   ;; for formating after save file
 ;;   :hook ((clojure-mode . apheleia-mode)
