@@ -983,7 +983,9 @@
   :hook (((js-mode typescript-mode) . add-node-modules-path)))
 
 (use-package prettier-js
-  :hook (((js-mode typescript-mode web-mode) . prettier-js-mode)))
+  :hook (((json-mode) . prettier-js-mode)))
+
+(use-package json-mode)
 
 ;; OpenIA
 
