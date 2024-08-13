@@ -353,7 +353,9 @@
    '("Y" . meow-sync-grab)
    '("z" . meow-pop-selection)
    '("'" . repeat)
-   '("<escape>" . ignore))
+   '("<escape>" . ignore)
+   ;; documentation
+   '("?" . "C-c D"))
   (meow-global-mode 1))
 
 ;; Environment
@@ -654,7 +656,6 @@
   :hook (prog-mode . eldoc-mode)
   :bind (("C-c d" . eldoc))
   :config
-  (meow-normal-define-key '("?" . "C-c D"))
   (use-package eldoc-box
     :custom
     (eldoc-box-lighter nil)
@@ -751,7 +752,6 @@
   :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 (use-package cape
-  :demand t
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
