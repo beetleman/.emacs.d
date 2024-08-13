@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: scenario
+# key: scenario
+# --
+for _, scenario := range []struct {
+    expected $1
+}{
+    {
+        expected: $2,
+    },
+} {
+    $3
+    assert.Equal(t, scenario.expected, $4)
+}
