@@ -121,7 +121,13 @@
 (setq require-final-newline t)
 
 ;; enable y/n answers
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
+
+;; disable tooltips
+(tooltip-mode -1)
+
+;; recursive minibufers
+(setq enable-recursive-minibuffers t)
 
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
@@ -434,6 +440,7 @@
   (dired-quick-sort-setup))
 
 (use-package ace-window
+  :hook (after-init . ace-window-posframe-mode)
   :bind (("M-o" . ace-window)))
 
 (use-package which-key
