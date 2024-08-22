@@ -152,7 +152,8 @@
 (add-hook 'after-make-frame-functions 'beetleman--set-emoji-font)
 
 ;; vc-mode
-(setq auto-revert-check-vc-info t)
+;; (setq auto-revert-check-vc-info t) ;; slow down magit
+(setq auto-revert-check-vc-info nil)
 
 ;; setup ediff
 
