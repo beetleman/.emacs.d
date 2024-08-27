@@ -1079,11 +1079,11 @@
 
 ;; reset GC
 (use-package gcmh
+  :hook (emacs-startup . gcmh-mode)
   :init
   (setq gcmh-idle-delay             'auto  ; default is 15s
         gcmh-auto-idle-delay-factor 10
-        gcmh-high-cons-threshold    (* 100 1024 1024))  ; 100mb
-  (gcmh-mode 1))
+        gcmh-high-cons-threshold    #x1000000)) ; 16mb
 
 ;; config changes made through the customize UI will be stored here
 
