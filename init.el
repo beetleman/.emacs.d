@@ -41,6 +41,9 @@
 (setq user-full-name "Mateusz Probachta-Jeżowski"
       user-mail-address "mateusz.probachta@gmail.com")
 
+
+(setq read-process-output-max (* 1024 1024)) ; 1MB
+
 ;; Always load newest byte code
 ;; (setq load-prefer-newer t)
 
@@ -1013,7 +1016,6 @@
          ("C-c e a" . eglot-code-actions)
          ("C-c e f" . eglot-format))
   :init
-  (setq read-process-output-max (* 1024 1024)) ; 1MB
   (setq eglot-autoshutdown t
         eglot-send-changes-idle-time 0.5)
   :config
@@ -1080,7 +1082,7 @@
   :init
   (setq gcmh-idle-delay             'auto  ; default is 15s
         gcmh-auto-idle-delay-factor 10
-        gcmh-high-cons-threshold    (* 16 1024 1024))  ; 16mb
+        gcmh-high-cons-threshold    (* 100 1024 1024))  ; 100mb
   (gcmh-mode 1))
 
 ;; config changes made through the customize UI will be stored here
