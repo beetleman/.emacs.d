@@ -88,6 +88,7 @@
       inhibit-startup-echo-area-message user-full-name
       inhibit-default-init t
       initial-scratch-message nil)
+(menu-bar-mode -1)
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 
@@ -271,6 +272,8 @@
 
 (use-package meow
   :demand t
+  :custom-face
+  (meow-beacon-fake-selection ((t (:inherit region :underline t))))
   :config
   (setq meow-replace-state-name-list '((normal . "<N>")
                                        (motion . "<M>")
@@ -722,7 +725,7 @@
   (vterm-max-scrollback 100000))
 
 (use-package multi-vterm
-  :init
+  :config
   (with-eval-after-load 'project
     (add-to-list 'project-kill-buffer-conditions  '(major-mode . vterm-mode)))
   :custom
