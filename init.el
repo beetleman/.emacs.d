@@ -1029,9 +1029,15 @@
   (setq eglot-connect-timeout 300) ;; 5m
   (setf (plist-get eglot-events-buffer-config :size) 0)
   (setq-default eglot-workspace-configuration
-                '(:gopls
+                `(:gopls
                   (:staticcheck t
-                   :usePlaceholders t)))
+                   :usePlaceholders t)
+                  :yaml
+                  ,(let* ((json-object-type 'plist)
+                          (json-array-type  'vector)
+                          (json-key-type    'keyword))
+                     `(:schemas ,(plist-get (json-read-file "~/.emacs.d/data/catalog.json")
+                                            :schemas)))))
   (add-to-list 'eglot-server-programs
                `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
                                                    ("html-languageserver" "--stdio")))))
