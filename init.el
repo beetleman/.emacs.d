@@ -208,6 +208,11 @@
 
 ;;; BUILT-IN PACKAGES
 
+(use-package dabbrev-expand
+  :ensure nil
+  :bind
+  (([remap dabbrev-expand] . hippie-expand)))
+
 (use-package server
   :ensure nil
   :defer 1
