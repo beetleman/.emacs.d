@@ -1047,6 +1047,10 @@
                 `(:gopls
                   (:staticcheck t
                    :usePlaceholders t)
+                  ;; https://github.com/microsoft/vscode/blob/main/extensions/json-language-features/server/README.md
+                  :json
+                  (:schemas [(:fileMatch ["package.json"]
+                              :url "https://json.schemastore.org/package.json")])
                   :yaml
                   ,(let* ((json-object-type 'plist)
                           (json-array-type  'vector)
