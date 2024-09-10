@@ -994,8 +994,11 @@
 (use-package add-node-modules-path
   :hook (((js-mode typescript-mode) . add-node-modules-path)))
 
-(use-package json-mode
-  :mode ("\\.json\\'" . json-mode))
+;; json
+;; use jsonian instead json-mode because json-mode derived from js-mode
+;; and it make eglot to use js/ts lsp server for json if one is active
+(use-package jsonian
+  :mode ("\\.json\\'" . jsonian-mode))
 
 ;; OpenIA
 
@@ -1011,11 +1014,18 @@
     (interactive)
     (when (bound-and-true-p eglot--managed-mode)
       (eglot-format-buffer)))
-
-  :hook ((prog-mode . (lambda ()
-                        (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode 'makefile-mode 'snippet-mode 'json-mode)
-                          (eglot-ensure))))
-         ((markdown-mode yaml-mode yaml-ts-mode) . eglot-ensure)
+  :hook (((markdown-mode
+           yaml-mode
+           yaml-ts-mode
+           clojure-mode
+           clojurescript-mode
+           typescript-mode
+           js-mode
+           jsonian-mode
+           go-mode
+           bash-ts-mode
+           sh-mode)
+          . eglot-ensure)
          (before-save . beetleman-eglot-before-save))
   :bind (("C-c e r" . eglot-rename)
          ("C-c e i" . eglot-code-action-organize-imports)
@@ -1044,6 +1054,9 @@
                      `(:schemas ,(plist-get (json-read-file "~/.emacs.d/data/catalog.json")
                                             :schemas)))))
   (add-to-list 'eglot-server-programs
+               `(jsonian-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
+                                                       ("vscode-json-languageserver" "--stdio")
+                                                       ("json-languageserver" "--stdio"))))
                `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
                                                    ("html-languageserver" "--stdio")))))
   ;; Emacs LSP booster
