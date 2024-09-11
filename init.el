@@ -742,7 +742,7 @@
          ("C-c t p" . multi-vterm-prev)))
 
 (use-package editorconfig
-  :config
+  :init
   (editorconfig-mode 1))
 
 (use-package corfu
