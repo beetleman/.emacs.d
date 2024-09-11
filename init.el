@@ -1043,24 +1043,21 @@
 
   (setq eglot-connect-timeout 300) ;; 5m
   (setf (plist-get eglot-events-buffer-config :size) 0)
-  (setq-default eglot-workspace-configuration
-                `(:gopls
-                  (:staticcheck t
-                   :usePlaceholders t)
-                  ;; https://github.com/microsoft/vscode/blob/main/extensions/json-language-features/server/README.md
-                  :json
-                  (:schemas [(:fileMatch ["package.json"]
-                              :url "https://json.schemastore.org/package.json")])
-                  :yaml
-                  ,(let* ((json-object-type 'plist)
-                          (json-array-type  'vector)
-                          (json-key-type    'keyword))
-                     `(:schemas ,(plist-get (json-read-file "~/.emacs.d/data/catalog.json")
-                                            :schemas)))))
+  (let* ((json-object-type 'plist)
+         (json-array-type  'vector)
+         (json-key-type    'keyword)
+         (json-schemas     (plist-get (json-read-file "~/.emacs.d/data/catalog.json") :schemas)))
+    (setq-default eglot-workspace-configuration
+                  `(:gopls
+                    (:staticcheck t
+                     :usePlaceholders t)
+                    ;; https://github.com/microsoft/vscode/blob/main/extensions/json-language-features/server/README.md
+                    :json
+                    (:validate (:enable t)
+                     :schemas ,json-schemas)
+                    :yaml (:schemas ,json-schemas))))
   (add-to-list 'eglot-server-programs
-               `(jsonian-mode . ,(eglot-alternatives '(("vscode-json-language-server" "--stdio")
-                                                       ("vscode-json-languageserver" "--stdio")
-                                                       ("json-languageserver" "--stdio"))))
+               `(jsonian-mode . ("vscode-json-language-server" "--stdio" :initializationOptions (:provideFormatter t)))
                `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
                                                    ("html-languageserver" "--stdio")))))
   ;; Emacs LSP booster
