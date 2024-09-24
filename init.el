@@ -176,6 +176,12 @@
   (interactive)
   (ansi-color-apply-on-region (point-min) (point-max)))
 
+;; CLI tools installed by Mise
+(let ((shims (expand-file-name"~/.local/share/mise/shims")))
+  (setenv "PATH" (concat shims
+                         ":"
+                         (getenv "PATH")))
+  (setq exec-path `(,shims ,@exec-path)))
 
 ;; SETUP PACKAGES
 (require 'package)
@@ -1111,7 +1117,7 @@
   :init
   (setq gcmh-idle-delay             'auto  ; default is 15s
         gcmh-auto-idle-delay-factor 10
-        gcmh-high-cons-threshold    #x1000000)) ; 16mb
+        gcmh-high-cons-threshold    #x3000000)) ; 48mb
 
 ;; config changes made through the customize UI will be stored here
 
