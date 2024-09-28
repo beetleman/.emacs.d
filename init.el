@@ -176,13 +176,6 @@
   (interactive)
   (ansi-color-apply-on-region (point-min) (point-max)))
 
-;; CLI tools installed by Mise
-(let ((shims (expand-file-name"~/.local/share/mise/shims")))
-  (setenv "PATH" (concat shims
-                         ":"
-                         (getenv "PATH")))
-  (setq exec-path `(,shims ,@exec-path)))
-
 ;; SETUP PACKAGES
 (require 'package)
 
@@ -384,7 +377,14 @@
 
 ;; Environment
 (use-package exec-path-from-shell
-  :init (exec-path-from-shell-initialize))
+  :init
+  (exec-path-from-shell-initialize)
+  ;; CLI tools installed by Mise
+  (let ((shims (expand-file-name"~/.local/share/mise/shims")))
+    (setenv "PATH" (concat shims
+                           ":"
+                           (getenv "PATH")))
+    (setq exec-path `(,shims ,@exec-path))))
 
 (use-package mode-line-bell
   :hook (after-init . mode-line-bell-mode))
