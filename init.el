@@ -141,6 +141,7 @@
 
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)
+(setq global-auto-revert-non-file-buffers t)
 
 ;; Permanently indent with spaces, never with TABs
 (setq-default c-basic-offset   4
@@ -207,10 +208,15 @@
 
 ;;; BUILT-IN PACKAGES
 
-(use-package dabbrev-expand
+(use-package savehist
   :ensure nil
-  :bind
-  (([remap dabbrev-expand] . hippie-expand)))
+  :init
+  (savehist-mode 1))
+
+(use-package recentf
+  :ensure nil
+  :init
+  (recentf-mode 1))
 
 (use-package server
   :ensure nil
@@ -527,11 +533,6 @@
 (use-package super-save
   :init
   (super-save-mode +1))
-
-;; Persist history over Emacs restarts. Vertico sorts by history position.
-(use-package savehist
-  :init
-  (savehist-mode))
 
 ;; Example configuration for Consult
 (use-package consult
