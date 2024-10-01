@@ -381,6 +381,24 @@
    '("?" . "C-c D"))
   (meow-global-mode 1))
 
+;; treesiter
+(use-package treesit-auto
+  :commands (global-treesit-auto-mode)
+  :hook (after-init . global-treesit-auto-mode)
+  :custom
+  (treesit-auto-install 'prompt)
+  (treesit-auto-langs '(python
+                        rust
+                        go
+                        yaml
+                        js
+                        typescript
+                        bash
+                        tsx
+                        markdown
+                        css
+                        html)))
+
 ;; Environment
 (use-package exec-path-from-shell
   :init
@@ -1022,14 +1040,19 @@
     (when (bound-and-true-p eglot--managed-mode)
       (eglot-format-buffer)))
   :hook (((markdown-mode
+           markdown-ts-mode
            yaml-mode
            yaml-ts-mode
            clojure-mode
            clojurescript-mode
            typescript-mode
+           tsx-ts-mode
+           typescript-ts-mode
            js-mode
+           js-ts-mode
            jsonian-mode
            go-mode
+           go-ts-mode
            bash-ts-mode
            sh-mode)
           . eglot-ensure)
