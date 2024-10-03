@@ -388,6 +388,7 @@
   :custom
   (treesit-auto-install 'prompt)
   (treesit-auto-langs '(python
+                        java
                         rust
                         go
                         yaml
@@ -1104,6 +1105,11 @@
   :after eglot
   :config
   (jarchive-setup))
+
+(use-package eglot-java
+  :hook ((java-mode
+          java-ts-mode)
+         . eglot-java-mode))
 
 ;; (use-package apheleia
 ;;   ;; for formating after save file

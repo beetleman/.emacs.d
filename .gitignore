@@ -20,3 +20,5 @@ elpa
 /url/
 /elpa-*.tar.gz
 /tree-sitter/
+/eglot-java-eclipse-jdt-cache/
+/share/
