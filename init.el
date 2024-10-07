@@ -744,9 +744,10 @@
   :config (envrc-global-mode))
 
 ;; fish configuration:
-;; if [ "$INSIDE_EMACS" = 'vterm' ] ; and [ -n $EMACS_VTERM_PATH ] ; and [ -f $EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh ]
+;; if [ "$INSIDE_EMACS" = vterm ]; and [ -n $EMACS_VTERM_PATH ]; and [ -f $EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh ]
 ;;     source "$EMACS_VTERM_PATH/etc/emacs-vterm.fish"
 ;;     alias ee="emacsclient -n"
+;;     alias dired="emacsclient --eval '(dired-jump)'"
 ;; end
 
 (use-package vterm
