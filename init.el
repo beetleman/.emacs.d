@@ -1006,6 +1006,15 @@
         web-mode-code-indent-offset 2
         web-mode-enable-engine-detection t))
 
+;; fish
+
+(use-package fish-mode
+  :preface
+  (defun beetleman--format-fish-on-save ()
+    (add-hook 'before-save-hook 'fish_indent-before-save))
+  :hook
+   (fish-mode . beetleman--format-fish-on-save))
+
 
 ;; SQL
 
