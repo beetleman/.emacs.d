@@ -1117,9 +1117,23 @@
   (jarchive-setup))
 
 (use-package eglot-java
+  :custom
+  (eglot-java-eclipse-jdt-args '("-Xmx4G"
+                                 "--add-modules=ALL-SYSTEM"
+                                 "--add-opens"
+                                 "java.base/java.util=ALL-UNNAMED"
+                                 "--add-opens"
+                                 "java.base/java.lang=ALL-UNNAMED"))
   :hook ((java-mode
           java-ts-mode)
-         . eglot-java-mode))
+         . eglot-java-mode)
+  :preface
+  (defun beetleman--eglot-java-init-opts (server eglot-java-eclipse-jdt)
+    "Custom options that will be merged with any default settings."
+    ;; download from https://repo1.maven.org/maven2/com/microsoft/java/com.microsoft.java.debug.plugin/
+    `(:bundles [,(expand-file-name "~/.emacs.d/share/dape/com.microsoft.java.debug.plugin.jar")]))
+  :config
+  (setq eglot-java-user-init-opts-fn 'beetleman--eglot-java-init-opts))
 
 ;; (use-package apheleia
 ;;   ;; for formating after save file
