@@ -437,6 +437,7 @@
   :custom
   (treemacs-read-string-input 'from-minibuffer)
   (treemacs-git-mode 'deferred)
+  (treemacs-collapse-dirs 6)
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
