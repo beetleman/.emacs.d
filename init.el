@@ -758,6 +758,7 @@
   (vterm-max-scrollback 100000))
 
 (use-package multi-vterm
+  :commands (multi-vterm-project multi-vterm multi-vterm-next multi-vterm-prev)
   :config
   (with-eval-after-load 'project
     (add-to-list 'project-kill-buffer-conditions  '(major-mode . vterm-mode)))
