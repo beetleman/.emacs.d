@@ -482,6 +482,9 @@
   :init
   (dired-quick-sort-setup))
 
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode))
+
 (use-package ace-window
   :hook (after-init . ace-window-posframe-mode)
   :bind (("M-o" . ace-window)))
@@ -524,10 +527,7 @@
   :hook (after-init . vertico-mode))
 
 (use-package nerd-icons-completion
-  :hook (vertico-mode . nerd-icons-completion-mode)
-  :config
-  ;; remove after merge: https://github.com/rainstormstudio/nerd-icons-completion/pull/12
-  (advice-add (compat-function completion-metadata-get) :around #'nerd-icons-completion-completion-metadata-get))
+  :hook (vertico-mode . nerd-icons-completion-mode))
 
 (use-package marginalia
   :hook (after-init . marginalia-mode))
@@ -807,10 +807,6 @@
   (add-to-list 'completion-at-point-functions #'cape-abbrev)
 
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
-
-(use-package nerd-icons-corfu
-  :after corfu
-  :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 ;; A few more useful configurations...
 (use-package emacs
