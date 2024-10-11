@@ -33,6 +33,10 @@
 
 ;;; Code:
 
+;; utils
+
+(defmacro comment (&rest body))
+
 ;; turn off GC during star up
 (setq gc-cons-threshold most-positive-fixnum)
 
@@ -261,24 +265,33 @@
 
 ;;; THIRD-PARTY PACKAGES
 
-(use-package modus-themes
-  :demand t
-  :config
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-italic-constructs nil
-        modus-themes-bold-constructs nil
-        modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+ (use-package ef-themes
+   :demand t
+   :config
+   (setq ef-themes-to-toggle '(ef-owl ef-kassio))
+   (ef-themes-select 'ef-owl)
+   :bind ("<f5>" . #'ef-themes-toggle))
 
-  ;; Maybe define some palette overrides, such as by using our presets
-  (setq modus-themes-common-palette-overrides
-        `((bg-paren-match bg-magenta-intense)
-          (bg-mode-line-active bg-cyan-subtle)
-          ,@modus-themes-preset-overrides-faint))
+(comment
+ (use-package modus-themes
+   :demand t
+   :config
+   ;; Add all your customizations prior to loading the themes
+   (setq modus-themes-italic-constructs nil
+         modus-themes-bold-constructs nil
+         modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
 
-  ;; Load the theme of your choice.
-  (modus-themes-load-theme 'modus-vivendi-tinted)
+   ;; Maybe define some palette overrides, such as by using our presets
+   (setq modus-themes-common-palette-overrides
+         `((bg-paren-match bg-magenta-intense)
+           (bg-mode-line-active bg-cyan-subtle)
+           ,@modus-themes-preset-overrides-faint))
 
-  :bind ("<f5>" . #'modus-themes-toggle))
+   ;; Load the theme of your choice.
+   (modus-themes-load-theme 'modus-vivendi-tinted)
+
+   :bind ("<f5>" . #'modus-themes-toggle))
+  )
 
 (use-package meow
   :demand t
