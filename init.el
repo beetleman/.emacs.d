@@ -443,6 +443,14 @@
   :config
   (setq esup-depth 0))
 
+(use-package fancy-compilation
+  :commands (fancy-compilation-mode)
+  :custom
+  (fancy-compilation-override-colors nil)
+  :init
+  (with-eval-after-load 'compile
+    (fancy-compilation-mode)))
+
 (use-package treemacs
   :commands (treemacs-follow-mode
              treemacs-filewatch-mode
@@ -1059,8 +1067,9 @@
   :preface
   (defun beetleman-eglot-before-save ()
     (interactive)
-    (when (bound-and-true-p eglot--managed-mode)
-      (eglot-format-buffer)))
+    ;; (when (bound-and-true-p eglot--managed-mode)
+    ;;   (eglot-format-buffer))
+    )
   :hook (((markdown-mode
            markdown-ts-mode
            yaml-mode
@@ -1094,7 +1103,8 @@
            ("C-M-." . consult-eglot-symbols)))
 
   (setq eglot-connect-timeout 300) ;; 5m
-  (setf (plist-get eglot-events-buffer-config :size) 0)
+  (setq eglot-sync-connect 60)
+  (setf (plist-get eglot-events-buffer-config :size) 100000)
   (let* ((json-object-type 'plist)
          (json-array-type  'vector)
          (json-key-type    'keyword)
