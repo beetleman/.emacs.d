@@ -1157,6 +1157,11 @@
 ;;   (setf (alist-get 'clojure-mode apheleia-mode-alist)
 ;; 	'(cljfmt)))
 
+
+;; code navigation
+(use-package breadcrumb
+  :hook (after-init . breadcrumb-mode))
+
 ;; setup modeline
 
 (use-package doom-modeline
