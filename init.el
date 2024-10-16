@@ -774,6 +774,7 @@
 
 (use-package vterm
   :custom
+  (vterm-ignore-blink-cursor nil)
   (vterm-copy-exclude-prompt t)
   (vterm-always-compile-modul t)
   (vterm-max-scrollback 100000))
