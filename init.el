@@ -263,6 +263,10 @@
          ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
+(use-package winner
+  :ensure nil
+  :hook (after-init . winner-mode))
+
 ;;; THIRD-PARTY PACKAGES
 
  (use-package ef-themes
