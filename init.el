@@ -1072,9 +1072,8 @@
   :preface
   (defun beetleman-eglot-before-save ()
     (interactive)
-    ;; (when (bound-and-true-p eglot--managed-mode)
-    ;;   (eglot-format-buffer))
-    )
+    (when (bound-and-true-p eglot--managed-mode)
+      (eglot-format-buffer)))
   :hook (((markdown-mode
            markdown-ts-mode
            yaml-mode
@@ -1109,7 +1108,7 @@
 
   (setq eglot-connect-timeout 300) ;; 5m
   (setq eglot-sync-connect 60)
-  (setf (plist-get eglot-events-buffer-config :size) 100000)
+  (setf (plist-get eglot-events-buffer-config :size) 0)
   (let* ((json-object-type 'plist)
          (json-array-type  'vector)
          (json-key-type    'keyword)
