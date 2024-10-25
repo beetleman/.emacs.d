@@ -174,6 +174,12 @@
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+;; setup windows dividers
+(setq window-divider-default-places t
+      window-divider-default-bottom-width 1
+      window-divider-default-right-width 1)
+(add-hook 'window-setup-hook #'window-divider-mode)
+
 ;; my functions
 (require 'ansi-color)
 (defun display-ansi-colors ()
@@ -266,6 +272,12 @@
 (use-package winner
   :ensure nil
   :hook (after-init . winner-mode))
+
+
+(use-package ibuffer
+  :ensure nil
+  :bind ("C-x C-b" . ibuffer)
+  :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
 ;;; THIRD-PARTY PACKAGES
 
@@ -398,6 +410,18 @@
    '("?" . "C-c D"))
   (meow-global-mode 1))
 
+(use-package nerd-icons-ibuffer
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+
+;; Group ibuffer's list by project
+(use-package ibuffer-project
+  :hook (ibuffer . (lambda ()
+                     "Group ibuffer's list by project."
+                     (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+                     (unless (eq ibuffer-sorting-mode 'project-file-relative)
+                       (ibuffer-do-sort-by-project-file-relative))))
+  :init (setq ibuffer-project-use-cache t))
+
 ;; treesiter
 (use-package treesit-auto
   :commands (global-treesit-auto-mode)
@@ -462,7 +486,9 @@
   :custom
   (treemacs-read-string-input 'from-minibuffer)
   (treemacs-git-mode 'deferred)
-  (treemacs-collapse-dirs 6)
+  (treemacs-collapse-dirs 7)
+  :custom-face
+  (cfrs-border-color ((t (:inherit posframe-border))))
   :bind
   (:map global-map
         ("M-0"       . treemacs-select-window)
@@ -1191,9 +1217,72 @@
 (use-package minions
   :hook (doom-modeline-mode . minions-mode))
 
+
 (use-package hide-mode-line
-  :hook ((treemacs-mode . turn-on-hide-mode-line-mode)
-         (embark-collect-mode . turn-on-hide-mode-line-mode)))
+  :hook (((treemacs-mode
+           eshell-mode
+           shell-mode
+           term-mode
+           vterm-mode
+           embark-collect-mode
+           lsp-ui-imenu-mode
+           pdf-annot-list-mode)
+          . turn-on-hide-mode-line-mode)
+         (dired-mode . (lambda()
+                         (and (bound-and-true-p hide-mode-line-mode)
+                              (turn-off-hide-mode-line-mode))))))
+
+;; poppler
+(use-package popper
+  :custom
+  (popper-group-function #'popper-group-by-directory)
+  (popper-echo-dispatch-actions t)
+  :bind (:map popper-mode-map
+         ("C-`"       . popper-toggle)
+         ("C-<tab>"     . popper-cycle)
+         ("C-M-<tab>"   . popper-toggle-type))
+  :hook (emacs-startup . popper-echo-mode)
+  :init
+  (setq popper-reference-buffers
+        '("^\\*eldoc.*\\*$"
+          "\\*Compile-Log\\*$"
+          "\\*cider-repl.*\\*$"
+
+          comint-mode
+          compilation-mode
+          help-mode
+          helpful-mode
+          tabulated-list-mode
+          Buffer-menu-mode
+          cider-repl-mode
+          flymake-diagnostics-buffer-mode
+
+          "^\\*.*eshell.*\\*.*$"
+          "^\\*.*shell.*\\*.*$"
+          "^\\*.*terminal.*\\*.*$"
+          "^\\*.*vterm[inal]*.*\\*.*$"))
+
+  (with-eval-after-load 'doom-modeline
+    (setq popper-mode-line
+          '(:eval (let ((face (if (doom-modeline--active)
+                                  'doom-modeline-emphasis
+                                'doom-modeline)))
+                    (if (and (icons-displayable-p)
+                             (bound-and-true-p doom-modeline-icon)
+                             (bound-and-true-p doom-modeline-mode))
+                        (format " %s "
+                                (nerd-icons-octicon "nf-oct-pin" :face face))
+                      (propertize " POP " 'face face))))))
+  :config
+  (with-no-warnings
+    (defun my-popper-fit-window-height (win)
+      "Determine the height of popup window WIN by fitting it to the buffer's content."
+      (fit-window-to-buffer
+       win
+       (floor (frame-height) 3)
+       (floor (frame-height) 3)))
+    (setq popper-window-height #'my-popper-fit-window-height)))
+
 
 ;; reset GC
 (use-package gcmh
