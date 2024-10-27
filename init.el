@@ -432,6 +432,8 @@
                         java
                         rust
                         go
+                        gomod
+                        nix
                         yaml
                         js
                         typescript
@@ -886,7 +888,7 @@
 
 (use-package dockerfile-mode)
 (use-package php-mode)
-
+(use-package nix-mode)
 ;; OCaml
 
 (defun shell-cmd (cmd)
