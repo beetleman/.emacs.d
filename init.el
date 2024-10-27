@@ -555,6 +555,11 @@
   :bind
   ("C-x g" . magit-status))
 
+(with-eval-after-load 'project
+  (define-key project-prefix-map "m" #'magit-project-status)
+  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
+
+
 (use-package diff-hl
   :custom
   (diff-hl-draw-borders nil)
