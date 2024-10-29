@@ -1171,13 +1171,14 @@
                     (:validate (:enable t)
                      :schemas ,json-schemas)
                     :yaml (:schemas ,json-schemas))))
-  (add-to-list 'eglot-server-programs
-               `(jsonian-mode . ("vscode-json-language-server" "--stdio" :initializationOptions (:provideFormatter t)))
-               `(web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
-                                                   ("html-languageserver" "--stdio"))))
-               `(nxml-mode . ("java"
-                              "-jar"
-                              ,(expand-file-name "~/.emacs.d/share/lemminx/org.eclipse.lemminx-uber.jar"))))
+  (setf eglot-server-programs
+        `(,@eglot-server-programs
+          (jsonian-mode . ("vscode-json-language-server" "--stdio" :initializationOptions (:provideFormatter t)))
+          (web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
+                                             ("html-languageserver" "--stdio"))))
+          (nxml-mode . ("java"
+                        "-jar"
+                        ,(expand-file-name "~/.emacs.d/share/lemminx/org.eclipse.lemminx-uber.jar")))))
   ;; Emacs LSP booster
   (when (executable-find "emacs-lsp-booster")
     (unless (package-installed-p 'eglot-booster)
