@@ -1113,7 +1113,9 @@
   :preface
   (defun beetleman-eglot-before-save ()
     (interactive)
-    (when (bound-and-true-p eglot--managed-mode)
+    (when (and (bound-and-true-p eglot--managed-mode)
+               (not (string= "false"
+                             (getenv "EMACS_LSP_AUTOFORMAT"))))
       (eglot-format-buffer)))
   :hook (((markdown-mode
            markdown-ts-mode
