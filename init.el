@@ -180,6 +180,11 @@
       window-divider-default-right-width 1)
 (add-hook 'window-setup-hook #'window-divider-mode)
 
+;; setup emacs window managment options
+;; https://www.masteringemacs.org/article/demystifying-emacs-window-manager
+(setq switch-to-buffer-in-dedicated-window 'pop
+      switch-to-buffer-obey-display-actions t)
+
 ;; my functions
 (require 'ansi-color)
 (defun display-ansi-colors ()
