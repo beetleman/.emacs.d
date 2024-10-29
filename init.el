@@ -894,6 +894,14 @@
 (use-package dockerfile-mode)
 (use-package php-mode)
 (use-package nix-mode)
+(use-package kotlin-mode)
+
+;; groovy / gradle
+
+(use-package groovy-mode
+  :mode (("\\.gradle?$" . groovy-mode)
+         ("\\.groovy?$" . groovy-mode)))
+
 ;; OCaml
 
 (defun shell-cmd (cmd)
