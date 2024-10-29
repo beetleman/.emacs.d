@@ -1133,6 +1133,7 @@
            typescript-ts-mode
            js-mode
            js-ts-mode
+           nxml-mode
            jsonian-mode
            go-mode
            go-ts-mode
