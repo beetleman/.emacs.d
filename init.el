@@ -1261,13 +1261,18 @@
 
 ;; poppler
 (use-package popper
+  :preface
+  (defun beetleman--popper-display-function (buffer &optional alist)
+    (let ((window (display-buffer-below-selected buffer alist)))
+      (select-window window)))
   :custom
   (popper-group-function #'popper-group-by-directory)
   (popper-echo-dispatch-actions t)
+  (popper-display-function #'beetleman--popper-display-function)
   :bind (:map popper-mode-map
-         ("C-`"       . popper-toggle)
-         ("C-<tab>"     . popper-cycle)
-         ("C-M-<tab>"   . popper-toggle-type))
+              ("C-`"  . popper-toggle)
+              ("C-<tab>" . popper-cycle)
+              ("C-~" . popper-toggle-type))
   :hook (emacs-startup . popper-echo-mode)
   :init
   (setq popper-reference-buffers
@@ -1299,16 +1304,7 @@
                              (bound-and-true-p doom-modeline-mode))
                         (format " %s "
                                 (nerd-icons-octicon "nf-oct-pin" :face face))
-                      (propertize " POP " 'face face))))))
-  :config
-  (with-no-warnings
-    (defun my-popper-fit-window-height (win)
-      "Determine the height of popup window WIN by fitting it to the buffer's content."
-      (fit-window-to-buffer
-       win
-       (floor (frame-height) 3)
-       (floor (frame-height) 3)))
-    (setq popper-window-height #'my-popper-fit-window-height)))
+                      (propertize " POP " 'face face)))))))
 
 
 ;; reset GC
