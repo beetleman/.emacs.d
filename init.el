@@ -1262,8 +1262,18 @@
 ;; poppler
 (use-package popper
   :preface
+  (defun beetleman--fit-window-height (win)
+    "Determine the height of popup window WIN by fitting it to the buffer's content."
+    (fit-window-to-buffer
+     win
+     (floor (frame-height) 2)
+     (floor (frame-height) 3)))
   (defun beetleman--popper-display-function (buffer &optional alist)
-    (let ((window (display-buffer-below-selected buffer alist)))
+    (let ((window (display-buffer-in-direction buffer
+                                               (append alist
+                                                       `(;;(direction . bottom)
+                                                         (direction . down)
+                                                         (window-height . ,#'beetleman--fit-window-height))))))
       (select-window window)))
   :custom
   (popper-group-function #'popper-group-by-directory)
