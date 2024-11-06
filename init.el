@@ -1322,7 +1322,7 @@
   :hook (emacs-startup . gcmh-mode)
   :init
   (setq gcmh-idle-delay             'auto  ; default is 15s
-        gcmh-auto-idle-delay-factor 10
+        gcmh-auto-idle-delay-factor 30
         gcmh-high-cons-threshold    #x3000000)) ; 48mb
 
 ;; config changes made through the customize UI will be stored here
