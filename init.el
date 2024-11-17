@@ -521,6 +521,8 @@
     :custom-face
     (treemacs-nerd-icons-root-face ((t (:inherit nerd-icons-dsilver :height 1.3))))
     (treemacs-nerd-icons-file-face ((t (:inherit nerd-icons-dsilver))))
+    :init (with-eval-after-load 'lsp-treemacs
+            (require 'treemacs-nerd-icons))
     :config (treemacs-load-theme "nerd-icons"))
 
   (use-package treemacs-magit
@@ -548,8 +550,7 @@
   :bind (("M-o" . ace-window)))
 
 (use-package which-key
-  :config
-  (which-key-mode +1))
+  :hook (after-init . which-key-mode))
 
 (use-package vundo
   :bind (("C-c v" . vundo)))
@@ -871,7 +872,8 @@
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-abbrev)
 
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+  (comment
+   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)))
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -1111,107 +1113,176 @@
 (use-package gptel)
 
 ;; LSP
-
-(use-package eglot
-  :after yasnippet
-  :commands (eglot eglot-ensure)
+(use-package lsp-mode
+  :autoload lsp-enable-which-key-integration
   :preface
-  (defun beetleman-eglot-before-save ()
-    (interactive)
-    (when (and (bound-and-true-p eglot--managed-mode)
-               (not (string= "false"
-                             (getenv "EMACS_LSP_AUTOFORMAT"))))
-      (eglot-format-buffer)))
+  (setq read-process-output-max (* 1024 1024)) ; 1MB
+  (setenv "LSP_USE_PLISTS" "true")
   :hook (((markdown-mode
-           markdown-ts-mode
-           yaml-mode
-           yaml-ts-mode
-           clojure-mode
-           clojurescript-mode
-           typescript-mode
-           tsx-ts-mode
-           typescript-ts-mode
-           js-mode
-           js-ts-mode
-           nxml-mode
-           jsonian-mode
-           go-mode
-           go-ts-mode
-           bash-ts-mode
-           sh-mode)
-          . eglot-ensure)
-         (before-save . beetleman-eglot-before-save))
-  :bind (("C-c e r" . eglot-rename)
-         ("C-c e i" . eglot-code-action-organize-imports)
-         ("C-c e e" . eglot-code-action-extract)
-         ("C-c e q" . eglot-code-action-quickfix)
-         ("C-c e a" . eglot-code-actions)
-         ("C-c e f" . eglot-format))
-  :init
-  (setq eglot-autoshutdown t
-        eglot-send-changes-idle-time 0.5)
-  :config
-  (use-package consult-eglot
-    :bind (:map eglot-mode-map
-           ("C-M-." . consult-eglot-symbols)))
-
-  (setq eglot-connect-timeout 300) ;; 5m
-  (setq eglot-sync-connect 60)
-  (setf (plist-get eglot-events-buffer-config :size) 0)
-  (let* ((json-object-type 'plist)
-         (json-array-type  'vector)
-         (json-key-type    'keyword)
-         (json-schemas     (plist-get (json-read-file "~/.emacs.d/data/catalog.json") :schemas)))
-    (setq-default eglot-workspace-configuration
-                  `(:gopls
-                    (:staticcheck t
-                     :usePlaceholders t)
-                    ;; https://github.com/microsoft/vscode/blob/main/extensions/json-language-features/server/README.md
-                    :json
-                    (:validate (:enable t)
-                     :schemas ,json-schemas)
-                    :yaml (:schemas ,json-schemas))))
-  (setf eglot-server-programs
-        `(,@eglot-server-programs
-          (jsonian-mode . ("vscode-json-language-server" "--stdio" :initializationOptions (:provideFormatter t)))
-          (web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
-                                             ("html-languageserver" "--stdio"))))
-          (nxml-mode . ("java"
-                        "-jar"
-                        ,(expand-file-name "~/.emacs.d/share/lemminx/org.eclipse.lemminx-uber.jar")))))
-  ;; Emacs LSP booster
-  (when (executable-find "emacs-lsp-booster")
-    (unless (package-installed-p 'eglot-booster)
-      (and (fboundp #'package-vc-install)
-           (package-vc-install "https://github.com/jdtsmith/eglot-booster")))
-    (use-package eglot-booster
-      :ensure nil
-      :autoload eglot-booster-mode
-      :init (eglot-booster-mode 1))))
-
-(use-package jarchive
-  :after eglot
-  :config
-  (jarchive-setup))
-
-(use-package eglot-java
+            markdown-ts-mode
+            yaml-mode
+            yaml-ts-mode
+            clojure-mode
+            clojurescript-mode
+            typescript-mode
+            tsx-ts-mode
+            typescript-ts-mode
+            js-mode
+            js-ts-mode
+            nxml-mode
+            jsonian-mode
+            go-mode
+            go-ts-mode
+            bash-ts-mode
+            java-mode
+            java-ts-mode
+            sh-mode)
+          . lsp-deferred))
   :custom
-  (eglot-java-eclipse-jdt-args '("-Xmx4G"
-                                 "--add-modules=ALL-SYSTEM"
-                                 "--add-opens"
-                                 "java.base/java.util=ALL-UNNAMED"
-                                 "--add-opens"
-                                 "java.base/java.lang=ALL-UNNAMED"))
+  (lsp-use-plists t)
+  (lsp-keymap-prefix "C-c l")
+  (lsp-modeline-code-actions-enable nil)
+  (lsp-modeline-diagnostics-enable nil)
+  (lsp-modeline-workspace-status-enable nil)
+  (lsp-semantic-tokens-enable t)
+  (lsp-progress-spinner-type 'progress-bar-filled)
+  :bind (:map lsp-mode-map
+         ("C-c C-d" . lsp-describe-thing-at-point)
+         ([remap xref-find-definitions] . lsp-find-definition)
+         ([remap xref-find-references] . lsp-find-references))
+  :init 
+  :config
+  (use-package consult-lsp
+    :bind (:map lsp-mode-map
+                ("C-M-." . consult-lsp-symbols)))
+)
+
+(use-package lsp-java
   :hook ((java-mode
           java-ts-mode)
-         . eglot-java-mode)
-  :preface
-  (defun beetleman--eglot-java-init-opts (server eglot-java-eclipse-jdt)
-    "Custom options that will be merged with any default settings."
-    ;; download from https://repo1.maven.org/maven2/com/microsoft/java/com.microsoft.java.debug.plugin/
-    `(:bundles [,(expand-file-name "~/.emacs.d/share/dape/com.microsoft.java.debug.plugin.jar")]))
+         . lsp-java-enable))
+
+(use-package lsp-treemacs
+  :after lsp-mode
+  :init (lsp-treemacs-sync-mode 1)
   :config
-  (setq eglot-java-user-init-opts-fn 'beetleman--eglot-java-init-opts))
+  (with-eval-after-load 'ace-window
+    (when (boundp 'aw-ignored-buffers)
+      (push 'lsp-treemacs-symbols-mode aw-ignored-buffers)
+      (push 'lsp-treemacs-java-deps-mode aw-ignored-buffers))))
+
+(comment
+ (use-package eglot
+   :after yasnippet
+   :commands (eglot eglot-ensure)
+   :preface
+   (defun beetleman-eglot-before-save ()
+     (interactive)
+     (when (and (bound-and-true-p eglot--managed-mode)
+                (not (string= "false"
+                              (getenv "EMACS_LSP_AUTOFORMAT"))))
+       (eglot-format-buffer)))
+   :hook (((markdown-mode
+            markdown-ts-mode
+            yaml-mode
+            yaml-ts-mode
+            clojure-mode
+            clojurescript-mode
+            typescript-mode
+            tsx-ts-mode
+            typescript-ts-mode
+            js-mode
+            js-ts-mode
+            nxml-mode
+            jsonian-mode
+            go-mode
+            go-ts-mode
+            bash-ts-mode
+            sh-mode)
+           . eglot-ensure)
+          (before-save . beetleman-eglot-before-save))
+   :bind (("C-c e r" . eglot-rename)
+          ("C-c e i" . eglot-code-action-organize-imports)
+          ("C-c e e" . eglot-code-action-extract)
+          ("C-c e q" . eglot-code-action-quickfix)
+          ("C-c e a" . eglot-code-actions)
+          ("C-c e f" . eglot-format))
+   :init
+   (setq eglot-autoshutdown t
+         eglot-send-changes-idle-time 0.5)
+   :config
+   (use-package consult-eglot
+     :bind (:map eglot-mode-map
+                 ("C-M-." . consult-eglot-symbols)))
+
+   (setq eglot-connect-timeout 300) ;; 5m
+   (setq eglot-sync-connect 60)
+   (setf (plist-get eglot-events-buffer-config :size) 0)
+   (let* ((json-object-type 'plist)
+          (json-array-type  'vector)
+          (json-key-type    'keyword)
+          (json-schemas     (plist-get (json-read-file "~/.emacs.d/data/catalog.json") :schemas)))
+     (setq-default eglot-workspace-configuration
+                   `(:gopls
+                     (:staticcheck t
+                                   :usePlaceholders t)
+                     ;; https://github.com/microsoft/vscode/blob/main/extensions/json-language-features/server/README.md
+                     :json
+                     (:validate (:enable t)
+                                :schemas ,json-schemas)
+                     :yaml (:schemas ,json-schemas))))
+   (setf eglot-server-programs
+         `(,@eglot-server-programs
+           (jsonian-mode . ("vscode-json-language-server" "--stdio" :initializationOptions (:provideFormatter t)))
+           (web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
+                                              ("html-languageserver" "--stdio"))))
+           (nxml-mode . ("java"
+                         "-jar"
+                         ,(expand-file-name "~/.emacs.d/share/lemminx/org.eclipse.lemminx-uber.jar")))))
+   ;; Emacs LSP booster
+   (when (executable-find "emacs-lsp-booster")
+     (unless (package-installed-p 'eglot-booster)
+       (and (fboundp #'package-vc-install)
+            (package-vc-install "https://github.com/jdtsmith/eglot-booster")))
+     (use-package eglot-booster
+       :ensure nil
+       :autoload eglot-booster-mode
+       :init (eglot-booster-mode 1))))
+
+ (use-package jarchive
+   :after eglot
+   :config
+   (jarchive-setup))
+
+ (use-package eglot-java
+   :custom
+   (eglot-java-eclipse-jdt-args '("-Xmx4G"
+                                  "--add-modules=ALL-SYSTEM"
+                                  "--add-opens"
+                                  "java.base/java.util=ALL-UNNAMED"
+                                  "--add-opens"
+                                  "java.base/java.lang=ALL-UNNAMED"))
+   :hook ((java-mode
+           java-ts-mode)
+          . eglot-java-mode)
+   :preface
+   (defun beetleman--eglot-java-init-opts (server eglot-java-eclipse-jdt)
+     "Custom options that will be merged with any default settings."
+     ;; download from https://repo1.maven.org/maven2/com/microsoft/java/com.microsoft.java.debug.plugin/
+     `(:bundles [,(expand-file-name "~/.emacs.d/share/dape/com.microsoft.java.debug.plugin.jar")]))
+   :config
+   (setq eglot-java-user-init-opts-fn 'beetleman--eglot-java-init-opts))
+ ;; code navigation
+ (use-package breadcrumb
+   :hook (after-init . breadcrumb-mode))
+ )
+
+
+
+
+
+
+
 
 ;; (use-package apheleia
 ;;   ;; for formating after save file
@@ -1225,9 +1296,6 @@
 ;; 	'(cljfmt)))
 
 
-;; code navigation
-(use-package breadcrumb
-  :hook (after-init . breadcrumb-mode))
 
 ;; setup modeline
 

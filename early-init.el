@@ -14,3 +14,6 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 (setq-default mode-line-format nil)
+
+;; lsp-mode
+(setenv "LSP_USE_PLISTS" "true")
