@@ -1114,29 +1114,26 @@
 
 ;; LSP
 (use-package lsp-mode
-  :autoload lsp-enable-which-key-integration
   :preface
   (setq read-process-output-max (* 1024 1024)) ; 1MB
   (setenv "LSP_USE_PLISTS" "true")
   :hook (((markdown-mode
-            markdown-ts-mode
-            yaml-mode
-            yaml-ts-mode
-            clojure-mode
-            clojurescript-mode
-            typescript-mode
-            tsx-ts-mode
-            typescript-ts-mode
-            js-mode
-            js-ts-mode
-            nxml-mode
-            jsonian-mode
-            go-mode
-            go-ts-mode
-            bash-ts-mode
-            java-mode
-            java-ts-mode
-            sh-mode)
+           markdown-ts-mode
+           yaml-mode
+           yaml-ts-mode
+           clojure-mode
+           clojurescript-mode
+           typescript-mode
+           tsx-ts-mode
+           typescript-ts-mode
+           js-mode
+           js-ts-mode
+           nxml-mode
+           jsonian-mode
+           go-mode
+           go-ts-mode
+           bash-ts-mode
+           sh-mode)
           . lsp-deferred))
   :custom
   (lsp-use-plists t)
@@ -1147,20 +1144,56 @@
   (lsp-semantic-tokens-enable t)
   (lsp-progress-spinner-type 'progress-bar-filled)
   :bind (:map lsp-mode-map
-         ("C-c C-d" . lsp-describe-thing-at-point)
-         ([remap xref-find-definitions] . lsp-find-definition)
-         ([remap xref-find-references] . lsp-find-references))
-  :init 
+              ("C-c C-d" . lsp-describe-thing-at-point)
+              ([remap xref-find-definitions] . lsp-find-definition)
+              ([remap xref-find-references] . lsp-find-references))
+
   :config
+  (when (executable-find "emacs-lsp-booster")
+    (defun lsp-booster--advice-json-parse (old-fn &rest args)
+      "Try to parse bytecode instead of json."
+      (or
+       (when (equal (following-char) ?#)
+         (let ((bytecode (read (current-buffer))))
+           (when (byte-code-function-p bytecode)
+             (funcall bytecode))))
+       (apply old-fn args)))
+    (advice-add (if (progn (require 'json)
+                           (fboundp 'json-parse-buffer))
+                    'json-parse-buffer
+                  'json-read)
+                :around
+                #'lsp-booster--advice-json-parse)
+
+    (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+      "Prepend emacs-lsp-booster command to lsp CMD."
+      (let ((orig-result (funcall old-fn cmd test?)))
+        (if (and (not test?)                             ;; for check lsp-server-present?
+                 (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+                 lsp-use-plists
+                 (not (functionp 'json-rpc-connection))  ;; native json-rpc
+                 (executable-find "emacs-lsp-booster"))
+            (progn
+              (message "Using emacs-lsp-booster for %s!" orig-result)
+              (cons "emacs-lsp-booster" orig-result))
+          orig-result)))
+    (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
+
   (use-package consult-lsp
     :bind (:map lsp-mode-map
-                ("C-M-." . consult-lsp-symbols)))
-)
+                ("C-M-." . consult-lsp-symbols))))
 
 (use-package lsp-java
   :hook ((java-mode
           java-ts-mode)
-         . lsp-java-enable))
+         . lsp-deferred)
+  :custom
+  '("-Xmx4G"
+    "--add-modules=ALL-SYSTEM"
+    "--add-opens"
+    "java.base/java.util=ALL-UNNAMED"
+    "--add-opens"
+    "java.base/java.lang=ALL-UNNAMED"))
 
 (use-package lsp-treemacs
   :after lsp-mode
