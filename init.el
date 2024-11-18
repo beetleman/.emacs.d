@@ -187,7 +187,7 @@
 
 ;; my functions
 (require 'ansi-color)
-(defun display-ansi-colors ()
+(defun beetleman--display-ansi-colors ()
   "Display colors in buffer which with color escaped."
   (interactive)
   (ansi-color-apply-on-region (point-min) (point-max)))
@@ -557,6 +557,7 @@
 (use-package magit
   :custom
   (magit-log-margin '(t "%D" magit-log-margin-width t 18))
+  (magit-diff-refine-hunk t)
   :bind
   ("C-x g" . magit-status))
 
