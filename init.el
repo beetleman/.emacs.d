@@ -1149,11 +1149,30 @@
          ("C-c e f" . eglot-format))
   :init
   (setq eglot-autoshutdown t
-        eglot-send-changes-idle-time 0.5)
+        eglot-send-changes-idle-time 0.5
+        eglot-max-dir-watched 1000)
+  (cl-defmethod eglot-register-capability :around
+    (server (method (eql workspace/didChangeWatchedFiles)) id &key watchers)
+    (condition-case err
+        (let* ((dirs (length (delete-dups (mapcar #'file-name-directory
+                                                  (project-files
+                                                   (eglot--project server))))))
+               (enabled (< dirs eglot-max-dir-watched)))
+          (if enabled
+              (progn
+                (message "Enabling workspace/didChangeWatchedFiles capability. (Dirs: %s)" dirs)
+                (cl-call-next-method))
+            (progn
+              (message "Disabling workspace/didChangeWatchedFiles capability. (Dirs: %s)" dirs)
+              (eglot-unregister-capability server method id)
+              nil)))
+      (error
+       (warn "Caught an error: %s" err)
+       (cl-call-next-method))))
   :config
   (use-package consult-eglot
     :bind (:map eglot-mode-map
-           ("C-M-." . consult-eglot-symbols)))
+                ("C-M-." . consult-eglot-symbols)))
 
   (setq eglot-connect-timeout 300) ;; 5m
   (setq eglot-sync-connect 60)
@@ -1165,11 +1184,11 @@
     (setq-default eglot-workspace-configuration
                   `(:gopls
                     (:staticcheck t
-                     :usePlaceholders t)
+                                  :usePlaceholders t)
                     ;; https://github.com/microsoft/vscode/blob/main/extensions/json-language-features/server/README.md
                     :json
                     (:validate (:enable t)
-                     :schemas ,json-schemas)
+                               :schemas ,json-schemas)
                     :yaml (:schemas ,json-schemas))))
   (setf eglot-server-programs
         `(,@eglot-server-programs
