@@ -1229,21 +1229,20 @@
   (defun beetleman--eglot-java-init-opts (server eglot-java-eclipse-jdt)
     "Custom options that will be merged with any default settings."
     ;; download from https://repo1.maven.org/maven2/com/microsoft/java/com.microsoft.java.debug.plugin/
-    `(:bundles [,(expand-file-name "~/.emacs.d/share/dape/com.microsoft.java.debug.plugin.jar")]))
+    `(:bundles
+      [,(expand-file-name "~/.emacs.d/share/dape/com.microsoft.java.debug.plugin.jar")]))
   :config
   (setq eglot-java-user-init-opts-fn 'beetleman--eglot-java-init-opts))
 
-;; (use-package apheleia
-;;   ;; for formating after save file
-;;   :hook ((clojure-mode . apheleia-mode)
-;; 	 (clojurescript-mode . apheleia-mode)
-;;          (clojurec-mode . apheleia-mode))
-;;   :config
-;;   (setf (alist-get 'cljfmt apheleia-formatters)
-;;         '("cljfmt" "fix" "-"))
-;;   (setf (alist-get 'clojure-mode apheleia-mode-alist)
-;; 	'(cljfmt)))
-
+(use-package apheleia
+  :hook ((java-mode
+          java-ts-mode)
+         . apheleia-mode)
+  :config
+  (push (lambda ()
+          (not (string= "true"
+                        (getenv "EMACS_AUTOFORMAT"))))
+        apheleia-skip-functions))
 
 ;; code navigation
 (use-package breadcrumb
