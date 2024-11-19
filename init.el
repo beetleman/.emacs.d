@@ -802,11 +802,10 @@
   (after-init . global-anzu-mode))
 
 (use-package envrc
-  :defer 2
   :if (executable-find "direnv")
+  :hook (after-init . envrc-global-mode)
   :bind (:map envrc-mode-map
-              ("C-c d" . envrc-command-map))
-  :config (envrc-global-mode))
+              ("C-c d" . envrc-command-map)))
 
 ;; fish configuration:
 ;; if [ "$INSIDE_EMACS" = vterm ]; and [ -n $EMACS_VTERM_PATH ]; and [ -f $EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh ]
