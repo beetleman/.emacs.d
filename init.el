@@ -446,7 +446,8 @@
                         tsx
                         markdown
                         css
-                        html)))
+                        html
+                        sql)))
 
 ;; Environment
 (use-package exec-path-from-shell
@@ -884,8 +885,6 @@
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
 
-(use-package format-all)
-
 ;; Org
 
 (use-package org-bullets
@@ -1086,11 +1085,6 @@
   :hook
    (fish-mode . beetleman--format-fish-on-save))
 
-
-;; SQL
-
-(use-package sqlformat)
-
 ;; TS
 
 (use-package typescript-mode)
@@ -1235,7 +1229,10 @@
 
 (use-package apheleia
   :hook ((java-mode
-          java-ts-mode)
+          java-ts-mode
+          sql-mode
+          sql-ts-mode
+          elisp-mode)
          . apheleia-mode)
   :config
   (push (lambda ()
