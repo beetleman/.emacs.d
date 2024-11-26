@@ -525,11 +525,7 @@
     :config (treemacs-load-theme "nerd-icons"))
 
   (use-package treemacs-magit
-    :hook ((magit-post-commit
-            git-commit-post-finish
-            magit-post-stage
-            magit-post-unstage)
-           . treemacs-magit--schedule-update)))
+    :demand t))
 
 (use-package nerd-icons-dired
   :custom-face
