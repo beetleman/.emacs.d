@@ -286,12 +286,12 @@
 
 ;;; THIRD-PARTY PACKAGES
 
- (use-package ef-themes
-   :demand t
-   :config
-   (setq ef-themes-to-toggle '(ef-owl ef-kassio))
-   (ef-themes-select 'ef-owl)
-   :bind ("<f5>" . #'ef-themes-toggle))
+(use-package ef-themes
+  :demand t
+  :config
+  (setq ef-themes-to-toggle '(ef-owl ef-kassio))
+  (ef-themes-select 'ef-owl)
+  :bind ("<f5>" . #'ef-themes-toggle))
 
 (comment
  (use-package modus-themes
@@ -312,7 +312,7 @@
    (modus-themes-load-theme 'modus-vivendi-tinted)
 
    :bind ("<f5>" . #'modus-themes-toggle))
-  )
+ )
 
 (use-package meow
   :demand t
@@ -573,8 +573,8 @@
   (diff-hl-flydiff-mode 1)
   (setq-default fringes-outside-margins t)
   (with-eval-after-load 'magit
-      (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
-      (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
+    (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
 
 (use-package orderless
   :custom
@@ -1079,7 +1079,7 @@
   (defun beetleman--format-fish-on-save ()
     (add-hook 'before-save-hook 'fish_indent-before-save))
   :hook
-   (fish-mode . beetleman--format-fish-on-save))
+  (fish-mode . beetleman--format-fish-on-save))
 
 ;; TS
 
@@ -1228,12 +1228,13 @@
           java-ts-mode
           sql-mode
           sql-ts-mode
-          elisp-mode)
+          emacs-lisp-mode
+          sly-mode)
          . apheleia-mode)
   :config
   (push (lambda ()
-          (not (string= "true"
-                        (getenv "EMACS_AUTOFORMAT"))))
+          (string= "false"
+                   (getenv "EMACS_AUTOFORMAT")))
         apheleia-skip-functions))
 
 ;; code navigation
