@@ -243,7 +243,12 @@
 (use-package dired
   :ensure nil
   :custom
-  (dired-listing-switches "-alh"))
+  (dired-listing-switches "-alh")
+  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'always)
+  (dired-dwim-target t)
+  :config
+  (setq delete-by-moving-to-trash t))
 
 (use-package dired
   :ensure nil
@@ -495,6 +500,8 @@
   (treemacs-read-string-input 'from-minibuffer)
   (treemacs-git-mode 'deferred)
   (treemacs-collapse-dirs 7)
+  (treemacs-deferred-git-apply-delay 1)
+  (treemacs-move-files-by-mouse-dragging nil)
   :custom-face
   (cfrs-border-color ((t (:inherit posframe-border))))
   :bind
@@ -536,6 +543,14 @@
   :after dired
   :init
   (dired-quick-sort-setup))
+
+(use-package trashed
+  :commands (trashed)
+  :config
+  (setq trashed-action-confirmer 'y-or-n-p)
+  (setq trashed-use-header-line t)
+  (setq trashed-sort-key '("Date deleted" . t))
+  (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
 
 (use-package diredfl
   :hook (dired-mode . diredfl-mode))
