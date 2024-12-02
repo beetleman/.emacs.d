@@ -82,9 +82,6 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-;; replace selected section if start typing
-(delete-selection-mode 1)
-
 ;; Suppress GUI features
 (setq use-file-dialog nil
       use-dialog-box nil
@@ -227,6 +224,9 @@
   :ensure nil
   :hook (after-init . savehist-mode))
 
+(use-package delsel
+  :ensure nil
+  :hook (after-init . delete-selection-mode))
 
 (use-package recentf
   :ensure nil
