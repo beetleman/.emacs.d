@@ -225,8 +225,8 @@
 
 (use-package savehist
   :ensure nil
-  :init
-  (savehist-mode 1))
+  :hook (after-init . savehist-mode))
+
 
 (use-package recentf
   :ensure nil
@@ -854,7 +854,11 @@
         ("S-TAB" . corfu-previous)
         ([backtab] . corfu-previous))
   :hook ((after-init . global-corfu-mode)
-         (global-corfu-mode . corfu-popupinfo-mode)))
+         (global-corfu-mode . corfu-popupinfo-mode))
+  :config
+  (with-eval-after-load 'savehist
+    (corfu-history-mode 1)
+    (add-to-list 'savehist-additional-variables 'corfu-history)))
 
 (use-package nerd-icons-corfu
   :after corfu
