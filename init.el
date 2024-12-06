@@ -1126,12 +1126,6 @@
   :after yasnippet
   :commands (eglot eglot-ensure)
   :preface
-  (defun beetleman-eglot-before-save ()
-    (interactive)
-    (when (and (bound-and-true-p eglot--managed-mode)
-               (not (string= "false"
-                             (getenv "EMACS_LSP_AUTOFORMAT"))))
-      (eglot-format-buffer)))
   :hook (((markdown-mode
            markdown-ts-mode
            yaml-mode
@@ -1149,8 +1143,7 @@
            go-ts-mode
            bash-ts-mode
            sh-mode)
-          . eglot-ensure)
-         (before-save . beetleman-eglot-before-save))
+          . eglot-ensure))
   :bind (("C-c e r" . eglot-rename)
          ("C-c e i" . eglot-code-action-organize-imports)
          ("C-c e e" . eglot-code-action-extract)
@@ -1248,6 +1241,9 @@
           java-ts-mode
           sql-mode
           sql-ts-mode
+          clojure-mode
+          clojurescript-mode
+          web-mode
           emacs-lisp-mode
           sly-mode)
          . apheleia-mode)
