@@ -1325,6 +1325,7 @@
           tabulated-list-mode
           Buffer-menu-mode
           cider-repl-mode
+          sly-mrepl-mode
           flymake-diagnostics-buffer-mode
 
           "^\\*.*eshell.*\\*.*$"
