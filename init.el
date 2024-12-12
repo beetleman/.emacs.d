@@ -1137,6 +1137,8 @@
            typescript-ts-mode
            js-mode
            js-ts-mode
+           python-mode
+           python-ts-mode
            nxml-mode
            jsonian-mode
            go-mode
@@ -1152,6 +1154,7 @@
          ("C-c e f" . eglot-format))
   :init
   (setq eglot-autoshutdown t
+        eglot-report-progress t
         eglot-send-changes-idle-time 0.5
         eglot-max-dir-watched 1000)
   (cl-defmethod eglot-register-capability :around
