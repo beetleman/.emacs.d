@@ -316,8 +316,10 @@
    ;; Load the theme of your choice.
    (modus-themes-load-theme 'modus-vivendi-tinted)
 
-   :bind ("<f5>" . #'modus-themes-toggle))
- )
+   :bind ("<f5>" . #'modus-themes-toggle)))
+
+(use-package page-break-lines
+  :hook (after-init . global-page-break-lines-mode))
 
 (use-package meow
   :demand t
