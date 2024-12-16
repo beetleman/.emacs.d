@@ -140,10 +140,6 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-;; revert buffers automatically when underlying files are changed externally
-(global-auto-revert-mode t)
-(setq global-auto-revert-non-file-buffers t)
-
 ;; Permanently indent with spaces, never with TABs
 (setq-default c-basic-offset   4
               tab-width        4
@@ -163,12 +159,7 @@
 (beetleman--set-emoji-font nil)
 (add-hook 'after-make-frame-functions 'beetleman--set-emoji-font)
 
-;; vc-mode
-;; (setq auto-revert-check-vc-info t) ;; slow down magit
-(setq auto-revert-check-vc-info nil)
-
 ;; setup ediff
-
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; setup windows dividers
@@ -219,6 +210,14 @@
 
 
 ;;; BUILT-IN PACKAGES
+
+(use-package autorevert
+  :ensure nil
+  :hook (after-init . global-auto-revert-mode)
+  :config
+  (setopt auto-revert-avoid-polling t)
+  (setopt auto-revert-interval 5)
+  (setopt auto-revert-check-vc-info t))
 
 (use-package savehist
   :ensure nil
