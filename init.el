@@ -1037,6 +1037,7 @@
   (cider-repl-history-size 1000)
   (cider-repl-history-file ".cider-repl-history")
   (cider-repl-buffer-size-limit nil)
+  (cider-enrich-classpath t)
   :config
   (cider-auto-test-mode 1))
 
