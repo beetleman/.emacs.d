@@ -293,8 +293,8 @@
 (use-package ef-themes
   :demand t
   :config
-  (setq ef-themes-to-toggle '(ef-owl ef-kassio))
-  (ef-themes-select 'ef-owl)
+  (setq ef-themes-to-toggle '(ef-elea-dark ef-elea-light))
+  (ef-themes-select 'ef-elea-dark)
   :bind ("<f5>" . #'ef-themes-toggle))
 
 (comment
