@@ -20,10 +20,9 @@
                             (tool-bar-lines . 0)
                             ;; Setting the face in here prevents flashes of
                             ;; color as the theme gets activated
-                            (background-color . "#000000")
-                            (foreground-color . "#ffffff")
-                            (ns-appearance . dark)
-                            (ns-transparent-titlebar . t)))
+                            (background-color . "#222524")
+                            (foreground-color . "#EAF2EF")
+                            (ns-appearance . dark)))
 
 (setq-default mode-line-format nil)
 (setq ns-use-proxy-icon nil)
