@@ -290,32 +290,21 @@
 
 ;;; THIRD-PARTY PACKAGES
 
-(use-package ef-themes
+(use-package modus-themes
   :demand t
   :config
-  (setq ef-themes-to-toggle '(ef-elea-dark ef-elea-light))
-  (ef-themes-select 'ef-elea-dark)
-  :bind ("<f5>" . #'ef-themes-toggle))
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
 
-(comment
- (use-package modus-themes
-   :demand t
-   :config
-   ;; Add all your customizations prior to loading the themes
-   (setq modus-themes-italic-constructs nil
-         modus-themes-bold-constructs nil
-         modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+  (setq modus-themes-common-palette-overrides
+        `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
+          (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
+          ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
 
-   ;; Maybe define some palette overrides, such as by using our presets
-   (setq modus-themes-common-palette-overrides
-         `((bg-paren-match bg-magenta-intense)
-           (bg-mode-line-active bg-cyan-subtle)
-           ,@modus-themes-preset-overrides-faint))
+  ;; Load the theme of your choice.
+  (modus-themes-load-theme 'modus-vivendi-tinted)
 
-   ;; Load the theme of your choice.
-   (modus-themes-load-theme 'modus-vivendi-tinted)
-
-   :bind ("<f5>" . #'modus-themes-toggle)))
+  :bind ("<f5>" . #'modus-themes-toggle))
 
 (use-package page-break-lines
   :hook (after-init . global-page-break-lines-mode))

@@ -20,8 +20,8 @@
                             (tool-bar-lines . 0)
                             ;; Setting the face in here prevents flashes of
                             ;; color as the theme gets activated
-                            (background-color . "#222524")
-                            (foreground-color . "#EAF2EF")
+                            (background-color . "#0D0E1C")
+                            (foreground-color . "#FFFFFF")
                             (ns-appearance . dark)))
 
 (setq-default mode-line-format nil)
