@@ -556,6 +556,8 @@
 (use-package vundo
   :bind (("C-c v" . vundo)))
 
+(use-package git-modes)
+
 (use-package magit
   :custom
   (magit-log-margin '(t "%D" magit-log-margin-width t 18))
