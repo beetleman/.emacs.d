@@ -478,6 +478,7 @@
   :commands (fancy-compilation-mode)
   :custom
   (fancy-compilation-override-colors nil)
+  (fancy-compilation-quiet-prelude nil)
   :init
   (with-eval-after-load 'compile
     (fancy-compilation-mode)))
