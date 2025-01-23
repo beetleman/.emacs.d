@@ -42,7 +42,7 @@
 
 (setq inhibit-compacting-font-caches t)
 
-(setq user-full-name "Mateusz Probachta-Jeżowski"
+(setq user-full-name "Mateusz Jeżowski"
       user-mail-address "mateusz.probachta@gmail.com")
 
 
