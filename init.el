@@ -588,7 +588,7 @@
          (after-init . global-diff-hl-show-hunk-mouse-mode)
          (dired-mode . diff-hl-dired-mode))
   :config
-  (diff-hl-flydiff-mode 1)
+  ;; (diff-hl-flydiff-mode 1) ; to slow
   (setq-default fringes-outside-margins t)
   (with-eval-after-load 'magit
     (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
