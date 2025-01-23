@@ -299,9 +299,6 @@
   (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, 'frappe or 'mocha
   (catppuccin-reload))
 
-(use-package solaire-mode
-  :hook (after-init . solaire-global-mode))
-
 (comment
  (use-package modus-themes
    :demand t
