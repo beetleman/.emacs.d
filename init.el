@@ -164,8 +164,8 @@
 
 ;; setup windows dividers
 (setq window-divider-default-places t
-      window-divider-default-bottom-width 2
-      window-divider-default-right-width 2)
+      window-divider-default-bottom-width 1
+      window-divider-default-right-width 1)
 (add-hook 'window-setup-hook #'window-divider-mode)
 
 ;; setup emacs window managment options
@@ -290,31 +290,31 @@
 
 ;;; THIRD-PARTY PACKAGES
 
-(use-package catppuccin-theme
-  :demand t
-  :custom-face
-  (xref-match ((t (:inherit region))))
-  :config
-  (mapc #'disable-theme custom-known-themes)
-  (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, 'frappe or 'mocha
-  (catppuccin-reload))
-
 (comment
- (use-package modus-themes
+ (use-package catppuccin-theme
    :demand t
+   :custom-face
+   (xref-match ((t (:inherit region))))
    :config
-   ;; Add all your customizations prior to loading the themes
-   (setq modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+   (mapc #'disable-theme custom-known-themes)
+   (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, 'frappe or 'mocha
+   (catppuccin-reload)))
 
-   (setq modus-themes-common-palette-overrides
-         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
-           (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
-           ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
+(use-package modus-themes
+  :demand t
+  :config
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
 
-   ;; Load the theme of your choice.
-   (modus-themes-load-theme 'modus-vivendi-tinted)
+  (setq modus-themes-common-palette-overrides
+        `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
+          (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
+          ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
 
-   :bind ("<f5>" . #'modus-themes-toggle)))
+  ;; Load the theme of your choice.
+  (modus-themes-load-theme 'modus-vivendi-tinted)
+
+  :bind ("<f5>" . #'modus-themes-toggle))
 
 (use-package page-break-lines
   :hook (after-init . global-page-break-lines-mode))
