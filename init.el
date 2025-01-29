@@ -788,6 +788,8 @@
     (eldoc-box-clear-with-C-g t)
     :bind (("C-c D" . eldoc-box-help-at-point))))
 
+(use-package string-inflection
+  :bind ("C-c f" . string-inflection-all-cycle))
 
 (use-package subword
   :hook (prog-mode . subword-mode))
