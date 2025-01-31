@@ -413,7 +413,11 @@
    '("<escape>" . ignore)
    ;; documentation
    '("?" . "C-c D"))
-  (meow-global-mode 1))
+  (meow-global-mode 1)
+  
+  (use-package meow-tree-sitter
+    :init
+    (meow-tree-sitter-register-defaults)))
 
 (use-package nerd-icons-ibuffer
   :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
