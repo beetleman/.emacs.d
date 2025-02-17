@@ -148,7 +148,7 @@
 ;; setup font settings
 (if (eq system-type 'darwin) ;; mac specific settings
     (add-to-list 'default-frame-alist '(font . "Aporetic Sans Mono-14"))
-  (add-to-list 'default-frame-alist '(font . "Aporetic Sans Mono-12")))
+  (add-to-list 'default-frame-alist '(font . "Aporetic Sans Mono-11")))
 
 (defun beetleman--set-emoji-font (frame)
   "Adjust the font settings of FRAME so Emacs can display: ✨🍆✨."
