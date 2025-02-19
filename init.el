@@ -571,6 +571,7 @@
 (use-package magit
   :custom
   (magit-log-margin '(t "%D" magit-log-margin-width t 18))
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
   (magit-diff-refine-hunk t)
   :bind
   ("C-x g" . magit-status))
