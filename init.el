@@ -468,7 +468,9 @@
   :hook (after-init . mode-line-bell-mode))
 
 (use-package ws-butler
+  :pin nongnu
   :custom
+  (ws-butler-keep-whitespace-before-point nil)
   (ws-butler-convert-leading-tabs-or-spaces t)
   :hook ((prog-mode . ws-butler-mode)
 	     (markdown-mode . ws-butler-mode)
@@ -579,7 +581,6 @@
 (with-eval-after-load 'project
   (define-key project-prefix-map "m" #'magit-project-status)
   (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
-
 
 (use-package diff-hl
   :custom
