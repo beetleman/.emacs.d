@@ -1281,7 +1281,12 @@
     `(:bundles
       [,(expand-file-name "~/.emacs.d/share/dape/com.microsoft.java.debug.plugin.jar")]))
   :config
-  (setq eglot-java-user-init-opts-fn 'beetleman--eglot-java-init-opts))
+  (setq eglot-java-user-init-opts-fn 'beetleman--eglot-java-init-opts)
+  (let ((java-env (getenv "EGLOT_JAVA_JAVA_PROGRAM")))
+    (when java-env
+      (let ((java-executable (executable-find java-env)))
+        (when java-executable
+          (setq eglot-java-java-program java-executable))))))
 
 (use-package apheleia
   :hook ((java-mode
