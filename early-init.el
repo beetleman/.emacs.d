@@ -13,7 +13,7 @@
 (setq frame-inhibit-implied-resize t)
 
 ;; Disable not used visual elements
-(setq default-frame-alist '(;; You can turn off scroll bars by uncommenting these lines:
+(setq default-frame-alist `(;; You can turn off scroll bars by uncommenting these lines:
                             (vertical-scroll-bars . nil)
                             (horizontal-scroll-bars . nil)
                             (menu-bar-lines . 0)
@@ -22,7 +22,10 @@
                             ;; color as the theme gets activated
                             (background-color . "#0D0E1C")
                             (foreground-color . "#FFFFFF")
-                            (ns-appearance . dark)))
+                            ,@default-frame-alist))
+
+(when (featurep 'ns)
+  (push '(ns-appearance . dark) default-frame-alist))
 
 (setq-default mode-line-format nil)
 (setq ns-use-proxy-icon nil)
