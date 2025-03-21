@@ -419,6 +419,15 @@
     :init
     (meow-tree-sitter-register-defaults)))
 
+(use-package nerd-icons
+  :config
+  (add-to-list 'nerd-icons-extension-icon-alist
+               '("tmpl" nerd-icons-devicon "nf-dev-html5" :face nerd-icons-lyellow))
+  (add-to-list 'nerd-icons-extension-icon-alist
+               '("asd" nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-lorange))
+  (add-to-list 'nerd-icons-extension-icon-alist
+               '("envrc" nerd-icons-octicon "nf-oct-gear" :face nerd-icons-lblue)))
+
 (use-package nerd-icons-ibuffer
   :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
@@ -1147,6 +1156,9 @@
            python-mode
            python-ts-mode
            nxml-mode
+           web-mode
+           css-mode
+           css-ts-mode
            jsonian-mode
            go-mode
            go-ts-mode
