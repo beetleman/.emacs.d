@@ -923,6 +923,10 @@
 ;; Languages
 
 
+(use-package csv-mode
+  :hook ((csv-mode . csv-align-mode)
+         (csv-mode . csv-guess-set-separator)))
+
 (use-package yaml-mode)
 
 (use-package dockerfile-mode)
