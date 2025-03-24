@@ -426,7 +426,7 @@
   (add-to-list 'nerd-icons-extension-icon-alist
                '("asd" nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-lorange))
   (add-to-list 'nerd-icons-extension-icon-alist
-               '("envrc" nerd-icons-octicon "nf-fa-cogs" :face nerd-icons-lred))
+               '("envrc" nerd-icons-faicon "nf-fa-cogs" :face nerd-icons-lred))
   (add-to-list 'nerd-icons-extension-icon-alist
                '("edn" nerd-icons-devicon "nf-dev-clojure" :face nerd-icons-purple)))
 
