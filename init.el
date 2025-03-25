@@ -848,7 +848,12 @@
   (vterm-ignore-blink-cursor nil)
   (vterm-copy-exclude-prompt t)
   (vterm-always-compile-modul t)
-  (vterm-max-scrollback 100000))
+  (vterm-max-scrollback 100000)
+  :preface
+  (defun beetleman--vterm--delayed-redraw (&rest args)
+    (meow--update-cursor))
+  :config
+  (advice-add 'vterm--delayed-redraw :after #'beetleman--vterm--delayed-redraw))
 
 (use-package multi-vterm
   :commands (multi-vterm-project multi-vterm multi-vterm-next multi-vterm-prev)
