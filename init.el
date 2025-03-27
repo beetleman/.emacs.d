@@ -1330,6 +1330,9 @@
 
 ;; code navigation
 (use-package breadcrumb
+  :custom
+  (breadcrumb-project-max-length 0.4)
+  (breadcrumb-imenu-max-length 0.4)
   :hook (after-init . breadcrumb-mode))
 
 ;; setup modeline
