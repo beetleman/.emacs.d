@@ -300,21 +300,34 @@
    (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, 'frappe or 'mocha
    (catppuccin-reload)))
 
-(use-package modus-themes
+(comment
+ (use-package modus-themes
+   :demand t
+   :config
+   ;; Add all your customizations prior to loading the themes
+   (setq modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+
+   (setq modus-themes-common-palette-overrides
+         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
+           (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
+           ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
+
+   ;; Load the theme of your choice.
+   (modus-themes-load-theme 'modus-vivendi-tinted)
+
+   :bind ("<f5>" . #'modus-themes-toggle)))
+
+(use-package ef-themes
   :demand t
+  :preface
+  (defun beetleman--ef-themes-config ()
+    (set-face-attribute 'bold nil :weight 'normal))
   :config
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
-
-  (setq modus-themes-common-palette-overrides
-        `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
-          (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
-          ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
-
-  ;; Load the theme of your choice.
-  (modus-themes-load-theme 'modus-vivendi-tinted)
-
-  :bind ("<f5>" . #'modus-themes-toggle))
+  (add-hook 'ef-themes-post-load-hook #'beetleman--ef-themes-config)
+  (mapc #'disable-theme custom-enabled-themes)
+  (ef-themes-select 'ef-dream)
+  (setq ef-themes-to-toggle '(ef-dream ef-reverie))
+  :bind ("<f5>" . #'ef-themes-toggle))
 
 (use-package page-break-lines
   :hook (after-init . global-page-break-lines-mode))
