@@ -475,7 +475,8 @@
                         markdown
                         css
                         html
-                        sql)))
+                        sql
+                        lua)))
 
 ;; Environment
 (use-package exec-path-from-shell
@@ -953,6 +954,7 @@
 (use-package php-mode)
 (use-package nix-mode)
 (use-package kotlin-mode)
+(use-package lua-mode)
 
 ;; groovy / gradle
 
@@ -1179,6 +1181,8 @@
            js-ts-mode
            python-mode
            python-ts-mode
+           lua-mode
+           lua-ts-mode
            nxml-mode
            web-mode
            css-mode
