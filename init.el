@@ -434,14 +434,14 @@
 
 (use-package nerd-icons
   :config
-  (add-to-list 'nerd-icons-extension-icon-alist
-               '("tmpl" nerd-icons-devicon "nf-dev-html5" :face nerd-icons-lyellow))
-  (add-to-list 'nerd-icons-extension-icon-alist
-               '("asd" nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-lorange))
-  (add-to-list 'nerd-icons-extension-icon-alist
-               '("envrc" nerd-icons-faicon "nf-fa-cogs" :face nerd-icons-lred))
-  (add-to-list 'nerd-icons-extension-icon-alist
-               '("edn" nerd-icons-devicon "nf-dev-clojure" :face nerd-icons-purple)))
+  (setq nerd-icons-extension-icon-alist
+        `(("tmpl" nerd-icons-devicon "nf-dev-html5" :face nerd-icons-lyellow)
+          ("asd" nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-lorange)
+          ("envrc" nerd-icons-faicon "nf-fa-cogs" :face nerd-icons-lred)
+          ("edn" nerd-icons-devicon "nf-dev-clojure" :face nerd-icons-purple)
+          ("lisp" nerd-icons-sucicon "nf-custom-common_lisp" :face nerd-icons-lorange)
+          ("fasl" nerd-icons-octicon "nf-oct-file_binary" :face nerd-icons-dsilver)
+          ,@nerd-icons-extension-icon-alist)))
 
 (use-package nerd-icons-ibuffer
   :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
