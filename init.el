@@ -1134,6 +1134,11 @@
         web-mode-code-indent-offset 2
         web-mode-enable-engine-detection t))
 
+(use-package emmet-mode
+  :hook ((web-mode
+          css-mode)
+         . emmet-mode))
+
 ;; fish
 
 (use-package fish-mode
