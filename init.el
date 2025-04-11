@@ -45,8 +45,10 @@
 (setq user-full-name "Mateusz Jeżowski"
       user-mail-address "mateusz.probachta@gmail.com")
 
-
-(setq read-process-output-max (* 1024 1024)) ; 1MB
+(setq read-process-output-max
+      (if (eq system-type 'darwin) ;; for mac tt’s probably about 64kb
+          (* 64 1024)   ;; 64k
+        (* 1024 1024))) ;; 1MB
 
 ;; Always load newest byte code
 ;; (setq load-prefer-newer t)
