@@ -482,10 +482,13 @@
 
 ;; Environment
 (use-package exec-path-from-shell
+  :custom
+  (exec-path-from-shell-variables '("PATH" "MANPATH" "EGLOT_JAVA_JAVA_PROGRAM" "EMACS_AUTOFORMAT"
+                                    "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
   :init
   (exec-path-from-shell-initialize)
   ;; CLI tools installed by Mise
-  (let ((shims (expand-file-name"~/.local/share/mise/shims")))
+  (let ((shims (expand-file-name "~/.local/share/mise/shims")))
     (setenv "PATH" (concat shims
                            ":"
                            (getenv "PATH")))
