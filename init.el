@@ -1208,25 +1208,27 @@
   (setq eglot-autoshutdown t
         eglot-report-progress t
         eglot-send-changes-idle-time 0.5
-        eglot-max-dir-watched 1000)
-  (cl-defmethod eglot-register-capability :around
-    (server (method (eql workspace/didChangeWatchedFiles)) id &key watchers)
-    (condition-case err
-        (let* ((dirs (length (delete-dups (mapcar #'file-name-directory
-                                                  (project-files
-                                                   (eglot--project server))))))
-               (enabled (< dirs eglot-max-dir-watched)))
-          (if enabled
-              (progn
-                (message "Enabling workspace/didChangeWatchedFiles capability. (Dirs: %s)" dirs)
-                (cl-call-next-method))
-            (progn
-              (message "Disabling workspace/didChangeWatchedFiles capability. (Dirs: %s)" dirs)
-              (eglot-unregister-capability server method id)
-              nil)))
-      (error
-       (warn "Caught an error: %s" err)
-       (cl-call-next-method))))
+        ;; eglot-max-dir-watched 1000
+        )
+  (comment ;; apparently this hack not needed any more in emacs 30.1
+   (cl-defmethod eglot-register-capability :around
+     (server (method (eql workspace/didChangeWatchedFiles)) id &key watchers)
+     (condition-case err
+         (let* ((dirs (length (delete-dups (mapcar #'file-name-directory
+                                                   (project-files
+                                                    (eglot--project server))))))
+                (enabled (< dirs eglot-max-dir-watched)))
+           (if enabled
+               (progn
+                 (message "Enabling workspace/didChangeWatchedFiles capability. (Dirs: %s)" dirs)
+                 (cl-call-next-method))
+             (progn
+               (message "Disabling workspace/didChangeWatchedFiles capability. (Dirs: %s)" dirs)
+               (eglot-unregister-capability server method id)
+               nil)))
+       (error
+        (warn "Caught an error: %s" err)
+        (cl-call-next-method)))))
   :config
   (use-package consult-eglot
     :bind (:map eglot-mode-map
@@ -1310,6 +1312,7 @@
 
 (use-package eglot-java
   :custom
+  (eglot-extend-to-xref t)
   (eglot-java-eclipse-jdt-args '("-Xmx4G"
                                  "--add-modules=ALL-SYSTEM"
                                  "--add-opens"
