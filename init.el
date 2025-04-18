@@ -1208,7 +1208,9 @@
          ("C-c e e" . eglot-code-action-extract)
          ("C-c e q" . eglot-code-action-quickfix)
          ("C-c e a" . eglot-code-actions)
-         ("C-c e f" . eglot-format))
+         ("C-c e f" . eglot-format)
+         :map eglot-mode-map
+         ("C-M-?" . eglot-find-implementation))
   :init
   (setq eglot-autoshutdown t
         eglot-report-progress t
