@@ -636,6 +636,9 @@
 (use-package vertico
   :hook (after-init . vertico-mode))
 
+(use-package vertico-sort
+  :ensure nil)
+
 (use-package nerd-icons-completion
   :hook (vertico-mode . nerd-icons-completion-mode))
 
@@ -910,11 +913,8 @@
         ("S-TAB" . corfu-previous)
         ([backtab] . corfu-previous))
   :hook ((after-init . global-corfu-mode)
-         (global-corfu-mode . corfu-popupinfo-mode))
-  :config
-  (with-eval-after-load 'savehist
-    (corfu-history-mode 1)
-    (add-to-list 'savehist-additional-variables 'corfu-history)))
+         (global-corfu-mode . corfu-popupinfo-mode)
+         (global-corfu-mode . corfu-history-mode)))
 
 (use-package nerd-icons-corfu
   :after corfu
