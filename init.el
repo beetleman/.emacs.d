@@ -1219,6 +1219,14 @@
     :bind (:map eglot-mode-map
                 ("C-M-." . consult-eglot-symbols)))
 
+  (use-package eglot-booster
+    :when (executable-find "emacs-lsp-booster")
+    :demand t
+    :vc (:url "https://github.com/jdtsmith/eglot-booster.git"
+              :rev :newest)
+    :autoload eglot-booster-mode
+    :init (eglot-booster-mode 1))
+
   (defun beetleman--eglot-capf ()
     ;; https://github.com/minad/corfu/wiki#making-a-cape-super-capf-for-eglot
     (setq-local completion-at-point-functions
@@ -1248,6 +1256,7 @@
                     (:validate (:enable t)
                                :schemas ,json-schemas)
                     :yaml (:schemas ,json-schemas))))
+
   (setf eglot-server-programs
         `(,@eglot-server-programs
           (jsonian-mode . ("vscode-json-language-server" "--stdio" :initializationOptions (:provideFormatter t)))
@@ -1255,16 +1264,7 @@
                                              ("html-languageserver" "--stdio"))))
           (nxml-mode . ("java"
                         "-jar"
-                        ,(expand-file-name "~/.emacs.d/share/lemminx/org.eclipse.lemminx-uber.jar")))))
-  ;; Emacs LSP booster
-  (when (executable-find "emacs-lsp-booster")
-    (unless (package-installed-p 'eglot-booster)
-      (and (fboundp #'package-vc-install)
-           (package-vc-install "https://github.com/jdtsmith/eglot-booster")))
-    (use-package eglot-booster
-      :ensure nil
-      :autoload eglot-booster-mode
-      :init (eglot-booster-mode 1))))
+                        ,(expand-file-name "~/.emacs.d/share/lemminx/org.eclipse.lemminx-uber.jar"))))))
 
 (use-package dape
   :config
