@@ -1075,8 +1075,10 @@
   (sly-symbol-completion-mode -1)
   (setq sly-net-coding-system 'utf-8-unix
         sly-complete-symbol-function 'sly-flex-completions ;;'sly-simple-completions
-        sly-lisp-implementations '((qlot ("qlot" "exec" "sbcl") :coding-system utf-8-unix)
-                                   (sbcl ("sbcl") :coding-system utf-8-unix))))
+        sly-lisp-implementations '((qlot ("qlot" "exec" "ros" "-Q" "run")
+                                         :coding-system utf-8-unix)
+                                   (sbcl ("ros" "-Q" "run")
+                                         :coding-system utf-8-unix))))
 
 ;; Setup Caddyfile
 
