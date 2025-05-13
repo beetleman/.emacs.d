@@ -260,7 +260,7 @@
 (use-package project
   :ensure nil
   :config
-  (setq project-vc-extra-root-markers '(".project.el" "workspace.edn" "go.mod")))
+  (setq project-vc-extra-root-markers '(".project.el" "workspace.edn" "go.mod" "deps.edn" "*.asd")))
 
 (use-package flyspell
   :ensure nil
@@ -1177,7 +1177,6 @@
 (use-package eglot
   :after yasnippet
   :commands (eglot eglot-ensure)
-  :preface
   :hook (((markdown-mode
            markdown-ts-mode
            yaml-mode
@@ -1214,32 +1213,24 @@
   :init
   (setq eglot-autoshutdown t
         eglot-report-progress t
-        eglot-send-changes-idle-time 0.5
-        ;; eglot-max-dir-watched 1000
-        )
-  (comment ;; apparently this hack not needed any more in emacs 30.1
-   (cl-defmethod eglot-register-capability :around
-     (server (method (eql workspace/didChangeWatchedFiles)) id &key watchers)
-     (condition-case err
-         (let* ((dirs (length (delete-dups (mapcar #'file-name-directory
-                                                   (project-files
-                                                    (eglot--project server))))))
-                (enabled (< dirs eglot-max-dir-watched)))
-           (if enabled
-               (progn
-                 (message "Enabling workspace/didChangeWatchedFiles capability. (Dirs: %s)" dirs)
-                 (cl-call-next-method))
-             (progn
-               (message "Disabling workspace/didChangeWatchedFiles capability. (Dirs: %s)" dirs)
-               (eglot-unregister-capability server method id)
-               nil)))
-       (error
-        (warn "Caught an error: %s" err)
-        (cl-call-next-method)))))
+        eglot-send-changes-idle-time 0.5)
   :config
   (use-package consult-eglot
     :bind (:map eglot-mode-map
                 ("C-M-." . consult-eglot-symbols)))
+
+  (defun beetleman--eglot-capf ()
+    ;; https://github.com/minad/corfu/wiki#making-a-cape-super-capf-for-eglot
+    (setq-local completion-at-point-functions
+                ;; Bit of a hack to get Cider and Eglot to play
+                (append
+                 (when (and (boundp 'cider-mode) cider-mode)
+                   (list (cape-capf-super #'cider-complete-at-point)))
+                 (list (cape-capf-super #'eglot-completion-at-point)
+                       #'cape-dabbrev
+                       #'cape-file
+                       #'cape-keyword))))
+  (add-hook 'eglot-managed-mode-hook #'beetleman--eglot-capf)
 
   (setq eglot-connect-timeout 300) ;; 5m
   (setq eglot-sync-connect 60)
