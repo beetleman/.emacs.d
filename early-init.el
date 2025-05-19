@@ -18,10 +18,6 @@
                             (horizontal-scroll-bars . nil)
                             (menu-bar-lines . 0)
                             (tool-bar-lines . 0)
-                            ;; Setting the face in here prevents flashes of
-                            ;; color as the theme gets activated
-                            (background-color . "#0D0E1C")
-                            (foreground-color . "#FFFFFF")
                             ,@default-frame-alist))
 
 (when (featurep 'ns)
@@ -30,3 +26,12 @@
 (setq-default mode-line-format nil)
 (setq ns-use-proxy-icon nil)
 (setq frame-title-format nil)
+
+(if (eq system-type 'darwin)
+    (set-face-attribute 'default nil :family "Aporetic Sans Mono" :height 140)
+  (set-face-attribute 'default nil :family "Aporetic Sans Mono" :height 110))
+(set-face-attribute 'variable-pitch nil :family "Aporetic Sans Mono" :height 1.0)
+(set-face-attribute 'fixed-pitch nil :family "Aporetic Sans Mono" :height 1.0)
+
+(set-fontset-font t 'symbol "Noto Color Emoji" nil)
+(set-fontset-font t 'symbol "Symbola" nil 'append)
