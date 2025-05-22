@@ -1175,6 +1175,8 @@
          ("C-c e f" . eglot-format)
          :map eglot-mode-map
          ("C-M-?" . eglot-find-implementation))
+  :custom-face
+  (eglot-highlight-symbol-face ((t (:inherit underline))))
   :init
   (setq eglot-autoshutdown t
         eglot-report-progress t
