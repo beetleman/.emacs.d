@@ -256,10 +256,6 @@
   (when (executable-find "aspell")
     (setq ispell-program-name "aspell")))
 
-(use-package electric-pair
-  :ensure nil
-  :hook (after-init . electric-pair-mode))
-
 (use-package hl-line
   :ensure nil
   :hook ((after-init . global-hl-line-mode)
@@ -783,12 +779,11 @@
               ("C-x C-q" . wgrep-change-to-wgrep-mode)
               ("C-c C-c" . wgrep-finish-edit)))
 
-(use-package puni
-  :hook (prog-mode . puni-mode)
-  :bind (("C-<right>" . puni-slurp-forward)
-         ("C-<left>" . puni-barf-forward)
-         ("C-M-<left>" . puni-slurp-backward)
-         ("C-M-<right>" . puni-barf-backward)))
+(use-package smartparens
+  :hook (prog-mode . smartparens-strict-mode)
+  :config
+  (require 'smartparens-config)
+  (sp-use-smartparens-bindings))
 
 (use-package eldoc
   :hook (prog-mode . eldoc-mode)
