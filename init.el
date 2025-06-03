@@ -780,7 +780,10 @@
               ("C-c C-c" . wgrep-finish-edit)))
 
 (use-package smartparens
-  :hook (prog-mode . smartparens-strict-mode)
+  :hook ((prog-mode
+          cider-repl-mode
+          sly-mrepl-mode)
+         . smartparens-strict-mode)
   :config
   (require 'smartparens-config)
   (sp-use-smartparens-bindings))
