@@ -1265,23 +1265,6 @@
                  :program dape-buffer-default
                  :request "attach"
                  :hostname "localhost"
-                 :port 8000))
-  (add-to-list 'dape-configs
-               `(jdtls
-                 modes (java-mode java-ts-mode)
-                 fn (lambda (config)
-                      (with-current-buffer
-                          (find-file-noselect (expand-file-name (plist-get config :program)
-                                                                (project-root (project-current))))
-                        (thread-first
-                          config
-                          (plist-put 'hostname "localhost")
-                          (plist-put 'port (eglot-execute-command (eglot-current-server)
-                                                                  "vscode.java.startDebugSession" nil))
-                          (plist-put :projectName (project-name (project-current))))))
-                 :program dape-buffer-default
-                 :request "attach"
-                 :hostname "localhost"
                  :port 8000)))
 
 (use-package jarchive
@@ -1291,7 +1274,6 @@
 
 (use-package eglot-java
   :custom
-  (eglot-extend-to-xref t)
   (eglot-java-eclipse-jdt-args '("-Xmx4G"
                                  "--add-modules=ALL-SYSTEM"
                                  "--add-opens"
