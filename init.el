@@ -243,10 +243,12 @@
   :custom
   (insert-directory-program "/opt/homebrew/bin/gls"))
 
-(use-package project
-  :ensure nil
-  :config
-  (setq project-vc-extra-root-markers '(".project.el" "workspace.edn" "go.mod" "deps.edn" "*.asd")))
+(comment
+ ;; should be only set via `.dir-locals.el'
+ (use-package project
+   :ensure nil
+   :config
+   (setq project-vc-extra-root-markers '(".project.el" "workspace.edn" "go.mod" "deps.edn" "*.asd"))))
 
 (use-package flyspell
   :ensure nil
