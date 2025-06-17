@@ -441,6 +441,7 @@
   (treesit-auto-langs '(python
                         java
                         rust
+                        dockerfile
                         go
                         gomod
                         nix
@@ -1160,6 +1161,8 @@
   :commands (eglot eglot-ensure)
   :hook (((markdown-mode
            markdown-ts-mode
+           dockerfile-mode
+           dockerfile-ts-mode
            yaml-mode
            yaml-ts-mode
            clojure-mode
