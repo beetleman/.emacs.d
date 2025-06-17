@@ -478,9 +478,10 @@
   :custom
   (ws-butler-keep-whitespace-before-point nil)
   (ws-butler-convert-leading-tabs-or-spaces t)
-  :hook ((prog-mode . ws-butler-mode)
-	     (markdown-mode . ws-butler-mode)
-	     (org-mode . ws-butler-mode)))
+  :hook ((prog-mode
+          markdown-mode
+          org-mode
+          yaml-mode) . ws-butler-mode))
 
 (use-package so-long
   :hook (after-init . global-so-long-mode))
