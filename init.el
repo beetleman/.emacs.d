@@ -446,7 +446,7 @@
                         gomod
                         nix
                         yaml
-                        js
+                        javascript
                         typescript
                         bash
                         tsx
