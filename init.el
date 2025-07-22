@@ -1154,6 +1154,9 @@
 ;; OpenIA
 
 (use-package gptel)
+(use-package gptel-magit
+  :ensure t
+  :hook (magit-mode . gptel-magit-install))
 
 ;; LSP
 
