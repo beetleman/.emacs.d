@@ -1152,8 +1152,67 @@
   :mode ("\\.json\\'" . jsonian-mode))
 
 ;; OpenIA
+(use-package gptel
+  :config
+  (gptel-make-tool
+   :function (lambda (pattern &optional type path)
+               (let* ((default-directory (or path default-directory))
+                      (include-arg (if type
+                                       (format "-t \"%s\"" type)
+                                     ""))
+                      (command (format "rg %s %s ."
+                                       include-arg
+                                       (shell-quote-argument pattern)))
+                      (result (shell-command-to-string command)))
+                 (if (string-empty-p result)
+                     "No matches found"
+                   result)))
+   :name "find_files"
+   :description "Content search using regex"
+   :args (list '(:name "pattern"
+                       :type string
+                       :description "Regex pattern to search in file contents")
+               '(:name "type"
+                       :type string
+                       :description "File pattern to include in search, accept the same arguments like ripgrep `-t` parameter, eg. `-t clojure` for clojure")
+               '(:name "path"
+                       :type string
+                       :description "Directory to search in"))
+   :category "filesystem")
 
-(use-package gptel)
+
+  (gptel-make-tool
+   :function (lambda (filepath)
+               (with-temp-buffer
+                 (insert-file-contents (expand-file-name filepath))
+                 (buffer-string)))
+   :name "read_file"
+   :description "Read and display the contents of a file"
+   :args (list '(:name "filepath"
+                       :type string
+                       :description "Path to the file to read. Supports relative paths and ~."))
+   :category "filesystem")
+
+  (gptel-make-tool
+   :function (lambda (directory)
+               (mapconcat #'identity
+                          (directory-files directory)
+                          "\n"))
+   :name "list_directory"
+   :description "List the contents of a given directory"
+   :args (list '(:name "directory"
+                       :type string
+                       :description "The path to the directory to list"))
+   :category "filesystem")
+
+  (gptel-make-tool
+   :function (lambda ()
+               (project-root (project-current)))
+   :name "current_project_patch"
+   :description "Get path of current project"
+   :args (list)
+   :category "filesystem"))
+
 (use-package gptel-magit
   :ensure t
   :hook (magit-mode . gptel-magit-install))
