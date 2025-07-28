@@ -275,36 +275,36 @@
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
 ;;; THIRD-PARTY PACKAGES
-(use-package doric-themes
-  :demand t
-  :vc (:url "https://github.com/protesilaos/doric-themes.git"
-            :rev :newest)
-  :config
-  ;; These are the default values.
-  (setq doric-themes-to-toggle '(doric-obsidian doric-marble))
-  (setq doric-themes-to-rotate doric-themes-collection)
-
-  (doric-themes-select 'doric-obsidian)
-
-  :bind
-  (("<f5>" . doric-themes-toggle)))
-
 (comment
- (use-package modus-themes
+ (use-package doric-themes
    :demand t
+   :vc (:url "https://github.com/protesilaos/doric-themes.git"
+             :rev :newest)
    :config
-   ;; Add all your customizations prior to loading the themes
-   (setq modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+   ;; These are the default values.
+   (setq doric-themes-to-toggle '(doric-plum doric-cherry))
+   (setq doric-themes-to-rotate doric-themes-collection)
 
-   (setq modus-themes-common-palette-overrides
-         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
-           (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
-           ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
+   (doric-themes-select (car doric-themes-to-toggle))
 
-   ;; Load the theme of your choice.
-   (modus-themes-load-theme 'modus-vivendi-tinted)
+   :bind
+   (("<f5>" . doric-themes-toggle))))
 
-   :bind ("<f5>" . #'modus-themes-toggle)))
+(use-package modus-themes
+  :demand t
+  :config
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+
+  (setq modus-themes-common-palette-overrides
+        `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
+          (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
+          ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
+
+  ;; Load the theme of your choice.
+  (modus-themes-load-theme 'modus-vivendi-tinted)
+
+  :bind ("<f5>" . #'modus-themes-toggle))
 
 (use-package page-break-lines
   :hook (after-init . global-page-break-lines-mode))
@@ -566,8 +566,8 @@
 
 (use-package ace-window
   :hook (after-init . ace-window-posframe-mode)
-  :custom-face
-  (aw-leading-char-face ((t (:inherit (bold region) :height 2.0))))
+  ;; :custom-face ;; enable if used theme not support ace-window postframe
+  ;; (aw-leading-char-face ((t (:inherit (bold region) :height 2.0))))
   :bind (("M-o" . ace-window)))
 
 (use-package which-key
