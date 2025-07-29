@@ -294,19 +294,18 @@
   :demand t
   :config
   ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
+  (setq modus-themes-to-toggle '(modus-vivendi modus-operandi))
 
   (setq modus-themes-common-palette-overrides
         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
-          ;; (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
-          (bg-mode-line-active bg-lavender)
+          (bg-mode-line-active bg-lavender)  ;; highlight current buffer mode-line
           (fg-mode-line-active fg-main)
           (border-mode-line-active bg-mode-line-active)
           (border-mode-line-inactive bg-mode-line-inactive)
           ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
 
   ;; Load the theme of your choice.
-  (modus-themes-load-theme 'modus-vivendi-tinted)
+  (modus-themes-load-theme (car modus-themes-to-toggle))
 
   :bind ("<f5>" . #'modus-themes-toggle))
 
