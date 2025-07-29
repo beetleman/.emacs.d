@@ -298,7 +298,11 @@
 
   (setq modus-themes-common-palette-overrides
         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
-          (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
+          ;; (bg-mode-line-active bg-cyan-subtle) ;; highlight current buffer mode-line
+          (bg-mode-line-active bg-lavender)
+          (fg-mode-line-active fg-main)
+          (border-mode-line-active bg-mode-line-active)
+          (border-mode-line-inactive bg-mode-line-inactive)
           ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
 
   ;; Load the theme of your choice.
