@@ -1389,9 +1389,10 @@
 ;; code navigation
 (use-package breadcrumb
   :custom
-  (breadcrumb-project-max-length 0.4)
-  (breadcrumb-imenu-max-length 0.4)
-  :hook (after-init . breadcrumb-mode))
+  (breadcrumb-imenu-max-length 0.25)
+  (breadcrumb-imenu-crumb-separator ">")
+  :hook (doom-modeline-mode . (lambda ()
+                                (add-to-list 'global-mode-string '(:eval (breadcrumb-imenu-crumbs))))))
 
 ;; setup modeline
 
