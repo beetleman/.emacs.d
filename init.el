@@ -310,6 +310,9 @@
 
    :bind ("<f5>" . #'modus-themes-toggle)))
 
+(use-package spacious-padding
+  :hook (after-init . spacious-padding-mode))
+
 (use-package page-break-lines
   :hook (after-init . global-page-break-lines-mode))
 
@@ -1158,6 +1161,9 @@
 ;; OpenIA
 (use-package gptel
   :config
+  (setq gptel-model 'claude-sonnet-4
+        gptel-backend (gptel-make-gh-copilot "Copilot"))
+
   (gptel-make-tool
    :function (lambda (pattern &optional type path)
                (let* ((default-directory (or path default-directory))
