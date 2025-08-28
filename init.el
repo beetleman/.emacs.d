@@ -1426,24 +1426,24 @@
 
 ;; poppler
 (use-package popper
-  :preface
-  (defun beetleman--fit-window-height (win)
-    "Determine the height of popup window WIN by fitting it to the buffer's content."
-    (fit-window-to-buffer
-     win
-     (floor (frame-height) 2)
-     (floor (frame-height) 3)))
-  (defun beetleman--popper-display-function (buffer &optional alist)
-    (let ((window (display-buffer-in-direction buffer
-                                               (append alist
-                                                       `(;;(direction . bottom)
-                                                         (direction . down)
-                                                         (window-height . ,#'beetleman--fit-window-height))))))
-      (select-window window)))
+  ;; :preface
+  ;; (defun beetleman--fit-window-height (win)
+  ;;   "Determine the height of popup window WIN by fitting it to the buffer's content."
+  ;;   (fit-window-to-buffer
+  ;;    win
+  ;;    (floor (frame-height) 2)
+  ;;    (floor (frame-height) 3)))
+  ;; (defun beetleman--popper-display-function (buffer &optional alist)
+  ;;   (let ((window (display-buffer-in-direction buffer
+  ;;                                              (append alist
+  ;;                                                      `(;;(direction . bottom)
+  ;;                                                        (direction . down)
+  ;;                                                        (window-height . ,#'beetleman--fit-window-height))))))
+  ;;     (select-window window)))
   :custom
   (popper-group-function #'popper-group-by-directory)
   (popper-echo-dispatch-actions t)
-  (popper-display-function #'beetleman--popper-display-function)
+  ;; (popper-display-function #'beetleman--popper-display-function)
   :bind (:map popper-mode-map
               ("C-`"  . popper-toggle)
               ("C-<tab>" . popper-cycle)
