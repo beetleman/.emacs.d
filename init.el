@@ -1417,8 +1417,7 @@
 
 
 (use-package hide-mode-line
-  :hook (((treemacs-mode
-           eshell-mode
+  :hook (((eshell-mode
            shell-mode
            term-mode
            vterm-mode
