@@ -282,7 +282,7 @@
             :rev :newest)
   :config
   ;; These are the default values.
-  (setq doric-themes-to-toggle '(doric-plum doric-cherry))
+  (setq doric-themes-to-toggle '(doric-fire doric-earth))
   (setq doric-themes-to-rotate doric-themes-collection)
 
   (doric-themes-select (car doric-themes-to-toggle))
@@ -1273,11 +1273,11 @@
                 ("C-M-." . consult-eglot-symbols)))
 
   (use-package eglot-booster
+    :after eglot
     :when (executable-find "emacs-lsp-booster")
     :demand t
     :vc (:url "https://github.com/jdtsmith/eglot-booster.git"
               :rev :newest)
-    :autoload eglot-booster-mode
     :init (eglot-booster-mode 1))
 
   (defun beetleman--eglot-capf ()
@@ -1386,16 +1386,7 @@
                    (getenv "EMACS_AUTOFORMAT")))
         apheleia-skip-functions))
 
-;; code navigation
-(use-package breadcrumb
-  :custom
-  (breadcrumb-imenu-max-length 0.25)
-  (breadcrumb-imenu-crumb-separator ">")
-  :hook (doom-modeline-mode . (lambda ()
-                                (add-to-list 'global-mode-string '(:eval (breadcrumb-imenu-crumbs))))))
-
 ;; setup modeline
-
 (use-package doom-modeline
   :custom
   (doom-modeline-vcs-max-length 15)
