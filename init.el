@@ -143,8 +143,9 @@
       `((".*" ,temporary-file-directory t)))
 
 ;; Permanently indent with spaces, never with TABs
-(setq-default c-basic-offset   4
-              tab-width        4
+(setq beetleman--tab-width 4)
+(setq-default c-basic-offset   beetleman--tab-width
+              tab-width        beetleman--tab-width
               indent-tabs-mode nil)
 
 ;; setup ediff
@@ -999,6 +1000,8 @@
 ;; Setup Golang
 
 (use-package go-mode
+  :custom
+  (go-ts-mode-indent-offset beetleman--tab-width)
   :config
   (use-package go-dlv)
   (use-package go-fill-struct)
