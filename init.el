@@ -1298,6 +1298,7 @@
 
   (setq eglot-connect-timeout 300) ;; 5m
   (setq eglot-sync-connect 60)
+  (setq eglot-code-action-indications nil) ;; disable action indicator
   (setf (plist-get eglot-events-buffer-config :size) 0)
   (let* ((json-object-type 'plist)
          (json-array-type  'vector)
