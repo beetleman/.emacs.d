@@ -28,10 +28,10 @@
 (setq frame-title-format nil)
 
 (if (eq system-type 'darwin)
-    (set-face-attribute 'default nil :family "Aporetic Sans Mono" :height 140)
-  (set-face-attribute 'default nil :family "Aporetic Sans Mono" :height 110))
-(set-face-attribute 'variable-pitch nil :family "Aporetic Sans Mono" :height 1.0)
-(set-face-attribute 'fixed-pitch nil :family "Aporetic Sans Mono" :height 1.0)
+    (set-face-attribute 'default nil :family "Iosevka" :height 140)
+  (set-face-attribute 'default nil :family "Iosevka" :height 110))
+(set-face-attribute 'variable-pitch nil :family "Iosevka Aile" :height 1.0)
+(set-face-attribute 'fixed-pitch nil :family "Iosevka" :height 1.0)
 
 (set-fontset-font t 'symbol "Noto Color Emoji" nil)
 (set-fontset-font t 'symbol "Symbola" nil 'append)

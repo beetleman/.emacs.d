@@ -929,8 +929,8 @@
 
 ;; Org
 
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode))
+(use-package org-modern
+  :hook (org-mode . org-modern-mode))
 
 ;; Languages
 
