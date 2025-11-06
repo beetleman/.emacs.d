@@ -933,8 +933,24 @@
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
 
 ;; Org
+(use-package org
+  :custom
+  ;; Edit settings
+  (org-auto-align-tags nil)
+  (org-tags-column 0)
+  (org-catch-invisible-edits 'show-and-error)
+  (org-special-ctrl-a/e t)
+  (org-insert-heading-respect-content t)
+
+  ;; Org styling, hide markup etc.
+  (org-hide-emphasis-markers t)
+  (org-pretty-entities t)
+  (org-agenda-tags-column 0)
+  (org-ellipsis "…"))
 
 (use-package org-modern
+  :custom
+  (org-modern-star 'replace)
   :hook (org-mode . org-modern-mode))
 
 ;; Languages
@@ -1166,6 +1182,12 @@
 ;; OpenIA
 (use-package gptel
   :config
+  (setq gptel-model 'claude-sonnet-4.5
+        gptel-backend (gptel-make-gh-copilot "Copilot"))
+  (setq gptel-default-mode 'org-mode
+        gptel-org-branching-context t)
+  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
   (gptel-make-tool
    :function (lambda (pattern &optional type path)
                (let* ((default-directory (or path default-directory))
