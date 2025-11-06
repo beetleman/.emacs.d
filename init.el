@@ -612,6 +612,7 @@
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion))))
   (orderless-component-separator #'orderless-escapable-split-on-space))
 
@@ -907,14 +908,18 @@
   :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 (use-package cape
+  :commands (cape-file cape-elisp-block cape-keyword)
+  :autoload (cape-wrap-noninterruptible cape-wrap-nonexclusive cape-wrap-buster)
+  :autoload (cape-wrap-silent cape-wrap-purify)
   :init
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-elisp-block)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-abbrev)
 
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+  (advice-add 'comint-completion-at-point :around #'cape-wrap-nonexclusive)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
+  (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
 
 ;; A few more useful configurations...
 (use-package emacs
