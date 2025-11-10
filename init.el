@@ -276,40 +276,25 @@
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
 ;;; THIRD-PARTY PACKAGES
-
-(use-package doric-themes
+(use-package modus-themes
   :demand t
-  :vc (:url "https://github.com/protesilaos/doric-themes.git"
-            :rev :newest)
+  :bind ("<f5>" . #'modus-themes-toggle)
   :config
-  ;; These are the default values.
-  (setq doric-themes-to-toggle '(doric-fire doric-earth))
-  (setq doric-themes-to-rotate doric-themes-collection)
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-to-toggle '(modus-vivendi-tinted modus-operandi-tinted)
+        modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-mixed-fonts t)
+  (setq modus-themes-common-palette-overrides
+        `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
+          (bg-mode-line-active bg-lavender)  ;; highlight current buffer mode-line
+          (fg-mode-line-active fg-main)
+          (border-mode-line-active bg-mode-line-active)
+          (border-mode-line-inactive bg-mode-line-inactive)
+          ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
 
-  (doric-themes-select (car doric-themes-to-toggle))
-
-  :bind
-  (("<f5>" . doric-themes-toggle)))
-
-(comment
- (use-package modus-themes
-   :demand t
-   :config
-   ;; Add all your customizations prior to loading the themes
-   (setq modus-themes-to-toggle '(modus-vivendi modus-operandi))
-
-   (setq modus-themes-common-palette-overrides
-         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
-           (bg-mode-line-active bg-lavender)  ;; highlight current buffer mode-line
-           (fg-mode-line-active fg-main)
-           (border-mode-line-active bg-mode-line-active)
-           (border-mode-line-inactive bg-mode-line-inactive)
-           ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
-
-   ;; Load the theme of your choice.
-   (modus-themes-load-theme (car modus-themes-to-toggle))
-
-   :bind ("<f5>" . #'modus-themes-toggle)))
+  ;; Load the theme of your choice.
+  (modus-themes-load-theme (car modus-themes-to-toggle)))
 
 (use-package page-break-lines
   :hook (after-init . global-page-break-lines-mode))
