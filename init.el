@@ -932,24 +932,99 @@
 
 ;; Org
 (use-package org
-  :custom
-  ;; Edit settings
-  (org-auto-align-tags nil)
-  (org-tags-column 0)
-  (org-catch-invisible-edits 'show-and-error)
-  (org-special-ctrl-a/e t)
-  (org-insert-heading-respect-content t)
+  :hook
+  ((org-mode . visual-line-mode)
+   (org-mode . variable-pitch-mode)
+   (org-mode . org-redisplay-inline-images)
+   (org-babel-after-execute org-redisplay-inline-images))
+  :config
+  (set-face-attribute 'org-meta-line nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-document-info-keyword nil :inherit 'fixed-pitch)
 
-  ;; Org styling, hide markup etc.
-  (org-hide-emphasis-markers t)
-  (org-pretty-entities t)
-  (org-agenda-tags-column 0)
-  (org-ellipsis "…"))
+  (defconst load-language-alist
+    '((emacs-lisp . t)
+      (python     . t)
+      (shell      . t))
+    "Alist of org ob languages.")
+
+  (use-package ob-mermaid
+    :init (cl-pushnew '(mermaid . t) load-language-alist))
+
+  (setq org-tags-column -80
+        org-log-done 'time
+        org-catch-invisible-edits 'smart
+        org-startup-indented t
+        org-ellipsis (if (char-displayable-p ?⏷) "\t⏷" nil)
+        org-pretty-entities nil
+        org-hide-emphasis-markers t
+
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t)
+
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               load-language-alist))
 
 (use-package org-modern
+  :after org
+  :autoload global-org-modern-mode
   :custom
   (org-modern-star 'replace)
-  :hook (org-mode . org-modern-mode))
+  :config
+  (set-face-attribute 'org-modern-symbol nil :family "Iosevka" :height 1.0)
+  :init
+  (global-org-modern-mode 1))
+
+(use-package denote
+  :hook (dired-mode . denote-dired-mode)
+  :bind
+  ( :map global-map
+    ("C-c n n" . denote)
+    ("C-c n d" . denote-dired)
+    ("C-c n g" . denote-grep)
+    ("C-c n r" . denote-rename-file)
+    ("C-c n R" . denote-rename-file-using-front-matter)
+    ("C-c n l" . denote-link)
+    ("C-c n L" . denote-add-links)
+    ("C-c n b" . denote-backlinks)
+    ("C-c n q c" . denote-query-contents-link)
+    ("C-c n q f" . denote-query-filenames-link)
+    :map dired-mode-map
+    ("C-c C-d C-i" . denote-dired-link-marked-notes)
+    ("C-c C-d C-r" . denote-dired-rename-files)
+    ("C-c C-d C-k" . denote-dired-rename-marked-files-with-keywords)
+    ("C-c C-d C-R" . denote-dired-rename-marked-files-using-front-matter))
+  :config
+  ;; Remember to check the doc string of each of those variables.
+  (setq denote-directory (expand-file-name "~/Documents/notes/"))
+  (setq denote-save-buffers nil)
+  (setq denote-known-keywords '("emacs" "work" "vertex" "people" "clojure" "js" "bash" "go" "python" "linux" "macos" "goat" "home" "project" "ticket"))
+  (setq denote-infer-keywords t)
+  (setq denote-sort-keywords t)
+  (setq denote-prompts '(title keywords))
+  (setq denote-excluded-directories-regexp nil)
+  (setq denote-keywords-to-not-infer-regexp nil)
+  (setq denote-rename-confirmations '(rewrite-front-matter modify-file-name))
+
+  ;; Pick dates, where relevant, with Org's advanced interface:
+  (setq denote-date-prompt-use-org-read-date t)
+
+  ;; Automatically rename Denote buffers using the `denote-rename-buffer-format'.
+  (denote-rename-buffer-mode 1))
+
+(use-package consult-denote
+  :bind
+  (("C-c n f" . consult-denote-find)
+   ("C-c n g" . consult-denote-grep))
+  :config
+  (setq consult-denote-grep-command #'consult-ripgrep)
+  (setq consult-denote-find-command #'consult-fd)
+  (consult-customize
+   consult-denote-find
+   consult-denote-grep
+   ;; :preview-key (kbd "M-.")
+   :preview-key '(:debounce 0.4 any))
+
+  (consult-denote-mode 1))
 
 ;; Languages
 
@@ -1317,7 +1392,6 @@
                  (when (and (boundp 'cider-mode) cider-mode)
                    (list (cape-capf-super #'cider-complete-at-point)))
                  (list (cape-capf-super #'eglot-completion-at-point)
-                       #'cape-dabbrev
                        #'cape-file
                        #'cape-keyword))))
   (add-hook 'eglot-managed-mode-hook #'beetleman--eglot-capf)
