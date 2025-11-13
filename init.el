@@ -449,7 +449,8 @@
 ;; Environment
 (use-package exec-path-from-shell
   :custom
-  (exec-path-from-shell-variables '("PATH" "MANPATH" "EGLOT_JAVA_JAVA_PROGRAM" "EMACS_AUTOFORMAT"
+  (exec-path-from-shell-variables '("PATH" "MANPATH"
+                                    "EGLOT_JAVA_JAVA_PROGRAM" "EMACS_AUTOFORMAT" "EMACS_GPTEL_COPILOT"
                                     "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
   :init
   (exec-path-from-shell-initialize)
@@ -1167,8 +1168,9 @@
 ;; OpenIA
 (use-package gptel
   :config
-  (setq gptel-model 'claude-sonnet-4.5
-        gptel-backend (gptel-make-gh-copilot "Copilot"))
+  (when (string= "true" (getenv "EMACS_GPTEL_COPILOT"))
+    (setq gptel-model 'claude-sonnet-4.5
+          gptel-backend (gptel-make-gh-copilot "Copilot")))
   (setq gptel-default-mode 'org-mode
         gptel-org-branching-context t)
   (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
