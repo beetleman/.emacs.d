@@ -423,28 +423,40 @@
   :init (setq ibuffer-project-use-cache t))
 
 ;; treesiter
-(use-package treesit-auto
-  :commands (global-treesit-auto-mode)
-  :hook (after-init . global-treesit-auto-mode)
-  :custom
-  (treesit-auto-install 'prompt)
-  (treesit-auto-langs '(python
-                        java
-                        rust
-                        dockerfile
-                        go
-                        gomod
-                        nix
-                        yaml
-                        javascript
-                        typescript
-                        bash
-                        tsx
-                        markdown
-                        css
-                        html
-                        sql
-                        lua)))
+(use-package treesiter
+  :ensure nil
+  :mode (("\\.tsx\\'" . tsx-ts-mode))
+  :preface
+  (setq major-mode-remap-alist
+        '((python-mode . python-ts-mode)
+          (java-mode . java-ts-mode)
+          (rust-mode . rust-ts-mode)
+          (dockerfile-mode . dockerfile-ts-mode)
+          (go-mode . go-ts-mode)
+          (nix-mode . nix-ts-mode)
+          (yaml-mode . yaml-ts-mode)
+          (js-mode . js-ts-mode)
+          (typescript-mode . typescript-ts-mode)
+          (sh-mode . bash-ts-mode)
+          (typescript-tsx-mode . tsx-ts-mode)
+          (markdown-mode . markdown-ts-mode)
+          (css-mode . css-ts-mode)
+          (lua-mode . lua-ts-mode)))
+  (setq treesit-language-source-alist
+        '((python-mode "https://github.com/tree-sitter/tree-sitter-python")
+          (java-mode "https://github.com/tree-sitter/tree-sitter-java")
+          (rust-mode "https://github.com/tree-sitter/tree-sitter-rust")
+          (dockerfile-mode "https://github.com/camdencheek/tree-sitter-dockerfile")
+          (go-mode "https://github.com/tree-sitter/tree-sitter-go")
+          (nix-mode "https://github.com/nix-community/tree-sitter-nix")
+          (yaml-mode "https://github.com/tree-sitter-grammars/tree-sitter-yaml")
+          (js-mode "https://github.com/tree-sitter/tree-sitter-javascript")
+          (typescript-mode "https://github.com/tree-sitter/tree-sitter-typescript")
+          (sh-mode "https://github.com/tree-sitter/tree-sitter-bash")
+          (typescript-tsx-mode "https://github.com/tree-sitter/tree-sitter-typescript")
+          (markdown-mode "https://github.com/tree-sitter-grammars/tree-sitter-markdown")
+          (css-mode "https://github.com/tree-sitter/tree-sitter-css")
+          (lua-mode "https://github.com/tree-sitter-grammars/tree-sitter-lua"))))
 
 ;; Environment
 (use-package exec-path-from-shell
