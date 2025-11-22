@@ -95,6 +95,9 @@
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 
+;; Better line spacing for visual breathing room
+(setq-default line-spacing 0.1)  ; or 0.2 for more space
+
 ;; and show this majestic creature!
 (setq initial-scratch-message
       ";;
@@ -936,7 +939,9 @@
   ((org-mode . visual-line-mode)
    (org-mode . variable-pitch-mode)
    (org-mode . org-redisplay-inline-images)
-   (org-babel-after-execute org-redisplay-inline-images))
+   (org-babel-after-execute org-redisplay-inline-images)
+   (org-mode . (lambda ()
+                 (setq line-spacing 0.2))))
   :config
   (set-face-attribute 'org-meta-line nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-document-info-keyword nil :inherit 'fixed-pitch)
