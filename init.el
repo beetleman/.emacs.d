@@ -1259,67 +1259,110 @@
     (setq gptel-model 'claude-sonnet-4.5
           gptel-backend (gptel-make-gh-copilot "Copilot")))
   (setq gptel-default-mode 'org-mode
+        gptel-include-tool-results t
         gptel-org-branching-context t)
   (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
   (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
-  (gptel-make-tool
-   :function (lambda (pattern &optional type path)
-               (let* ((default-directory (or path default-directory))
-                      (include-arg (if type
-                                       (format "-t \"%s\"" type)
-                                     ""))
-                      (command (format "rg %s %s ."
-                                       include-arg
-                                       (shell-quote-argument pattern)))
-                      (result (shell-command-to-string command)))
-                 (if (string-empty-p result)
-                     "No matches found"
-                   result)))
-   :name "find_files"
-   :description "Content search using regex"
-   :args (list '(:name "pattern"
-                       :type string
-                       :description "Regex pattern to search in file contents")
-               '(:name "type"
-                       :type string
-                       :description "File pattern to include in search, accept the same arguments like ripgrep `-t` parameter, eg. `-t clojure` for clojure")
-               '(:name "path"
-                       :type string
-                       :description "Directory to search in"))
-   :category "filesystem")
+  (setq gptel-tools
+        (list (gptel-make-tool
+               :function (lambda (pattern &optional type path)
+                           (let* ((default-directory (or path default-directory))
+                                  (include-arg (if type
+                                                   (format "-t \"%s\"" type)
+                                                 ""))
+                                  (command (format "rg %s %s ."
+                                                   include-arg
+                                                   (shell-quote-argument pattern)))
+                                  (result (shell-command-to-string command)))
+                             (if (string-empty-p result)
+                                 "No matches found"
+                               result)))
+               :name "ripgrep"
+               :description "Search for text in file(s) at `path' using regex `pattern' (`ripgrep' based)"
+               :args (list '(:name "pattern"
+                                   :type string
+                                   :description "Regex pattern to search in file contents")
+                           '(:name "type"
+                                   :type string
+                                   :description "File pattern to include in search, accept the same arguments like ripgrep `-t` parameter, eg. `-t clojure` for clojure")
+                           '(:name "path"
+                                   :type string
+                                   :description "Directory to search in"))
+               :category "filesystem")
 
+              (gptel-make-tool
+               :function (lambda (pattern &optional type path)
+                           (let* ((default-directory (or path default-directory))
+                                  (command (format "fd --regex %s ."
+                                                   (shell-quote-argument pattern)))
+                                  (result (shell-command-to-string command)))
+                             (if (string-empty-p result)
+                                 "No matches found"
+                               result)))
+               :name "fd"
+               :description "Search for file(s) at `path' using regex `pattern' (`fd' based)"
+               :args (list '(:name "pattern"
+                                   :type string
+                                   :description "Regex pattern to search in file contents")
+                           '(:name "path"
+                                   :type string
+                                   :description "Directory to search in"))
+               :category "filesystem")
 
-  (gptel-make-tool
-   :function (lambda (filepath)
-               (with-temp-buffer
-                 (insert-file-contents (expand-file-name filepath))
-                 (buffer-string)))
-   :name "read_file"
-   :description "Read and display the contents of a file"
-   :args (list '(:name "filepath"
-                       :type string
-                       :description "Path to the file to read. Supports relative paths and ~."))
-   :category "filesystem")
+              (gptel-make-tool
+               :function (lambda ()
+                           (project-root (project-current)))
+               :name "current_project_patch"
+               :description "Get path of current project"
+               :args (list)
+               :category "filesystem")
 
-  (gptel-make-tool
-   :function (lambda (directory)
-               (mapconcat #'identity
-                          (directory-files directory)
-                          "\n"))
-   :name "list_directory"
-   :description "List the contents of a given directory"
-   :args (list '(:name "directory"
-                       :type string
-                       :description "The path to the directory to list"))
-   :category "filesystem")
+              (gptel-make-tool
+               :function (lambda (filepath)
+                           (with-temp-buffer
+                             (insert-file-contents (expand-file-name filepath))
+                             (buffer-string)))
+               :name "read_file"
+               :description "Read the contents of a file and return its content as a string."
+               :args (list '(:name "filepath"
+                                   :type string
+                                   :description "Path to the file to read. Supports relative paths and ~."))
+               :category "filesystem")
 
-  (gptel-make-tool
-   :function (lambda ()
-               (project-root (project-current)))
-   :name "current_project_patch"
-   :description "Get path of current project"
-   :args (list)
-   :category "filesystem"))
+              (gptel-make-tool
+               :function (lambda (directory)
+                           (mapconcat #'identity
+                                      (directory-files directory)
+                                      "\n"))
+               :name "list_directory"
+               :description "List the contents of a given directory. Return file list as string, each directory in new line"
+               :args (list '(:name "directory"
+                                   :type string
+                                   :description "The path to the directory to list"))
+               :category "filesystem"))))
+
+(use-package mcp
+  :after gptel
+  :hook (after-init . mcp-hub-start-all-server)
+  :init
+  (require 'treemacs)
+  (require 'gptel-integrations)
+  (treemacs--maybe-load-workspaces)
+  (setq mcp-hub-servers
+        `(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+          ("ddg-search" . (:command "uvx" :args ("duckduckgo-mcp-server")))
+          ("playwright" . (:command "npx" :args ("@playwright/mcp@latest" "--headless" "--isolated")))
+          ("sequential-thinking"
+           :command "uvx"
+           :args ("--from" "git+https://github.com/arben-adm/mcp-sequential-thinking"
+                  "--with" "portalocker" "mcp-sequential-thinking"))))
+  (gptel-mcp-connect))
+
+(use-package gptel-quick
+  :vc ( :url "https://github.com/karthink/gptel-quick.git"
+        :rev :newest)
+  :bind (:map embark-general-map
+              ("?" . gptel-quick)))
 
 (use-package gptel-magit
   :ensure t
