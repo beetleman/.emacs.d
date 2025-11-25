@@ -603,7 +603,7 @@
 
 (use-package diff-hl
   :custom
-  (diff-hl-draw-borders t)
+  (diff-hl-draw-borders nil)
   :hook ((after-init . global-diff-hl-mode)
          (after-init . global-diff-hl-show-hunk-mouse-mode)
          (dired-mode . diff-hl-dired-mode))
