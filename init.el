@@ -51,7 +51,11 @@
         (* 1024 1024))) ;; 1MB
 
 ;; Always load newest byte code
-;; (setq load-prefer-newer t)
+(setq load-prefer-newer noninteractive)
+(setq native-comp-jit-compilation t)
+(setq native-comp-async-query-on-exit t)
+(setq confirm-kill-processes t)
+(setq package-native-compile t)
 
 ;; Optimization
 (setq idle-update-delay 1.0)
