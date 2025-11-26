@@ -446,7 +446,6 @@
           (typescript-mode . typescript-ts-mode)
           (sh-mode . bash-ts-mode)
           (typescript-tsx-mode . tsx-ts-mode)
-          (markdown-mode . markdown-ts-mode)
           (css-mode . css-ts-mode)
           (lua-mode . lua-ts-mode)))
   (setq treesit-language-source-alist
@@ -461,7 +460,6 @@
           (typescript-mode "https://github.com/tree-sitter/tree-sitter-typescript")
           (sh-mode "https://github.com/tree-sitter/tree-sitter-bash")
           (typescript-tsx-mode "https://github.com/tree-sitter/tree-sitter-typescript")
-          (markdown-mode "https://github.com/tree-sitter-grammars/tree-sitter-markdown")
           (css-mode "https://github.com/tree-sitter/tree-sitter-css")
           (lua-mode "https://github.com/tree-sitter-grammars/tree-sitter-lua"))))
 
@@ -1383,7 +1381,6 @@
   :after yasnippet
   :commands (eglot eglot-ensure)
   :hook (((markdown-mode
-           markdown-ts-mode
            dockerfile-mode
            dockerfile-ts-mode
            yaml-mode
