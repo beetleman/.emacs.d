@@ -1018,23 +1018,18 @@
   ;; Automatically rename Denote buffers using the `denote-rename-buffer-format'.
   (denote-rename-buffer-mode 1))
 
-(use-package consult-denote
+(use-package consult-notes
+  :commands (consult-notes
+             consult-notes-search-in-all-notes)
   :bind
-  (("C-c n f" . consult-denote-find)
-   ("C-c n g" . consult-denote-grep))
-  :config
-  (setq consult-denote-grep-command #'consult-ripgrep)
-  (setq consult-denote-find-command #'consult-fd)
-  (consult-customize
-   consult-denote-find
-   consult-denote-grep
-   ;; :preview-key (kbd "M-.")
-   :preview-key '(:debounce 0.4 any))
+  (("C-c n f" . consult-notes)
+   ("C-c n g" . consult-notes-search-in-all-notes))
 
-  (consult-denote-mode 1))
+  :config
+  (consult-notes-denote-mode)
+  (setq consult-notes-denote-files-function (lambda () (denote-directory-files nil t t))))
 
 ;; Languages
-
 
 (use-package csv-mode
   :hook ((csv-mode . csv-align-mode)
@@ -1267,6 +1262,7 @@
           gptel-backend (gptel-make-gh-copilot "Copilot")))
   (setq gptel-default-mode 'org-mode
         gptel-include-tool-results t
+        ;;        gptel-confirm-tool-calls t
         gptel-org-branching-context t)
   (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
   (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
@@ -1298,7 +1294,7 @@
                :category "filesystem")
 
               (gptel-make-tool
-               :function (lambda (pattern &optional type path)
+               :function (lambda (pattern &optional path)
                            (let* ((default-directory (or path default-directory))
                                   (command (format "fd --regex %s ."
                                                    (shell-quote-argument pattern)))
@@ -1352,18 +1348,28 @@
   :after gptel
   :hook (after-init . mcp-hub-start-all-server)
   :init
-  (require 'treemacs)
   (require 'gptel-integrations)
-  (treemacs--maybe-load-workspaces)
   (setq mcp-hub-servers
-        `(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-          ("ddg-search" . (:command "uvx" :args ("duckduckgo-mcp-server")))
-          ("playwright" . (:command "npx" :args ("@playwright/mcp@latest" "--headless" "--isolated")))
-          ("sequential-thinking"
-           :command "uvx"
-           :args ("--from" "git+https://github.com/arben-adm/mcp-sequential-thinking"
-                  "--with" "portalocker" "mcp-sequential-thinking"))))
-  (gptel-mcp-connect))
+        `(("ddg-search" .
+           ( :command "uvx"
+             :args ("duckduckgo-mcp-server")))
+          ("playwright" .
+           ( :command "npx"
+             :args ("@playwright/mcp@latest" "--headless" "--isolated")))
+          ("time" .
+           ( :command "uvx"
+             :args ("mcp-server-time")))
+          ("git" .
+           ( :command "uvx"
+             :args ("mcp-server-git")))
+          ("atlassian" .
+           ( :command "npx"
+             :args ("-y" "mcp-remote" "https://mcp.atlassian.com/v1/sse" "--resource" "https://vertexinc.atlassian.net/")))
+          ("sequential-thinking" .
+           ( :command "uvx"
+             :args ("--from" "git+https://github.com/arben-adm/mcp-sequential-thinking"
+                    "--with" "portalocker" "mcp-sequential-thinking")))))
+  (gptel-mcp-connect '("ddg-search" "playwright" "sequential-thinking" "git" "time")))
 
 (use-package gptel-quick
   :vc ( :url "https://github.com/karthink/gptel-quick.git"
