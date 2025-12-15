@@ -258,14 +258,6 @@
    :config
    (setq project-vc-extra-root-markers '(".project.el" "workspace.edn" "go.mod" "deps.edn" "*.asd"))))
 
-(use-package flyspell
-  :ensure nil
-  :hook ((text-mode . flyspell-mode)
-         (prog-mode . flyspell-prog-mode))
-  :config
-  (when (executable-find "aspell")
-    (setq ispell-program-name "aspell")))
-
 (use-package hl-line
   :ensure nil
   :hook ((after-init . global-hl-line-mode)
@@ -651,6 +643,14 @@
   :bind ("<f6>" . vertico-repeat)
   :hook (minibuffer-setup . vertico-repeat-save))
 
+(use-package vertico-multiform
+  :after vertico
+  :ensure nil ;; part of vertico
+  :hook (vertico-mode . vertico-multiform-mode)
+  :config
+  (add-to-list 'vertico-multiform-categories
+               '(jinx grid (vertico-grid-annotate . 20) (vertico-count . 4))))
+
 (use-package super-save
   :init
   (super-save-mode +1))
@@ -923,6 +923,13 @@
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
   (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-nonexclusive))
+
+;; spell checking
+(use-package jinx
+  :if (executable-find "enchant-2")
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages)))
 
 ;; A few more useful configurations...
 (use-package emacs
