@@ -1353,7 +1353,7 @@
 
 (use-package mcp
   :after gptel
-  :hook (after-init . mcp-hub-start-all-server)
+  :hook (gptel-mode . mcp-hub-start-all-server)
   :init
   (require 'gptel-integrations)
   (setq mcp-hub-servers
@@ -1376,7 +1376,7 @@
            ( :command "uvx"
              :args ("--from" "git+https://github.com/arben-adm/mcp-sequential-thinking"
                     "--with" "portalocker" "mcp-sequential-thinking")))))
-  (gptel-mcp-connect '("ddg-search" "playwright" "sequential-thinking" "git" "time")))
+  (gptel-mcp-connect '("sequential-thinking" "git" "time")))
 
 (use-package gptel-quick
   :vc ( :url "https://github.com/karthink/gptel-quick.git"
