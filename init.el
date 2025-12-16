@@ -1379,13 +1379,14 @@
   (gptel-mcp-connect '("sequential-thinking" "git" "time")))
 
 (use-package gptel-quick
+  :after embark
   :vc ( :url "https://github.com/karthink/gptel-quick.git"
         :rev :newest)
   :bind (:map embark-general-map
               ("?" . gptel-quick)))
 
 (use-package gptel-magit
-  :ensure t
+  :custom (gptel-magit-commit-prompt gptel-magit-prompt-zed)
   :hook (magit-mode . gptel-magit-install))
 
 ;; LSP
