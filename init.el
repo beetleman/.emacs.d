@@ -99,8 +99,6 @@
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 
-;; Better line spacing for visual breathing room
-(setq-default line-spacing 0.1)  ; or 0.2 for more space
 
 ;; and show this majestic creature!
 (setq initial-scratch-message
@@ -244,6 +242,13 @@
   (dired-dwim-target t)
   :config
   (setq delete-by-moving-to-trash t))
+
+(use-package emacs
+  :ensure nil
+  :hook ((text-mode
+          prog-mode)
+         . (lambda ()
+             (setq line-spacing 0.1))))
 
 (use-package dired
   :ensure nil
