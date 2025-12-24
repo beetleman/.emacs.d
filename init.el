@@ -51,7 +51,7 @@
         (* 1024 1024))) ;; 1MB
 
 ;; Always load newest byte code
-(setq load-prefer-newer noninteractive)
+(setq load-prefer-newer t)
 (setq native-comp-jit-compilation t)
 (setq native-comp-async-query-on-exit t)
 (setq confirm-kill-processes t)
@@ -203,6 +203,18 @@
       use-package-enable-imenu-support t)
 
 (require 'use-package)
+
+;;; make sure packages are compiled
+(use-package compile-angel
+  :demand t
+  :config
+  (setq compile-angel-verbose t)
+
+  (push "/init.el" compile-angel-excluded-files)
+  (push "/early-init.el" compile-angel-excluded-files)
+  (push "/custom.el" compile-angel-excluded-files)
+
+  (compile-angel-on-load-mode 1))
 
 
 ;;; BUILT-IN PACKAGES
