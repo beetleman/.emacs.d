@@ -1280,7 +1280,7 @@
   (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
   (setq gptel-tools
         (list (gptel-make-tool
-               :function (lambda (pattern &optional type path)
+               :function (lambda (pattern &optional type path limit skip)
                            (let* ((default-directory (or path default-directory))
                                   (include-arg (if type
                                                    (format "-t \"%s\"" type)
@@ -1288,10 +1288,24 @@
                                   (command (format "rg %s %s ."
                                                    include-arg
                                                    (shell-quote-argument pattern)))
-                                  (result (shell-command-to-string command)))
-                             (if (string-empty-p result)
+                                  (result (shell-command-to-string command))
+                                  (lines (split-string result "\n" t))
+                                  (total-lines (length lines))
+                                  (skip-count (or skip 0))
+                                  (limit-count (or limit 200))
+                                  (remaining-after-skip (max 0 (- total-lines skip-count)))
+                                  (filtered-lines (seq-take (seq-drop lines skip-count) limit-count))
+                                  (shown-lines (length filtered-lines))
+                                  (lines-left (max 0 (- remaining-after-skip shown-lines)))
+                                  (filtered-result (string-join filtered-lines "\n"))
+                                  (info-msg (format "Showing %d lines (skipped: %d, remaining: %d)"
+                                                    shown-lines skip-count lines-left)))
+                             (if (= total-lines 0)
                                  "No matches found"
-                               result)))
+                               (if (string-empty-p filtered-result)
+                                   (format "No lines to show after skipping %d lines (total matches: %d)"
+                                           skip-count total-lines)
+                                 (concat filtered-result "\n\n" info-msg)))))
                :name "ripgrep"
                :description "Search for text in file(s) at `path' using regex `pattern' (`ripgrep' based)"
                :args (list '(:name "pattern"
@@ -1302,7 +1316,13 @@
                                    :description "File pattern to include in search, accept the same arguments like ripgrep `-t` parameter, eg. `-t clojure` for clojure")
                            '(:name "path"
                                    :type string
-                                   :description "Directory to search in"))
+                                   :description "Directory to search in")
+                           '(:name "limit"
+                                   :type number
+                                   :description "limit lines (use with `skip' to paginate results), use 200 lines limit by default")
+                           '(:name "skip"
+                                   :type number
+                                   :description "Skip lines (use with `limit' to paginate results)"))
                :category "filesystem")
 
               (gptel-make-tool
@@ -1391,7 +1411,8 @@
               ("?" . gptel-quick)))
 
 (use-package gptel-magit
-  :custom (gptel-magit-commit-prompt gptel-magit-prompt-zed)
+  :custom (gptel-magit-commit-prompt (concat gptel-magit-prompt-zed "
+- You should use markdown syntax for fragments of code, names of files, or other parts if it makes sense"))
   :hook (magit-mode . gptel-magit-install))
 
 ;; LSP
