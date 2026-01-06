@@ -997,6 +997,10 @@
       (shell      . t))
     "Alist of org ob languages.")
 
+  (defconst org-ob-trusted-languages
+    '("mermaid")
+    "List of obr ob languages run without confirmation")
+
   (use-package ob-mermaid
     :init (cl-pushnew '(mermaid . t) load-language-alist))
 
@@ -1009,7 +1013,9 @@
         org-hide-emphasis-markers t
 
         org-src-fontify-natively t
-        org-src-tab-acts-natively t)
+        org-src-tab-acts-natively t
+        org-confirm-babel-evaluate (lambda (lang _body)
+                                     (not (member lang org-ob-trusted-languages))))
 
   (org-babel-do-load-languages 'org-babel-load-languages
                                load-language-alist))
