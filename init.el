@@ -1286,10 +1286,12 @@
   (setq gptel-tools
         (list (gptel-make-tool
                :function (lambda (pattern &optional type path limit skip)
-                           (let* ((default-directory (or path default-directory))
-                                  (include-arg (if type
-                                                   (format "-t \"%s\"" type)
-                                                 ""))
+                           (let* ((default-directory (if (seq-empty-p path)
+                                                         default-directory
+                                                       path))
+                                  (include-arg (if (seq-empty-p type)
+                                                   ""
+                                                 (format "-t \"%s\"" type)))
                                   (command (format "rg %s %s ."
                                                    include-arg
                                                    (shell-quote-argument pattern)))
@@ -1318,7 +1320,7 @@
                                    :description "Regex pattern to search in file contents")
                            '(:name "type"
                                    :type string
-                                   :description "File pattern to include in search, accept the same arguments like ripgrep `-t` parameter, eg. `-t clojure` for clojure")
+                                   :description "File pattern to include in search, accept the same arguments like ripgrep `-t` parameter, eg. `clojure` for clojure")
                            '(:name "path"
                                    :type string
                                    :description "Directory to search in")
