@@ -1159,7 +1159,7 @@
    "(do
 (ns dev)
 (def portal ((requiring-resolve 'portal.api/open)
-{:theme :portal.colors/nord-light
+{:theme :portal.colors/nord
                             :name (-> (System/getProperty \"user.dir\")
                                       (clojure.string/split #\"/\")
                                       last)}))
@@ -1494,7 +1494,10 @@
                        #'cape-keyword))))
   (add-hook 'eglot-managed-mode-hook #'beetleman--eglot-capf)
 
-  (setq eglot-connect-timeout 300) ;; 5m
+  ;; disable semantic tokens
+  (setq eglot-ignored-server-capabilities '(:semanticTokensProvider))
+
+  (setq eglot-connect-timeout 3000) ;; 5m
   (setq eglot-sync-connect 60)
   (setq eglot-code-action-indications nil) ;; disable action indicator
   (setf (plist-get eglot-events-buffer-config :size) 0)
