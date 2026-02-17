@@ -281,7 +281,7 @@
 
 ;;; THIRD-PARTY PACKAGES
 (use-package ef-themes
-  :ensure t
+  :demand t
   :init
   (ef-themes-take-over-modus-themes-mode 1)
   :bind ("<f5>" . modus-themes-toggle)
@@ -589,9 +589,10 @@
   :hook (dired-mode . diredfl-mode))
 
 (use-package ace-window
-  :hook (after-init . ace-window-posframe-mode)
-  ;; :custom-face ;; enable if used theme not support ace-window postframe
-  ;; (aw-leading-char-face ((t (:inherit (bold region) :height 2.0))))
+  :hook ((after-init server-after-make-frame) . (lambda ()
+                                                  "Display transient in child frames."
+                                                  (and (posframe-workable-p)
+                                                       (ace-window-posframe-mode 1))))
   :bind (("M-o" . ace-window)))
 
 (use-package which-key
