@@ -1143,12 +1143,7 @@
 
 ;; Setup clojure
 
-(use-package clojure-mode
-  :mode (("\\.clj$" . clojure-mode)
-         ("\\.cljs$" . clojurescript-mode)
-         ("\\.cljc$" . clojurec-mode)
-         ("\\.edn$" . clojure-mode)
-         ("\\.bb$" . clojure-mode)))
+(use-package clojure-mode)
 
 
 (use-package clj-refactor)
