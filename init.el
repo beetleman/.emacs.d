@@ -1469,14 +1469,6 @@
     :bind (:map eglot-mode-map
                 ("C-M-." . consult-eglot-symbols)))
 
-  (use-package eglot-booster
-    :after eglot
-    :when (executable-find "emacs-lsp-booster")
-    :demand t
-    :vc (:url "https://github.com/jdtsmith/eglot-booster.git"
-              :rev :newest)
-    :init (eglot-booster-mode 1))
-
   (defun beetleman--eglot-capf ()
     ;; https://github.com/minad/corfu/wiki#making-a-cape-super-capf-for-eglot
     (setq-local completion-at-point-functions
@@ -1488,6 +1480,22 @@
                        #'cape-file
                        #'cape-keyword))))
   (add-hook 'eglot-managed-mode-hook #'beetleman--eglot-capf)
+
+  ;; clojure-lsp server statistics
+  (defun clojure-lsp-server-info ()
+    (interactive)
+    (if-let ((server (eglot-current-server)))
+        (let* ((info (jsonrpc-request server :clojure/serverInfo/raw nil))
+               (buffer (get-buffer-create "*clojure-lsp server info*")))
+          (with-current-buffer buffer
+            (erase-buffer)
+            (insert (json-encode info))
+            (jsonian-mode)
+            (json-pretty-print-buffer)
+            (goto-char (point-min))
+            (view-mode 1))
+          (pop-to-buffer buffer))
+      (message "No Eglot server running")))
 
   ;; disable semantic tokens
   (setq eglot-ignored-server-capabilities '(:semanticTokensProvider))
@@ -1518,6 +1526,14 @@
           (nxml-mode . ("java"
                         "-jar"
                         ,(expand-file-name "~/.emacs.d/share/lemminx/org.eclipse.lemminx-uber.jar"))))))
+
+(use-package eglot-booster
+  :after eglot
+  :when (executable-find "emacs-lsp-booster")
+  :demand t
+  :vc (:url "https://github.com/jdtsmith/eglot-booster.git"
+            :rev :newest)
+  :init (eglot-booster-mode 1))
 
 (use-package dape
   :config
