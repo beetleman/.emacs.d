@@ -286,7 +286,7 @@
   (ef-themes-take-over-modus-themes-mode 1)
   :bind ("<f5>" . modus-themes-toggle)
   :config
-  (setq modus-themes-to-toggle '(ef-dream ef-reverie)
+  (setq modus-themes-to-toggle '(ef-trio-dark ef-trio-light)
         modus-themes-italic-constructs t
         modus-themes-bold-constructs nil
         modus-themes-mixed-fonts t)
