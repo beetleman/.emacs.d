@@ -797,6 +797,9 @@
               ("C-x C-q" . wgrep-change-to-wgrep-mode)
               ("C-c C-c" . wgrep-finish-edit)))
 
+(use-package breadcrumb
+  :hook (after-init . breadcrumb-mode))
+
 (use-package smartparens
   :hook ((prog-mode
           cider-repl-mode
