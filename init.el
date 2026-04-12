@@ -280,23 +280,33 @@
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
 ;;; THIRD-PARTY PACKAGES
-(use-package ef-themes
+(use-package doric-themes
   :demand t
-  :init
-  (ef-themes-take-over-modus-themes-mode 1)
-  :bind ("<f5>" . modus-themes-toggle)
   :config
-  (setq modus-themes-to-toggle '(ef-trio-dark ef-trio-light)
-        modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-mixed-fonts t)
-  (setq modus-themes-common-palette-overrides
-        `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
-          (bg-mode-line-active        bg-inactive)
-          (border-mode-line-active    fg-dim)
-          (bg-mode-line-inactive      bg-dim)
-          (border-mode-line-inactive  bg-active)))
-  (modus-themes-load-theme (car modus-themes-to-toggle)))
+  (setq doric-themes-to-toggle '(doric-obsidian doric-marble))
+  (doric-themes-select (car doric-themes-to-toggle))
+
+  :bind
+  (("<f5>" . doric-themes-toggle)))
+
+(comment
+ (use-package ef-themes
+   :demand t
+   :init
+   (ef-themes-take-over-modus-themes-mode 1)
+   :bind ("<f5>" . modus-themes-toggle)
+   :config
+   (setq modus-themes-to-toggle '(ef-trio-dark ef-trio-light)
+         modus-themes-italic-constructs t
+         modus-themes-bold-constructs nil
+         modus-themes-mixed-fonts t)
+   (setq modus-themes-common-palette-overrides
+         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
+           (bg-mode-line-active        bg-inactive)
+           (border-mode-line-active    fg-dim)
+           (bg-mode-line-inactive      bg-dim)
+           (border-mode-line-inactive  bg-active)))
+   (modus-themes-load-theme (car modus-themes-to-toggle))))
 
 (comment
  (use-package modus-themes
