@@ -1276,6 +1276,8 @@
 
 ;; OpenIA
 (use-package gptel
+  :pin nongnu
+  :hook (gptel-mode . gptel-highlight-mode)
   :config
   (when (string= "true" (getenv "EMACS_GPTEL_COPILOT"))
     (setq gptel-model 'claude-sonnet-4.5
@@ -1283,7 +1285,8 @@
   (setq gptel-default-mode 'org-mode
         gptel-include-tool-results t
         ;;        gptel-confirm-tool-calls t
-        gptel-org-branching-context t)
+        gptel-org-branching-context t
+        gptel-highlight-methods '(fringe))
   (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
   (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
   (setq gptel-tools
@@ -1406,7 +1409,10 @@
              :args ("mcp-server-git")))
           ("atlassian" .
            ( :command "npx"
-             :args ("-y" "mcp-remote" "https://mcp.atlassian.com/v1/sse" "--resource" "https://vertexinc.atlassian.net/")))
+             :args ("-y" "mcp-remote"
+                    "https://mcp.atlassian.com/v1/mcp"
+                    "--transport" "http-first"
+                    "--resource" "https://vertexinc.atlassian.net/")))
           ("sequential-thinking" .
            ( :command "uvx"
              :args ("--from" "git+https://github.com/arben-adm/mcp-sequential-thinking"
