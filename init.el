@@ -991,7 +991,7 @@
         org-catch-invisible-edits 'smart
         org-startup-indented t
         org-hide-block-startup t
-        org-ellipsis (if (char-displayable-p ?⏷) "\t⏷" nil)
+        org-ellipsis (if (char-displayable-p ?⏷) "⏷" nil)
         org-pretty-entities nil
         org-hide-emphasis-markers t
 
@@ -1003,15 +1003,8 @@
   (org-babel-do-load-languages 'org-babel-load-languages
                                load-language-alist))
 
-(use-package org-modern
-  :after org
-  :autoload global-org-modern-mode
-  :custom
-  (org-modern-star 'replace)
-  :config
-  (set-face-attribute 'org-modern-symbol nil :family "Iosevka" :height 1.0)
-  :init
-  (global-org-modern-mode 1))
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode))
 
 (use-package denote
   :hook (dired-mode . denote-dired-mode)
