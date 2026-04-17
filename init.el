@@ -973,6 +973,8 @@
   (set-face-attribute 'org-meta-line nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-document-info-keyword nil :inherit 'fixed-pitch)
 
+  (add-to-list 'org-src-lang-modes '("gherkin" . feature))
+
   (defconst load-language-alist
     '((emacs-lisp . t)
       (python     . t)
@@ -1067,6 +1069,7 @@
 (use-package nix-mode)
 (use-package kotlin-mode)
 (use-package lua-mode)
+(use-package gherkin-mode)
 
 ;; groovy / gradle
 
@@ -1228,7 +1231,9 @@
 
 ;; Setup markdown
 
-(use-package markdown-mode)
+(use-package markdown-mode
+  :config
+  (add-to-list 'markdown-code-lang-modes '("gherkin" . feature-mode)))
 
 
 ;; setup webmode
