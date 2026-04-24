@@ -1280,161 +1280,164 @@
   :mode ("\\.json\\'" . jsonian-mode))
 
 ;; OpenIA
-(use-package gptel
-  :pin nongnu
-  :hook (gptel-mode . gptel-highlight-mode)
-  :config
-  (when (string= "true" (getenv "EMACS_GPTEL_COPILOT"))
-    (setq gptel-model 'claude-sonnet-4.5
-          gptel-backend (gptel-make-gh-copilot "Copilot")))
-  (setq gptel-default-mode 'org-mode
-        gptel-include-tool-results t
-        ;;        gptel-confirm-tool-calls t
-        gptel-org-branching-context t
-        gptel-highlight-methods '(fringe))
-  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
-  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
-  (setq gptel-tools
-        (list (gptel-make-tool
-               :function (lambda (pattern &optional type path limit skip)
-                           (let* ((default-directory (if (seq-empty-p path)
-                                                         default-directory
-                                                       path))
-                                  (include-arg (if (seq-empty-p type)
-                                                   ""
-                                                 (format "-t \"%s\"" type)))
-                                  (command (format "rg %s %s ."
-                                                   include-arg
-                                                   (shell-quote-argument pattern)))
-                                  (result (shell-command-to-string command))
-                                  (lines (split-string result "\n" t))
-                                  (total-lines (length lines))
-                                  (skip-count (or skip 0))
-                                  (limit-count (or limit 200))
-                                  (remaining-after-skip (max 0 (- total-lines skip-count)))
-                                  (filtered-lines (seq-take (seq-drop lines skip-count) limit-count))
-                                  (shown-lines (length filtered-lines))
-                                  (lines-left (max 0 (- remaining-after-skip shown-lines)))
-                                  (filtered-result (string-join filtered-lines "\n"))
-                                  (info-msg (format "Showing %d lines (skipped: %d, remaining: %d)"
-                                                    shown-lines skip-count lines-left)))
-                             (if (= total-lines 0)
-                                 "No matches found"
-                               (if (string-empty-p filtered-result)
-                                   (format "No lines to show after skipping %d lines (total matches: %d)"
-                                           skip-count total-lines)
-                                 (concat filtered-result "\n\n" info-msg)))))
-               :name "ripgrep"
-               :description "Search for text in file(s) at `path' using regex `pattern' (`ripgrep' based)"
-               :args (list '(:name "pattern"
-                                   :type string
-                                   :description "Regex pattern to search in file contents")
-                           '(:name "type"
-                                   :type string
-                                   :description "File pattern to include in search, accept the same arguments like ripgrep `-t` parameter, eg. `clojure` for clojure")
-                           '(:name "path"
-                                   :type string
-                                   :description "Directory to search in")
-                           '(:name "limit"
-                                   :type number
-                                   :description "limit lines (use with `skip' to paginate results), use 200 lines limit by default")
-                           '(:name "skip"
-                                   :type number
-                                   :description "Skip lines (use with `limit' to paginate results)"))
-               :category "filesystem")
+(use-package eca)
 
-              (gptel-make-tool
-               :function (lambda (pattern &optional path)
-                           (let* ((default-directory (or path default-directory))
-                                  (command (format "fd --regex %s ."
-                                                   (shell-quote-argument pattern)))
-                                  (result (shell-command-to-string command)))
-                             (if (string-empty-p result)
-                                 "No matches found"
-                               result)))
-               :name "fd"
-               :description "Search for file(s) at `path' using regex `pattern' (`fd' based)"
-               :args (list '(:name "pattern"
-                                   :type string
-                                   :description "Regex pattern to search in file contents")
-                           '(:name "path"
-                                   :type string
-                                   :description "Directory to search in"))
-               :category "filesystem")
+(comment
+ (use-package gptel
+   :pin nongnu
+   :hook (gptel-mode . gptel-highlight-mode)
+   :config
+   (when (string= "true" (getenv "EMACS_GPTEL_COPILOT"))
+     (setq gptel-model 'claude-sonnet-4.5
+           gptel-backend (gptel-make-gh-copilot "Copilot")))
+   (setq gptel-default-mode 'org-mode
+         gptel-include-tool-results t
+         ;;        gptel-confirm-tool-calls t
+         gptel-org-branching-context t
+         gptel-highlight-methods '(fringe))
+   (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+   (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+   (setq gptel-tools
+         (list (gptel-make-tool
+                :function (lambda (pattern &optional type path limit skip)
+                            (let* ((default-directory (if (seq-empty-p path)
+                                                          default-directory
+                                                        path))
+                                   (include-arg (if (seq-empty-p type)
+                                                    ""
+                                                  (format "-t \"%s\"" type)))
+                                   (command (format "rg %s %s ."
+                                                    include-arg
+                                                    (shell-quote-argument pattern)))
+                                   (result (shell-command-to-string command))
+                                   (lines (split-string result "\n" t))
+                                   (total-lines (length lines))
+                                   (skip-count (or skip 0))
+                                   (limit-count (or limit 200))
+                                   (remaining-after-skip (max 0 (- total-lines skip-count)))
+                                   (filtered-lines (seq-take (seq-drop lines skip-count) limit-count))
+                                   (shown-lines (length filtered-lines))
+                                   (lines-left (max 0 (- remaining-after-skip shown-lines)))
+                                   (filtered-result (string-join filtered-lines "\n"))
+                                   (info-msg (format "Showing %d lines (skipped: %d, remaining: %d)"
+                                                     shown-lines skip-count lines-left)))
+                              (if (= total-lines 0)
+                                  "No matches found"
+                                (if (string-empty-p filtered-result)
+                                    (format "No lines to show after skipping %d lines (total matches: %d)"
+                                            skip-count total-lines)
+                                  (concat filtered-result "\n\n" info-msg)))))
+                :name "ripgrep"
+                :description "Search for text in file(s) at `path' using regex `pattern' (`ripgrep' based)"
+                :args (list '(:name "pattern"
+                                    :type string
+                                    :description "Regex pattern to search in file contents")
+                            '(:name "type"
+                                    :type string
+                                    :description "File pattern to include in search, accept the same arguments like ripgrep `-t` parameter, eg. `clojure` for clojure")
+                            '(:name "path"
+                                    :type string
+                                    :description "Directory to search in")
+                            '(:name "limit"
+                                    :type number
+                                    :description "limit lines (use with `skip' to paginate results), use 200 lines limit by default")
+                            '(:name "skip"
+                                    :type number
+                                    :description "Skip lines (use with `limit' to paginate results)"))
+                :category "filesystem")
 
-              (gptel-make-tool
-               :function (lambda ()
-                           (project-root (project-current)))
-               :name "current_project_patch"
-               :description "Get path of current project"
-               :args (list)
-               :category "filesystem")
+               (gptel-make-tool
+                :function (lambda (pattern &optional path)
+                            (let* ((default-directory (or path default-directory))
+                                   (command (format "fd --regex %s ."
+                                                    (shell-quote-argument pattern)))
+                                   (result (shell-command-to-string command)))
+                              (if (string-empty-p result)
+                                  "No matches found"
+                                result)))
+                :name "fd"
+                :description "Search for file(s) at `path' using regex `pattern' (`fd' based)"
+                :args (list '(:name "pattern"
+                                    :type string
+                                    :description "Regex pattern to search in file contents")
+                            '(:name "path"
+                                    :type string
+                                    :description "Directory to search in"))
+                :category "filesystem")
 
-              (gptel-make-tool
-               :function (lambda (filepath)
-                           (with-temp-buffer
-                             (insert-file-contents (expand-file-name filepath))
-                             (buffer-string)))
-               :name "read_file"
-               :description "Read the contents of a file and return its content as a string."
-               :args (list '(:name "filepath"
-                                   :type string
-                                   :description "Path to the file to read. Supports relative paths and ~."))
-               :category "filesystem")
+               (gptel-make-tool
+                :function (lambda ()
+                            (project-root (project-current)))
+                :name "current_project_patch"
+                :description "Get path of current project"
+                :args (list)
+                :category "filesystem")
 
-              (gptel-make-tool
-               :function (lambda (directory)
-                           (mapconcat #'identity
-                                      (directory-files directory)
-                                      "\n"))
-               :name "list_directory"
-               :description "List the contents of a given directory. Return file list as string, each directory in new line"
-               :args (list '(:name "directory"
-                                   :type string
-                                   :description "The path to the directory to list"))
-               :category "filesystem"))))
+               (gptel-make-tool
+                :function (lambda (filepath)
+                            (with-temp-buffer
+                              (insert-file-contents (expand-file-name filepath))
+                              (buffer-string)))
+                :name "read_file"
+                :description "Read the contents of a file and return its content as a string."
+                :args (list '(:name "filepath"
+                                    :type string
+                                    :description "Path to the file to read. Supports relative paths and ~."))
+                :category "filesystem")
 
-(use-package mcp
-  :after gptel
-  :hook (gptel-mode . mcp-hub-start-all-server)
-  :init
-  (require 'gptel-integrations)
-  (setq mcp-hub-servers
-        `(("ddg-search" .
-           ( :command "uvx"
-             :args ("duckduckgo-mcp-server")))
-          ("playwright" .
-           ( :command "npx"
-             :args ("@playwright/mcp@latest" "--headless" "--isolated")))
-          ("time" .
-           ( :command "uvx"
-             :args ("mcp-server-time")))
-          ("git" .
-           ( :command "uvx"
-             :args ("mcp-server-git")))
-          ("atlassian" .
-           ( :command "npx"
-             :args ("-y" "mcp-remote"
-                    "https://mcp.atlassian.com/v1/mcp"
-                    "--transport" "http-first"
-                    "--resource" "https://vertexinc.atlassian.net/")))
-          ("sequential-thinking" .
-           ( :command "uvx"
-             :args ("--from" "git+https://github.com/arben-adm/mcp-sequential-thinking"
-                    "--with" "portalocker" "mcp-sequential-thinking")))))
-  (gptel-mcp-connect '("sequential-thinking" "git" "time")))
+               (gptel-make-tool
+                :function (lambda (directory)
+                            (mapconcat #'identity
+                                       (directory-files directory)
+                                       "\n"))
+                :name "list_directory"
+                :description "List the contents of a given directory. Return file list as string, each directory in new line"
+                :args (list '(:name "directory"
+                                    :type string
+                                    :description "The path to the directory to list"))
+                :category "filesystem"))))
 
-(use-package gptel-quick
-  :after embark
-  :vc ( :url "https://github.com/karthink/gptel-quick.git"
-        :rev :newest)
-  :bind (:map embark-general-map
-              ("?" . gptel-quick)))
+ (use-package mcp
+   :after gptel
+   :hook (gptel-mode . mcp-hub-start-all-server)
+   :init
+   (require 'gptel-integrations)
+   (setq mcp-hub-servers
+         `(("ddg-search" .
+            ( :command "uvx"
+              :args ("duckduckgo-mcp-server")))
+           ("playwright" .
+            ( :command "npx"
+              :args ("@playwright/mcp@latest" "--headless" "--isolated")))
+           ("time" .
+            ( :command "uvx"
+              :args ("mcp-server-time")))
+           ("git" .
+            ( :command "uvx"
+              :args ("mcp-server-git")))
+           ("atlassian" .
+            ( :command "npx"
+              :args ("-y" "mcp-remote"
+                     "https://mcp.atlassian.com/v1/mcp"
+                     "--transport" "http-first"
+                     "--resource" "https://vertexinc.atlassian.net/")))
+           ("sequential-thinking" .
+            ( :command "uvx"
+              :args ("--from" "git+https://github.com/arben-adm/mcp-sequential-thinking"
+                     "--with" "portalocker" "mcp-sequential-thinking")))))
+   (gptel-mcp-connect '("sequential-thinking" "git" "time")))
 
-(use-package gptel-magit
-  :custom (gptel-magit-commit-prompt (concat gptel-magit-prompt-zed "
+ (use-package gptel-quick
+   :after embark
+   :vc ( :url "https://github.com/karthink/gptel-quick.git"
+         :rev :newest)
+   :bind (:map embark-general-map
+               ("?" . gptel-quick)))
+
+ (use-package gptel-magit
+   :custom (gptel-magit-commit-prompt (concat gptel-magit-prompt-zed "
 - You should use markdown syntax for fragments of code, names of files, or other parts if it makes sense"))
-  :hook (magit-mode . gptel-magit-install))
+   :hook (magit-mode . gptel-magit-install)))
 
 ;; LSP
 
