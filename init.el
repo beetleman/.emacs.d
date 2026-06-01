@@ -1280,7 +1280,14 @@
   :mode ("\\.json\\'" . jsonian-mode))
 
 ;; OpenIA
-(use-package eca)
+(use-package eca
+  :config
+  (let ((wrapper (expand-file-name "~/.config/eca/wrapper.sh")))
+    (if (file-executable-p wrapper)
+        (setq eca-process-wrapper-function
+              (lambda (command _roots)
+                (cons wrapper command)))
+      (message "eca: %s not found or not executable; launching unwrapped" wrapper))))
 
 (use-package agent-shell
   :config
