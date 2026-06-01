@@ -1282,6 +1282,11 @@
 ;; OpenIA
 (use-package eca)
 
+(use-package agent-shell
+  :config
+  (setq agent-shell-goose-authentication
+        (agent-shell-make-goose-authentication :none t)))
+
 (comment
  (use-package gptel
    :pin nongnu
