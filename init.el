@@ -617,14 +617,15 @@
 
 (use-package ace-window
   :hook ((after-init server-after-make-frame) . (lambda ()
-                                                  "Display transient in child frames."
-                                                  (and (posframe-workable-p)
-                                                       (ace-window-posframe-mode 1))))
+                                                  "Display transient in child frames when available."
+                                                  (when (and (fboundp 'posframe-workable-p)
+                                                             (fboundp 'ace-window-posframe-mode)
+                                                             (posframe-workable-p))
+                                                    (ace-window-posframe-mode 1))))
   :bind (("M-o" . ace-window)))
 
 (use-package which-key
-  :config
-  (which-key-mode +1))
+  :hook (after-init . which-key-mode))
 
 (use-package vundo
   :bind (("C-c v" . vundo)))
@@ -653,7 +654,6 @@
   ;; (diff-hl-flydiff-mode 1) ; to slow
   (setq-default fringes-outside-margins t)
   (with-eval-after-load 'magit
-    (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
     (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
 
 (use-package orderless
@@ -894,7 +894,7 @@
   :custom
   (vterm-ignore-blink-cursor nil)
   (vterm-copy-exclude-prompt t)
-  (vterm-always-compile-modul t)
+  (vterm-always-compile-module t)
   (vterm-max-scrollback 100000)
   :preface
   (defun beetleman--vterm--delayed-redraw (&rest args)
@@ -974,15 +974,13 @@
 
 (use-package dumb-jump
   :init
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-  (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 ;; Org
 (use-package org
   :hook
   ((org-mode . visual-line-mode)
    (org-mode . variable-pitch-mode)
-   (org-mode . org-redisplay-inline-images)
    (org-babel-after-execute org-redisplay-inline-images)
    (org-mode . (lambda ()
                  (setq line-spacing 0.2))))
@@ -1031,7 +1029,7 @@
   ( :map global-map
     ("C-c n n" . denote)
     ("C-c n d" . denote-dired)
-    ("C-c n g" . denote-grep)
+    ("C-c n G" . denote-grep)
     ("C-c n r" . denote-rename-file)
     ("C-c n R" . denote-rename-file-using-front-matter)
     ("C-c n l" . denote-link)
@@ -1151,15 +1149,27 @@
   (use-package go-tag
     :bind (:map go-mode-map
                 ("C-c c a" . go-tag-add)
+                ("C-c c r" . go-tag-remove)
+                :map go-ts-mode-map
+                ("C-c c a" . go-tag-add)
                 ("C-c c r" . go-tag-remove))
     :init (setq go-tag-args (list "-transform" "camelcase")))
 
   (use-package go-gen-test
     :bind (:map go-mode-map
+                ("C-c c g" . go-gen-test-dwim)
+                :map go-ts-mode-map
                 ("C-c c g" . go-gen-test-dwim)))
 
   (use-package gotest
     :bind (:map go-mode-map
+                ("C-c c f" . go-test-current-file)
+                ("C-c c t" . go-test-current-test)
+                ("C-c c j" . go-test-current-project)
+                ("C-c c b" . go-test-current-benchmark)
+                ("C-c c c" . go-test-current-coverage)
+                ("C-c c x" . go-run)
+                :map go-ts-mode-map
                 ("C-c c f" . go-test-current-file)
                 ("C-c c t" . go-test-current-test)
                 ("C-c c j" . go-test-current-project)
@@ -1269,7 +1279,8 @@
 
 (use-package emmet-mode
   :hook ((web-mode
-          css-mode)
+          css-mode
+          css-ts-mode)
          . emmet-mode))
 
 ;; fish
@@ -1277,7 +1288,7 @@
 (use-package fish-mode
   :preface
   (defun beetleman--format-fish-on-save ()
-    (add-hook 'before-save-hook 'fish_indent-before-save))
+    (add-hook 'before-save-hook #'fish_indent-before-save nil t))
   :hook
   (fish-mode . beetleman--format-fish-on-save))
 
@@ -1288,7 +1299,12 @@
 ;; JS
 
 (use-package add-node-modules-path
-  :hook (((js-mode typescript-mode) . add-node-modules-path)))
+  :hook (((js-mode
+           js-ts-mode
+           typescript-mode
+           typescript-ts-mode
+           tsx-ts-mode
+           web-mode) . add-node-modules-path)))
 
 ;; json
 ;; use jsonian instead json-mode because json-mode derived from js-mode
@@ -1597,8 +1613,8 @@
                                                                 (project-root (project-current))))
                         (thread-first
                           config
-                          (plist-put 'hostname "localhost")
-                          (plist-put 'port (eglot-execute-command (eglot-current-server)
+                          (plist-put :hostname "localhost")
+                          (plist-put :port (eglot-execute-command (eglot-current-server)
                                                                   "vscode.java.startDebugSession" nil))
                           (plist-put :projectName (project-name (project-current))))))
                  :program dape-buffer-default
@@ -1733,7 +1749,8 @@
           '(:eval (let ((face (if (doom-modeline--active)
                                   'doom-modeline-emphasis
                                 'doom-modeline)))
-                    (if (and (icons-displayable-p)
+                    (if (and (fboundp 'icons-displayable-p)
+                             (icons-displayable-p)
                              (bound-and-true-p doom-modeline-icon)
                              (bound-and-true-p doom-modeline-mode))
                         (format " %s "
