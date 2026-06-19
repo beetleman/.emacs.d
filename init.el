@@ -1281,6 +1281,8 @@
 
 ;; OpenIA
 (use-package eca
+  :custom (eca-chat-mode-line-format
+           '(:trust "  " :workspace-folders :add-workspace-button :remove-workspace-button " " :init-progress "  " :bg-jobs " " :elapsed-time "   " :context-bar :usage))
   :config
   (let ((wrapper (expand-file-name "~/.config/eca/wrapper.sh")))
     (if (file-executable-p wrapper)
