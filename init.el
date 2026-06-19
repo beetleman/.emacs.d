@@ -430,7 +430,9 @@
   
   (use-package meow-tree-sitter
     :init
-    (meow-tree-sitter-register-defaults)))
+    (meow-tree-sitter-register-defaults)
+    (meow-normal-define-key
+     '("o" . meow-tree-sitter-node))))
 
 (use-package nerd-icons
   :config
@@ -455,11 +457,20 @@
                        (ibuffer-do-sort-by-project-file-relative))))
   :init (setq ibuffer-project-use-cache t))
 
-;; treesiter
-(use-package treesiter
+;; treesit
+(use-package treesit
   :ensure nil
+  :if (and (fboundp 'treesit-available-p) (treesit-available-p))
   :mode (("\\.tsx\\'" . tsx-ts-mode))
   :preface
+  (defun beetleman--treesit-install-all-grammars ()
+    "Install or update all grammars from `treesit-language-source-alist'."
+    (interactive)
+    (dolist (grammar treesit-language-source-alist)
+      (let ((lang (car grammar)))
+        (message "Installing/updating tree-sitter grammar: %s" lang)
+        (treesit-install-language-grammar lang))))
+  :init
   (setq major-mode-remap-alist
         '((python-mode . python-ts-mode)
           (java-mode . java-ts-mode)
@@ -470,24 +481,25 @@
           (yaml-mode . yaml-ts-mode)
           (js-mode . js-ts-mode)
           (typescript-mode . typescript-ts-mode)
-          (sh-mode . bash-ts-mode)
+          (tsx-mode . tsx-ts-mode)
           (typescript-tsx-mode . tsx-ts-mode)
+          (sh-mode . bash-ts-mode)
           (css-mode . css-ts-mode)
           (lua-mode . lua-ts-mode)))
   (setq treesit-language-source-alist
-        '((python-mode "https://github.com/tree-sitter/tree-sitter-python")
-          (java-mode "https://github.com/tree-sitter/tree-sitter-java")
-          (rust-mode "https://github.com/tree-sitter/tree-sitter-rust")
-          (dockerfile-mode "https://github.com/camdencheek/tree-sitter-dockerfile")
-          (go-mode "https://github.com/tree-sitter/tree-sitter-go")
-          (nix-mode "https://github.com/nix-community/tree-sitter-nix")
-          (yaml-mode "https://github.com/tree-sitter-grammars/tree-sitter-yaml")
-          (js-mode "https://github.com/tree-sitter/tree-sitter-javascript")
-          (typescript-mode "https://github.com/tree-sitter/tree-sitter-typescript")
-          (sh-mode "https://github.com/tree-sitter/tree-sitter-bash")
-          (typescript-tsx-mode "https://github.com/tree-sitter/tree-sitter-typescript")
-          (css-mode "https://github.com/tree-sitter/tree-sitter-css")
-          (lua-mode "https://github.com/tree-sitter-grammars/tree-sitter-lua"))))
+        '((python "https://github.com/tree-sitter/tree-sitter-python")
+          (java "https://github.com/tree-sitter/tree-sitter-java")
+          (rust "https://github.com/tree-sitter/tree-sitter-rust")
+          (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+          (go "https://github.com/tree-sitter/tree-sitter-go")
+          (nix "https://github.com/nix-community/tree-sitter-nix")
+          (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")
+          (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" nil "typescript/src")
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" nil "tsx/src")
+          (bash "https://github.com/tree-sitter/tree-sitter-bash")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua"))))
 
 ;; Environment
 (use-package exec-path-from-shell
