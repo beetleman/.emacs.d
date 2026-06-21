@@ -167,6 +167,11 @@
 (setq switch-to-buffer-in-dedicated-window 'pop
       switch-to-buffer-obey-display-actions t)
 
+;; handle ULRs
+(setopt browse-url-handlers
+        '(("https?://emacswiki.org" . eww)
+          ("https?://www.lispworks.com" . eww)))
+
 ;; my functions
 (require 'ansi-color)
 (defun beetleman--display-ansi-colors ()
