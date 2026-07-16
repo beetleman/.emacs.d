@@ -512,14 +512,16 @@
   (exec-path-from-shell-variables '("PATH" "MANPATH"
                                     "EGLOT_JAVA_JAVA_PROGRAM" "EMACS_AUTOFORMAT" "EMACS_GPTEL_COPILOT"
                                     "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
-  :init
-  (exec-path-from-shell-initialize)
-  ;; CLI tools installed by Mise
-  (let ((shims (expand-file-name "~/.local/share/mise/shims")))
-    (setenv "PATH" (concat shims
-                           ":"
-                           (getenv "PATH")))
-    (setq exec-path `(,shims ,@exec-path))))
+  :preface
+  (defun beetleman--exec-path-from-shell-initialize ()
+    (exec-path-from-shell-initialize)
+    ;; CLI tools installed by Mise
+    (let ((shims (expand-file-name "~/.local/share/mise/shims")))
+      (setenv "PATH" (concat shims
+                             ":"
+                             (getenv "PATH")))
+      (setq exec-path `(,shims ,@exec-path))))
+  :hook (after-init . beetleman--exec-path-from-shell-initialize))
 
 (use-package mode-line-bell
   :hook (after-init . mode-line-bell-mode))
