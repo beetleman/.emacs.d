@@ -1,0 +1,35 @@
+body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 45px;
+}
+
+.document-content {
+  min-width: 0;
+}
+
+.document-content pre,
+.document-content table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.document-content img,
+.document-content svg {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #0d1117;
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    padding: 15px;
+  }
+}

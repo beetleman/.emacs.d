@@ -1259,6 +1259,12 @@
 ;; Setup markdown
 
 (use-package markdown-mode
+  :custom
+  (markdown-command
+   (format "pandoc --defaults=%s"
+           (shell-quote-argument
+            (expand-file-name "pandoc/markdown-d2-preview.yaml"
+                              user-emacs-directory))))
   :config
   (add-to-list 'markdown-code-lang-modes '("gherkin" . feature-mode)))
 

@@ -1,0 +1,16 @@
+from: gfm
+to: html5
+standalone: true
+template: ${.}/templates/markdown-preview.html5
+embed-resources: true
+css:
+  - ${.}/github-markdown.css
+  - ${.}/markdown-preview-overrides.css
+filters:
+  - ${.}/diagram.lua
+metadata:
+  diagram:
+    cache: true
+    engine:
+      d2:
+        mime-type: image/svg+xml
