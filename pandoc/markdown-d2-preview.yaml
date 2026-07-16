@@ -4,7 +4,7 @@ standalone: true
 template: ${.}/templates/markdown-preview.html5
 embed-resources: true
 css:
-  - ${.}/github-markdown.css
+  - ${.}/github-markdown-light.css
   - ${.}/markdown-preview-overrides.css
 filters:
   - ${.}/diagram.lua

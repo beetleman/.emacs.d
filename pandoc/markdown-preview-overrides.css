@@ -22,12 +22,6 @@ body {
   height: auto;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #0d1117;
-  }
-}
-
 @media (max-width: 767px) {
   body {
     padding: 15px;
