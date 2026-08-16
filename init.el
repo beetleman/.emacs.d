@@ -51,11 +51,18 @@
         (* 1024 1024))) ;; 1MB
 
 ;; Always load newest byte code
-(setq load-prefer-newer noninteractive)
-(setq native-comp-jit-compilation t)
-(setq native-comp-async-query-on-exit t)
-(setq confirm-kill-processes t)
-(setq package-native-compile t)
+;; handled by `compile-angel'
+;; (setq load-prefer-newer noninteractive)
+;; (setq native-comp-jit-compilation t)
+;; (setq native-comp-async-query-on-exit t)
+;; (setq confirm-kill-processes t)
+;; (setq package-native-compile t)
+
+;; Ensure Emacs loads the most recent byte-compiled files.
+(setq load-prefer-newer t)
+
+;; Custom file
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 ;; Optimization
 (setq idle-update-delay 1.0)
@@ -285,6 +292,29 @@
   :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
 ;;; THIRD-PARTY PACKAGES
+
+(use-package compile-angel
+  :demand t
+  :config
+  ;; Set `compile-angel-verbose' to nil to disable compile-angel messages.
+  ;; (When set to nil, compile-angel won't show which file is being compiled.)
+  (setq compile-angel-verbose nil
+        compile-angel-debug nil
+        native-comp-async-jobs-number 8)
+  (push "/init.el" compile-angel-excluded-path-suffixes)
+  (push "/early-init.el" compile-angel-excluded-path-suffixes)
+  (with-eval-after-load 'savehist
+    (push (concat "/" (file-name-nondirectory savehist-file))
+          compile-angel-excluded-path-suffixes))
+  (with-eval-after-load 'recentf
+    (push (concat "/" (file-name-nondirectory recentf-save-file))
+          compile-angel-excluded-path-suffixes))
+  (with-eval-after-load 'cus-edit
+    (when (stringp custom-file)
+      (push (concat "/" (file-name-nondirectory custom-file))
+            compile-angel-excluded-path-suffixes)))
+  (compile-angel-on-load-mode 1))
+
 (comment
  (use-package doric-themes
    :demand t
@@ -1773,12 +1803,7 @@
         gcmh-high-cons-threshold    #x3000000)) ; 48mb
 
 ;; config changes made through the customize UI will be stored here
-
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
 (when (file-exists-p custom-file)
   (load custom-file))
 
 ;;; init.el ends here
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
