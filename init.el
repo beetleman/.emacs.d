@@ -325,44 +325,45 @@
    :bind
    (("<f5>" . doric-themes-toggle))))
 
-(comment
- (use-package ef-themes
-   :demand t
-   :init
-   (ef-themes-take-over-modus-themes-mode 1)
-   :bind ("<f5>" . modus-themes-toggle)
-   :config
-   (setq modus-themes-to-toggle '(ef-trio-dark ef-trio-light)
-         modus-themes-italic-constructs t
-         modus-themes-bold-constructs nil
-         modus-themes-mixed-fonts t)
-   (setq modus-themes-common-palette-overrides
-         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
-           (bg-mode-line-active        bg-inactive)
-           (border-mode-line-active    fg-dim)
-           (bg-mode-line-inactive      bg-dim)
-           (border-mode-line-inactive  bg-active)))
-   (modus-themes-load-theme (car modus-themes-to-toggle))))
 
-(use-package modus-themes
+(use-package ef-themes
   :demand t
-  :bind ("<f5>" . #'modus-themes-toggle)
+  :init
+  (ef-themes-take-over-modus-themes-mode 1)
+  :bind ("<f5>" . modus-themes-toggle)
   :config
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-to-toggle '(modus-vivendi-tinted modus-operandi-tinted)
+  (setq modus-themes-to-toggle '(ef-dream ef-reverie)
         modus-themes-italic-constructs t
         modus-themes-bold-constructs nil
         modus-themes-mixed-fonts t)
   (setq modus-themes-common-palette-overrides
         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
-          (bg-mode-line-active bg-lavender)  ;; highlight current buffer mode-line
-          (fg-mode-line-active fg-main)
-          (border-mode-line-active bg-mode-line-active)
-          (border-mode-line-inactive bg-mode-line-inactive)
-          ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
-
-  ;; Load the theme of your choice.
+          (bg-mode-line-active        bg-inactive)
+          (border-mode-line-active    fg-dim)
+          (bg-mode-line-inactive      bg-dim)
+          (border-mode-line-inactive  bg-active)))
   (modus-themes-load-theme (car modus-themes-to-toggle)))
+
+(comment
+ (use-package modus-themes
+   :demand t
+   :bind ("<f5>" . #'modus-themes-toggle)
+   :config
+   ;; Add all your customizations prior to loading the themes
+   (setq modus-themes-to-toggle '(modus-vivendi-tinted modus-operandi-tinted)
+         modus-themes-italic-constructs t
+         modus-themes-bold-constructs nil
+         modus-themes-mixed-fonts t)
+   (setq modus-themes-common-palette-overrides
+         `((bg-paren-match bg-magenta-intense)  ;; make matched parens more visable
+           (bg-mode-line-active bg-lavender)  ;; highlight current buffer mode-line
+           (fg-mode-line-active fg-main)
+           (border-mode-line-active bg-mode-line-active)
+           (border-mode-line-inactive bg-mode-line-inactive)
+           ,@modus-themes-preset-overrides-faint)) ;; use less distracting colors
+
+   ;; Load the theme of your choice.
+   (modus-themes-load-theme (car modus-themes-to-toggle))))
 
 (use-package page-break-lines
   :hook (after-init . global-page-break-lines-mode))
@@ -1352,6 +1353,8 @@
 (use-package eca
   :custom (eca-chat-mode-line-format
            '(:trust "  " :workspace-folders :add-workspace-button :remove-workspace-button " " :init-progress "  " :bg-jobs " " :elapsed-time "   " :context-bar :usage))
+  :custom-face
+  (eca-chat-user-messages-face ((t (:height 1.2 :inherit highlight :extend t))))
   :config
   (let ((wrapper (expand-file-name "~/.config/eca/wrapper.sh")))
     (if (file-executable-p wrapper)
