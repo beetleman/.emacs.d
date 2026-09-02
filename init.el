@@ -268,12 +268,21 @@
   :custom
   (insert-directory-program "/opt/homebrew/bin/gls"))
 
-(comment
- ;; should be only set via `.dir-locals.el'
- (use-package project
-   :ensure nil
-   :config
-   (setq project-vc-extra-root-markers '(".project.el" "workspace.edn" "go.mod" "deps.edn" "*.asd"))))
+(use-package project
+  :ensure nil
+  :custom
+  (project-prune-zombie-projects '((prompt . project-prune-zombies-default))))
+
+(use-package window
+  :ensure nil
+  :if (>= emacs-major-version 31)
+  :bind (("C-c w r" . window-layout-rotate-clockwise)
+         ("C-c w R" . window-layout-rotate-anticlockwise)
+         ("C-c w f" . window-layout-flip-topdown)
+         ("C-c w F" . window-layout-flip-leftright)
+         ("C-c w t" . window-layout-transpose)
+         ("C-c w o" . rotate-windows)
+         ("C-c w O" . rotate-windows-back)))
 
 (use-package hl-line
   :ensure nil
@@ -497,45 +506,16 @@
 (use-package treesit
   :ensure nil
   :if (and (fboundp 'treesit-available-p) (treesit-available-p))
-  :mode (("\\.tsx\\'" . tsx-ts-mode))
-  :preface
-  (defun beetleman--treesit-install-all-grammars ()
-    "Install or update all grammars from `treesit-language-source-alist'."
-    (interactive)
-    (dolist (grammar treesit-language-source-alist)
-      (let ((lang (car grammar)))
-        (message "Installing/updating tree-sitter grammar: %s" lang)
-        (treesit-install-language-grammar lang))))
+  :custom
+  (treesit-enabled-modes t)
+  (treesit-auto-install-grammar 'ask)
   :init
-  (setq major-mode-remap-alist
-        '((python-mode . python-ts-mode)
-          (java-mode . java-ts-mode)
-          (rust-mode . rust-ts-mode)
-          (dockerfile-mode . dockerfile-ts-mode)
-          (go-mode . go-ts-mode)
-          (nix-mode . nix-ts-mode)
-          (yaml-mode . yaml-ts-mode)
-          (js-mode . js-ts-mode)
-          (typescript-mode . typescript-ts-mode)
-          (tsx-mode . tsx-ts-mode)
-          (typescript-tsx-mode . tsx-ts-mode)
-          (sh-mode . bash-ts-mode)
-          (css-mode . css-ts-mode)
-          (lua-mode . lua-ts-mode)))
+  ;; Built-in tree-sitter modes register their own commit-pinned recipes;
+  ;; only languages without a built-in mode need an entry here.
   (setq treesit-language-source-alist
-        '((python "https://github.com/tree-sitter/tree-sitter-python")
-          (java "https://github.com/tree-sitter/tree-sitter-java")
-          (rust "https://github.com/tree-sitter/tree-sitter-rust")
-          (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-          (go "https://github.com/tree-sitter/tree-sitter-go")
-          (nix "https://github.com/nix-community/tree-sitter-nix")
-          (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")
-          (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" nil "typescript/src")
-          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" nil "tsx/src")
-          (bash "https://github.com/tree-sitter/tree-sitter-bash")
-          (css "https://github.com/tree-sitter/tree-sitter-css")
-          (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua"))))
+        '((nix "https://github.com/nix-community/tree-sitter-nix")))
+  :config
+  (add-to-list 'major-mode-remap-alist '(nix-mode . nix-ts-mode)))
 
 ;; Environment
 (use-package exec-path-from-shell
@@ -678,6 +658,7 @@
 (use-package diff-hl
   :custom
   (diff-hl-draw-borders nil)
+  (diff-hl-update-async 'thread)
   :hook ((after-init . global-diff-hl-mode)
          (after-init . global-diff-hl-show-hunk-mouse-mode)
          (dired-mode . diff-hl-dired-mode))
@@ -1590,7 +1571,7 @@
   ;; clojure-lsp server statistics
   (defun clojure-lsp-server-info ()
     (interactive)
-    (if-let ((server (eglot-current-server)))
+    (if-let* ((server (eglot-current-server)))
         (let* ((info (jsonrpc-request server :clojure/serverInfo/raw nil))
                (buffer (get-buffer-create "*clojure-lsp server info*")))
           (with-current-buffer buffer
