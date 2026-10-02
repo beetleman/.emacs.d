@@ -1336,10 +1336,38 @@
 
 ;; OpenIA
 (use-package eca
-  :custom (eca-chat-mode-line-format
-           '(:trust "  " :workspace-folders :add-workspace-button :remove-workspace-button " " :init-progress "  " :bg-jobs " " :elapsed-time "   " :context-bar :usage))
+  :custom
+  (eca-chat-mode-line-format
+   '(:trust "  " :workspace-folders :add-workspace-button :remove-workspace-button " " :init-progress "  " :bg-jobs " " :elapsed-time "   " :context-bar :usage))
+  ;; Fontify streamed output only in visible areas; apply the final pass once.
+  (eca-chat-fontify-debounce-interval nil)
+  ;; Avoid Markdown block scans across chat history while editing a prompt.
+  (eca-chat-fontify-prompt nil)
+  ;; Avoid table overlay rebuilding, especially after a window resize.
+  (eca-chat-table-beautify nil)
+  (eca-worktree-mode 'isolated)
   :custom-face
-  (eca-chat-user-messages-face ((t (:height 1.2 :inherit highlight :extend t))))
+  (eca-chat-user-messages-face ((t (:height 1.1 :inherit highlight :extend t))))
+  :preface
+  (defun beetleman--eca-chat-jinx-setup ()
+    "Enable Jinx during typing and disable on submit in `eca-chat-mode`."
+    (when (derived-mode-p 'eca-chat-mode)
+      ;; Disable Jinx when submitting prompts
+      (add-hook 'pre-command-hook
+                (lambda ()
+                  (when (and (memq this-command '(eca-chat--key-pressed-return
+                                                  eca-chat-send-prompt-at-chat))
+                             jinx-mode)
+                    (jinx-mode -1)))
+                nil t)
+      ;; Re-enable Jinx when typing
+      (add-hook 'pre-command-hook
+                (lambda ()
+                  (when (and (eq this-command 'self-insert-command)
+                             (not jinx-mode))
+                    (jinx-mode 1)))
+                nil t)))
+  :hook (eca-chat-mode . beetleman--eca-chat-jinx-setup)
   :config
   (let ((wrapper (expand-file-name "~/.config/eca/wrapper.sh")))
     (if (file-executable-p wrapper)
