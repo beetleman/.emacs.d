@@ -35,30 +35,20 @@
 
 ;; utils
 
-(defmacro comment (&rest body))
+(defmacro comment (&rest _body)
+  "Ignore BODY, like Clojure's `comment'."
+  nil)
 
-;; turn off GC during star up
-(setq gc-cons-threshold most-positive-fixnum)
-
-(setq inhibit-compacting-font-caches t)
+;; GC, `inhibit-compacting-font-caches' and frame settings live in early-init.el.
 
 (setq user-full-name "Mateusz Jeżowski"
       user-mail-address "mateusz.probachta@gmail.com")
 
-(setq read-process-output-max
-      (if (eq system-type 'darwin) ;; for mac tt’s probably about 64kb
-          (* 64 1024)   ;; 64k
-        (* 1024 1024))) ;; 1MB
+;; LSP servers send large payloads; 1MB is fine on Emacs 30+ (macOS included).
+(setq read-process-output-max (* 1024 1024))
 
-;; Always load newest byte code
-;; handled by `compile-angel'
-;; (setq load-prefer-newer noninteractive)
-;; (setq native-comp-jit-compilation t)
-;; (setq native-comp-async-query-on-exit t)
-;; (setq confirm-kill-processes t)
-;; (setq package-native-compile t)
-
-;; Ensure Emacs loads the most recent byte-compiled files.
+;; Ensure Emacs loads the most recent byte-compiled files
+;; (recommended by `compile-angel').
 (setq load-prefer-newer t)
 
 ;; Custom file
@@ -72,10 +62,6 @@
 
 (setq fast-but-imprecise-scrolling t)
 (setq redisplay-skip-fontification-on-input t)
-
-;; Inhibit resizing frame
-(setq frame-inhibit-implied-resize t
-      frame-resize-pixelwise t)
 
 ;; Title
 (setq frame-title-format '("🐐 - %b")
@@ -95,14 +81,9 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-;; Suppress GUI features
-(setq use-file-dialog nil
-      use-dialog-box nil
-      inhibit-startup-screen t
-      inhibit-startup-echo-area-message user-full-name
-      inhibit-default-init t
-      initial-scratch-message nil)
-(menu-bar-mode -1)
+;; Suppress GUI features (dialogs, startup screen and menu bar: see early-init.el)
+(setq inhibit-startup-echo-area-message user-full-name
+      inhibit-default-init t)
 (unless (daemonp)
   (advice-add #'display-startup-echo-area-message :override #'ignore))
 
@@ -120,8 +101,7 @@
 ") ;; ejm97
 
 
-(setq window-resize-pixelwise t
-      frame-resize-pixelwise t)
+(setq window-resize-pixelwise t)
 
 ;; fix C-z
 (global-unset-key (kbd "C-z"))
@@ -155,7 +135,8 @@
       `((".*" ,temporary-file-directory t)))
 
 ;; Permanently indent with spaces, never with TABs
-(setq beetleman--tab-width 4)
+(defconst beetleman--tab-width 4
+  "Default indentation width.")
 (setq-default c-basic-offset   beetleman--tab-width
               tab-width        beetleman--tab-width
               indent-tabs-mode nil)
@@ -203,10 +184,7 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-
+;; `use-package' is built in since Emacs 29.
 (setq use-package-always-ensure t
       use-package-always-defer t
       use-package-expand-minimally t
@@ -235,14 +213,20 @@
 
 (use-package recentf
   :ensure nil
-  :init
-  (recentf-mode 1))
+  :hook (after-init . recentf-mode)
+  :custom
+  (recentf-max-saved-items 300)
+  (recentf-auto-cleanup 'never)          ; don't stat remote files on startup
+  (recentf-autosave-interval 300))       ; Emacs 31
+
+(use-package saveplace
+  :ensure nil
+  :hook (after-init . save-place-mode))
 
 (use-package server
   :ensure nil
   :defer 1
   :config
-  (require 'server)
   (unless (server-running-p) (server-start)))
 
 (use-package dired
@@ -252,21 +236,24 @@
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'always)
   (dired-dwim-target t)
+  (delete-by-moving-to-trash t)
   :config
-  (setq delete-by-moving-to-trash t))
+  ;; macOS `ls' lacks GNU options; prefer coreutils' `gls' when available.
+  (when-let* (((eq system-type 'darwin))
+              (gls (executable-find "gls")))
+    (setopt insert-directory-program gls)))
 
 (use-package emacs
   :ensure nil
+  :custom
+  (completion-cycle-threshold 3)
+  (tab-always-indent 'complete)
+  (kill-do-not-save-duplicates t)
+  (save-interprogram-paste-before-kill t)
   :hook ((text-mode
           prog-mode)
          . (lambda ()
              (setq line-spacing 0.1))))
-
-(use-package dired
-  :ensure nil
-  :if (string= system-type "darwin")
-  :custom
-  (insert-directory-program "/opt/homebrew/bin/gls"))
 
 (use-package project
   :ensure nil
@@ -447,7 +434,6 @@
    '("L" . meow-right-expand)
    '("m" . meow-join)
    '("n" . meow-search)
-   '("o" . meow-block)
    '("O" . meow-to-block)
    '("p" . meow-yank)
    '("P" . meow-yank-pop)
@@ -527,10 +513,9 @@
   (exec-path-from-shell-initialize)
   ;; CLI tools installed by Mise
   (let ((shims (expand-file-name "~/.local/share/mise/shims")))
-    (setenv "PATH" (concat shims
-                           ":"
-                           (getenv "PATH")))
-    (setq exec-path `(,shims ,@exec-path))))
+    (when (file-directory-p shims)
+      (setenv "PATH" (concat shims path-separator (getenv "PATH")))
+      (push shims exec-path))))
 
 (use-package mode-line-bell
   :hook (after-init . mode-line-bell-mode))
@@ -611,9 +596,9 @@
   :hook (dired-mode . nerd-icons-dired-mode))
 
 (use-package dired-quick-sort
-  :after dired
   :init
-  (dired-quick-sort-setup))
+  (with-eval-after-load 'dired
+    (dired-quick-sort-setup)))
 
 (use-package trashed
   :commands (trashed)
@@ -720,8 +705,7 @@
                '(jinx grid (vertico-grid-annotate . 20) (vertico-count . 4))))
 
 (use-package super-save
-  :init
-  (super-save-mode +1))
+  :hook (after-init . super-save-mode))
 
 ;; Example configuration for Consult
 (use-package consult
@@ -854,14 +838,15 @@
 
 (use-package eldoc
   :hook (prog-mode . eldoc-mode)
-  :bind (("C-c d" . eldoc))
-  :config
-  (use-package eldoc-box
-    :custom
-    (eldoc-box-lighter nil)
-    (eldoc-box-only-multi-line t)
-    (eldoc-box-clear-with-C-g t)
-    :bind (("C-c D" . eldoc-box-help-at-point))))
+  :bind (("C-c d" . eldoc)))
+
+;; Top level so `C-c D' (also meow's `?') is always bound.
+(use-package eldoc-box
+  :custom
+  (eldoc-box-lighter nil)
+  (eldoc-box-only-multi-line t)
+  (eldoc-box-clear-with-C-g t)
+  :bind (("C-c D" . eldoc-box-help-at-point)))
 
 (use-package string-inflection
   :bind ("C-c f" . string-inflection-all-cycle))
@@ -897,7 +882,7 @@
   :if (executable-find "direnv")
   :hook (after-init . envrc-global-mode)
   :bind (:map envrc-mode-map
-              ("C-c d" . envrc-command-map)))
+              ("C-c E" . envrc-command-map)))  ; `C-c d' is `eldoc'
 
 ;; fish configuration:
 ;; if [ "$INSIDE_EMACS" = vterm ]; and [ -n $EMACS_VTERM_PATH ]; and [ -f $EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh ]
@@ -982,12 +967,6 @@
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages)))
 
-;; A few more useful configurations...
-(use-package emacs
-  :init
-  (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete))
-
 (use-package dumb-jump
   :init
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
@@ -997,7 +976,7 @@
   :hook
   ((org-mode . visual-line-mode)
    (org-mode . variable-pitch-mode)
-   (org-babel-after-execute org-redisplay-inline-images)
+   (org-babel-after-execute . org-redisplay-inline-images)
    (org-mode . (lambda ()
                  (setq line-spacing 0.2))))
   :config
@@ -1006,35 +985,35 @@
 
   (add-to-list 'org-src-lang-modes '("gherkin" . feature))
 
-  (defconst load-language-alist
+  (defvar beetleman--org-babel-languages
     '((emacs-lisp . t)
       (python     . t)
       (shell      . t))
-    "Alist of org ob languages.")
+    "Alist of Org Babel languages to load.")
 
-  (defconst org-ob-trusted-languages
+  (defvar beetleman--org-babel-trusted-languages
     '("mermaid")
-    "List of obr ob languages run without confirmation")
+    "Org Babel languages evaluated without confirmation.")
 
   (use-package ob-mermaid
-    :init (cl-pushnew '(mermaid . t) load-language-alist))
+    :init (cl-pushnew '(mermaid . t) beetleman--org-babel-languages :test #'equal))
 
-  (setq org-tags-column -80
-        org-log-done 'time
-        org-catch-invisible-edits 'smart
-        org-startup-indented t
-        org-hide-block-startup t
-        org-ellipsis (if (char-displayable-p ?⏷) "⏷" nil)
-        org-pretty-entities nil
-        org-hide-emphasis-markers t
+  (setopt org-tags-column -80
+          org-log-done 'time
+          org-catch-invisible-edits 'smart
+          org-startup-indented t
+          org-hide-block-startup t
+          org-ellipsis (if (char-displayable-p ?⏷) "⏷" nil)
+          org-pretty-entities nil
+          org-hide-emphasis-markers t
 
-        org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-confirm-babel-evaluate (lambda (lang _body)
-                                     (not (member lang org-ob-trusted-languages))))
+          org-src-fontify-natively t
+          org-src-tab-acts-natively t
+          org-confirm-babel-evaluate (lambda (lang _body)
+                                       (not (member lang beetleman--org-babel-trusted-languages))))
 
   (org-babel-do-load-languages 'org-babel-load-languages
-                               load-language-alist))
+                               beetleman--org-babel-languages))
 
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
@@ -1110,21 +1089,22 @@
 
 ;; OCaml
 
-(defun shell-cmd (cmd)
-  "Returns the stdout output of a shell command or nil if the command returned
-     an error"
-  (car (ignore-errors (apply 'process-lines (split-string cmd)))))
+(defun beetleman--opam-env ()
+  "Import the opam environment the first time an OCaml mode loads."
+  (when-let* ((opam (executable-find "opam")))
+    (dolist (var (car (read-from-string
+                       (shell-command-to-string
+                        (concat (shell-quote-argument opam) " env --sexp")))))
+      (setenv (car var) (cadr var)))
+    (setq exec-path (append (parse-colon-path (getenv "PATH"))
+                            (list exec-directory)))))
 
-(setq opam-p (shell-cmd "which opam"))
-
-(if opam-p
-    (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
-      (setenv (car var) (cadr var))))
-
-(use-package caml)
+(use-package caml
+  :config (beetleman--opam-env))
 
 (use-package tuareg
-  :mode ("\\.ml[ily]?$" . tuareg-mode))
+  :mode ("\\.ml[ily]?$" . tuareg-mode)
+  :config (beetleman--opam-env))
 
 (use-package merlin
   :custom
@@ -1349,24 +1329,20 @@
   :custom-face
   (eca-chat-user-messages-face ((t (:height 1.1 :inherit highlight :extend t))))
   :preface
+  (defun beetleman--eca-chat-jinx-pre-command ()
+    "Disable Jinx when submitting a prompt; re-enable it while typing."
+    (when (fboundp 'jinx-mode)
+      (cond ((and (bound-and-true-p jinx-mode)
+                  (memq this-command '(eca-chat--key-pressed-return
+                                       eca-chat-send-prompt-at-chat)))
+             (jinx-mode -1))
+            ((and (not (bound-and-true-p jinx-mode))
+                  (eq this-command 'self-insert-command))
+             (jinx-mode 1)))))
   (defun beetleman--eca-chat-jinx-setup ()
-    "Enable Jinx during typing and disable on submit in `eca-chat-mode`."
+    "Toggle Jinx around typing and submitting in `eca-chat-mode'."
     (when (derived-mode-p 'eca-chat-mode)
-      ;; Disable Jinx when submitting prompts
-      (add-hook 'pre-command-hook
-                (lambda ()
-                  (when (and (memq this-command '(eca-chat--key-pressed-return
-                                                  eca-chat-send-prompt-at-chat))
-                             jinx-mode)
-                    (jinx-mode -1)))
-                nil t)
-      ;; Re-enable Jinx when typing
-      (add-hook 'pre-command-hook
-                (lambda ()
-                  (when (and (eq this-command 'self-insert-command)
-                             (not jinx-mode))
-                    (jinx-mode 1)))
-                nil t)))
+      (add-hook 'pre-command-hook #'beetleman--eca-chat-jinx-pre-command nil t)))
   :hook (eca-chat-mode . beetleman--eca-chat-jinx-setup)
   :config
   (let ((wrapper (expand-file-name "~/.config/eca/wrapper.sh")))
@@ -1617,16 +1593,22 @@
       (message "No Eglot server running")))
 
   ;; disable semantic tokens
-  (setq eglot-ignored-server-capabilities '(:semanticTokensProvider))
+  (setopt eglot-ignored-server-capabilities '(:semanticTokensProvider)
+          eglot-connect-timeout 3000             ; seconds (50 min)
+          eglot-sync-connect 60
+          eglot-code-action-indications nil      ; disable action indicator
+          eglot-events-buffer-config '(:size 0 :format full))
 
-  (setq eglot-connect-timeout 3000) ;; 5m
-  (setq eglot-sync-connect 60)
-  (setq eglot-code-action-indications nil) ;; disable action indicator
-  (setf (plist-get eglot-events-buffer-config :size) 0)
-  (let* ((json-object-type 'plist)
-         (json-array-type  'vector)
-         (json-key-type    'keyword)
-         (json-schemas     (plist-get (json-read-file "~/.emacs.d/data/catalog.json") :schemas)))
+  (defun beetleman--json-schemas ()
+    "Return the :schemas vector from data/catalog.json, or nil if missing."
+    (let ((catalog (expand-file-name "data/catalog.json" user-emacs-directory)))
+      (when (file-readable-p catalog)
+        (with-temp-buffer
+          (insert-file-contents catalog)
+          (plist-get (json-parse-buffer :object-type 'plist :array-type 'array)
+                     :schemas)))))
+
+  (let ((json-schemas (beetleman--json-schemas)))
     (setq-default eglot-workspace-configuration
                   `(:gopls
                     (:staticcheck t
@@ -1644,7 +1626,8 @@
                                              ("html-languageserver" "--stdio"))))
           (nxml-mode . ("java"
                         "-jar"
-                        ,(expand-file-name "~/.emacs.d/share/lemminx/org.eclipse.lemminx-uber.jar"))))))
+                        ,(expand-file-name "share/lemminx/org.eclipse.lemminx-uber.jar"
+                                           user-emacs-directory))))))
 
 (use-package eglot-booster
   :after eglot
@@ -1695,7 +1678,8 @@
     "Custom options that will be merged with any default settings."
     ;; download from https://repo1.maven.org/maven2/com/microsoft/java/com.microsoft.java.debug.plugin/
     `(:bundles
-      [,(expand-file-name "~/.emacs.d/share/dape/com.microsoft.java.debug.plugin.jar")]))
+      [,(expand-file-name "share/dape/com.microsoft.java.debug.plugin.jar"
+                          user-emacs-directory)]))
   :config
   (setq eglot-java-user-init-opts-fn 'beetleman--eglot-java-init-opts)
   (let ((java-env (getenv "EGLOT_JAVA_JAVA_PROGRAM")))
@@ -1743,7 +1727,6 @@
            term-mode
            vterm-mode
            embark-collect-mode
-           lsp-ui-imenu-mode
            pdf-annot-list-mode)
           . turn-on-hide-mode-line-mode)
          (dired-mode . (lambda()
@@ -1801,9 +1784,7 @@
           '(:eval (let ((face (if (doom-modeline--active)
                                   'doom-modeline-emphasis
                                 'doom-modeline)))
-                    (if (and (fboundp 'icons-displayable-p)
-                             (icons-displayable-p)
-                             (bound-and-true-p doom-modeline-icon)
+                    (if (and (bound-and-true-p doom-modeline-icon)
                              (bound-and-true-p doom-modeline-mode))
                         (format " %s "
                                 (nerd-icons-octicon "nf-oct-pin" :face face))
