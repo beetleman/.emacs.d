@@ -274,7 +274,7 @@
 (use-package hl-line
   :ensure nil
   :hook ((after-init . global-hl-line-mode)
-         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
+         ((dashboard-mode eshell-mode shell-mode term-mode mistty-mode) .
           (lambda () (setq-local global-hl-line-mode nil)))))
 
 (use-package winner
@@ -884,37 +884,21 @@
   :bind (:map envrc-mode-map
               ("C-c E" . envrc-command-map)))  ; `C-c d' is `eldoc'
 
-;; fish configuration:
-;; if [ "$INSIDE_EMACS" = vterm ]; and [ -n $EMACS_VTERM_PATH ]; and [ -f $EMACS_VTERM_PATH/etc/emacs-vterm-bash.sh ]
-;;     source "$EMACS_VTERM_PATH/etc/emacs-vterm.fish"
-;;     alias ee="emacsclient -n"
-;;     alias dired="emacsclient --eval '(dired-jump)'"
-;; end
-
-(use-package vterm
-  :custom
-  (vterm-ignore-blink-cursor nil)
-  (vterm-copy-exclude-prompt t)
-  (vterm-always-compile-module t)
-  (vterm-max-scrollback 100000)
-  :preface
-  (defun beetleman--vterm--delayed-redraw (&rest args)
-    (meow--update-cursor))
-  :config
-  (advice-add 'vterm--delayed-redraw :after #'beetleman--vterm--delayed-redraw))
-
-(use-package multi-vterm
-  :commands (multi-vterm-project multi-vterm multi-vterm-next multi-vterm-prev)
+(use-package mistty
+  ;; fish config
+  ;; if [ "$INSIDE_EMACS" ]
+  ;;   alias ee="emacsclient -n"
+  ;;   alias dired="emacsclient --eval '(dired-jump)'"
+  ;; end
+  :bind (("C-c t t" . mistty-in-project)
+         ("C-c t T" . mistty))
   :config
   (with-eval-after-load 'project
-    (add-to-list 'project-kill-buffer-conditions  '(major-mode . vterm-mode)))
-  :custom
-  (multi-vterm-buffer-name "vterm")
-  :bind (([remap project-shell] . multi-vterm-project)
-         ("C-c t t" . multi-vterm-project)
-         ("C-c t T" . multi-vterm)
-         ("C-c t n" . multi-vterm-next)
-         ("C-c t p" . multi-vterm-prev)))
+    (add-to-list 'project-kill-buffer-conditions '(major-mode . mistty-mode))))
+
+(with-eval-after-load 'project
+  (define-key project-prefix-map "t" #'mistty-in-project)
+  (add-to-list 'project-switch-commands '(mistty-in-project "MisTTY") t))
 
 (use-package editorconfig
   :init
@@ -1719,13 +1703,12 @@
 (use-package minions
   :hook (doom-modeline-mode . minions-mode))
 
-
 (use-package hide-mode-line
   :hook (((treemacs-mode
            eshell-mode
            shell-mode
            term-mode
-           vterm-mode
+           mistty-mode
            embark-collect-mode
            pdf-annot-list-mode)
           . turn-on-hide-mode-line-mode)
@@ -1773,6 +1756,7 @@
           cider-repl-mode
           sly-mrepl-mode
           flymake-diagnostics-buffer-mode
+          mistty-mode
 
           "^\\*.*eshell.*\\*.*$"
           "^\\*.*shell.*\\*.*$"
