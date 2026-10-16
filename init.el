@@ -493,15 +493,20 @@
   :ensure nil
   :if (and (fboundp 'treesit-available-p) (treesit-available-p))
   :custom
-  (treesit-enabled-modes t)
+  (treesit-enabled-modes nil)
   (treesit-auto-install-grammar 'ask)
   :init
-  ;; Built-in tree-sitter modes register their own commit-pinned recipes;
-  ;; only languages without a built-in mode need an entry here.
-  (setq treesit-language-source-alist
-        '((nix "https://github.com/nix-community/tree-sitter-nix")))
-  :config
-  (add-to-list 'major-mode-remap-alist '(nix-mode . nix-ts-mode)))
+  (add-to-list 'treesit-language-source-alist
+               '(nix "https://github.com/nix-community/tree-sitter-nix"))
+  (dolist (remap '((sh-mode         . bash-ts-mode)
+                   (python-mode     . python-ts-mode)
+                   (javascript-mode . js-ts-mode)
+                   (js-mode         . js-ts-mode)
+                   (conf-toml-mode  . toml-ts-mode)
+                   (yaml-mode       . yaml-ts-mode)
+                   (typescript-mode . typescript-ts-mode)
+                   (dockerfile-mode . dockerfile-ts-mode)))
+    (add-to-list 'major-mode-remap-alist remap)))
 
 ;; Environment
 (use-package exec-path-from-shell
@@ -1618,14 +1623,14 @@
                         "-jar"
                         ,(expand-file-name "share/lemminx/org.eclipse.lemminx-uber.jar"
                                            user-emacs-directory))))))
-
-(use-package eglot-booster
-  :after eglot
-  :when (executable-find "emacs-lsp-booster")
-  :demand t
-  :vc (:url "https://github.com/jdtsmith/eglot-booster.git"
-            :rev :newest)
-  :init (eglot-booster-mode 1))
+(comment
+ (use-package eglot-booster
+   :after eglot
+   :when (executable-find "emacs-lsp-booster")
+   :demand t
+   :vc (:url "https://github.com/jdtsmith/eglot-booster.git"
+             :rev :newest)
+   :init (eglot-booster-mode 1)))
 
 (use-package dape
   :config
