@@ -21,16 +21,6 @@
                                          beetleman--file-name-handler-alist))))
             101))
 
-;; Emacs 31: cache `load-path' directory listings to speed up `require'.
-(when (fboundp 'load-path-filter-cache-directory-files)
-  (setq load-path-filter-function #'load-path-filter-cache-directory-files))
-
-(setq byte-compile-warnings '(not obsolete))
-(setq warning-suppress-log-types '((comp) (bytecomp)))
-(setq native-comp-async-report-warnings-errors 'silent)
-;; Emacs 31: don't start async native compilation while on battery.
-(setq native-comp-async-on-battery-power nil)
-
 ;; I handle package init in `init.el' file
 (setq package-enable-at-startup nil)
 
