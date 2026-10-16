@@ -891,7 +891,13 @@
   ;;   alias dired="emacsclient --eval '(dired-jump)'"
   ;; end
   :bind (("C-c t t" . mistty-in-project)
-         ("C-c t T" . mistty))
+         ("C-c t T" . mistty)
+         :map mistty-prompt-map
+         ;; fish: directory history
+         ("M-<up>" . mistty-send-key)
+         ("M-<down>" . mistty-send-key)
+         ("M-<left>" . mistty-send-key)
+         ("M-<right>" . mistty-send-key))
   :config
   (with-eval-after-load 'project
     (add-to-list 'project-kill-buffer-conditions '(major-mode . mistty-mode))))
