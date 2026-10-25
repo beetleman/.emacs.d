@@ -1075,6 +1075,8 @@
 (use-package kotlin-mode)
 (use-package lua-mode)
 (use-package gherkin-mode)
+(use-package elixir-ts-mode)
+(use-package erlang)
 
 ;; groovy / gradle
 
@@ -1538,7 +1540,8 @@
            go-mode
            go-ts-mode
            bash-ts-mode
-           sh-mode)
+           sh-mode
+           elixir-ts-mode)
           . eglot-ensure))
   :bind (("C-c e r" . eglot-rename)
          ("C-c e i" . eglot-code-action-organize-imports)
@@ -1615,7 +1618,8 @@
                     :yaml (:schemas ,json-schemas))))
 
   (setf eglot-server-programs
-        `(,@eglot-server-programs
+        `(((elixir-mode elixir-ts-mode heex-ts-mode) . ("elixir-ls"))
+          ,@eglot-server-programs
           (jsonian-mode . ("vscode-json-language-server" "--stdio" :initializationOptions (:provideFormatter t)))
           (web-mode . ,(eglot-alternatives '(("vscode-html-language-server" "--stdio")
                                              ("html-languageserver" "--stdio"))))
@@ -1650,7 +1654,37 @@
                  :program dape-buffer-default
                  :request "attach"
                  :hostname "localhost"
-                 :port 8000)))
+                 :port 8000))
+  (defun beetleman--dape-elixir-test-fn (config)
+    "Narrow CONFIG to the test file at point, or leave it as the whole suite."
+    (let* ((project (dape-cwd))
+           (file (buffer-file-name))
+           (rel (and file (file-relative-name file project))))
+      (if (and rel (string-match-p "_test\\.exs\\'" rel))
+          (thread-first config
+                        (plist-put :taskArgs (vector rel))
+                        (plist-put :requireFiles (vector "test/**/test_helper.exs" rel)))
+        config)))
+  (let ((elixir '(modes (elixir-ts-mode elixir-mode)
+                        ensure dape-ensure-command
+                        command "elixir-debug-adapter"
+                        :type "elixir"
+                        :request "launch"
+                        :projectDir dape-cwd)))
+    (add-to-list 'dape-configs
+                 `(elixir-test ,@elixir
+                               :task "test"
+                               :startApps t
+                               :requireFiles ["test/**/test_helper.exs"
+                                              "test/**/*_test.exs"]
+                               fn beetleman--dape-elixir-test-fn))
+    (add-to-list 'dape-configs
+                 `(elixir-mix-run ,@elixir
+                                  :task "run"
+                                  :taskArgs ["--no-halt"]))
+    (add-to-list 'dape-configs
+                 `(elixir-phx-server ,@elixir
+                                     :task "phx.server"))))
 
 (use-package jarchive
   :after eglot
